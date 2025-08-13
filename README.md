@@ -12,4 +12,4 @@ It is intended to allow users to track progression of their climbing, as well as
 
 The data for this project is presented in a non-normalised format below:
 
-![Base Table Data](image.png)
+![Base Table Data](./assets/images/De-Normalised%20Data.png)
