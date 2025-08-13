@@ -1,0 +1,8 @@
+# Ignore folders
+.venv/
+__pycache__
+
+
+# Ignore files
+.env
+.flaskenv
