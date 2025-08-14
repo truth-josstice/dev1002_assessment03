@@ -6,6 +6,7 @@ from models.gyms import Gym
 from models.users import User
 from models.climbs import Climb
 from models.attempts import Attempt
+from models.gym_ratings import GymRating
 
 db_commands = Blueprint("db", __name__)
 
@@ -126,7 +127,7 @@ def seed_tables():
         Attempt(
             user_id = users[1].id,
             climb_id = climbs[2].id,
-            fun_rating = "5",
+            fun_rating = 5,
             comments = "Sent it weeeheew",
             completed = True,
             attempt_date = "05/01/2025"
@@ -134,7 +135,7 @@ def seed_tables():
         Attempt(
             user_id = users[1].id,
             climb_id = climbs[3].id,
-            fun_rating = "5",
+            fun_rating = 5,
             comments = "Flashed it!",
             completed = True,
             attempt_date = "05/01/2025"
@@ -142,6 +143,27 @@ def seed_tables():
     ]
     
     db.session.add_all(attempts)
+    
+    gym_ratings = [
+        GymRating(
+            gym_id = gyms[0].id,
+            user_id = users[0].id,
+            difficulty_rating = 7,
+            recommended_skill_level = "Beginner",
+            review = "This gym is great for all skill levels, it's beginner friendly"
+        ),
+        GymRating(
+            gym_id = gyms[1].id,
+            user_id = users[1].id,
+            difficulty_rating = 10,
+            recommended_skill_level = "Intermediate",
+            review = "This gym has some tough climbs, even the easiest are intermediate level"
+        )
+    ]
+    
+    db.session.add_all(gym_ratings)
     db.session.commit()
+
+
 
     print("Tables seeded...")
