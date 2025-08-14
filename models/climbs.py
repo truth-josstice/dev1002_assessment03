@@ -1,4 +1,3 @@
-from sqlalchemy import text
 from init import db
 
 class Climb(db.Model):
