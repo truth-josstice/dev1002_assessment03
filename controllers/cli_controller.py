@@ -3,6 +3,7 @@ from init import db
 
 from models.company import Company
 from models.gyms import Gym
+from models.users import User
 
 db_commands = Blueprint("db", __name__)
 
@@ -29,7 +30,21 @@ def seed_tables():
         street_address = "123 Fake Street",
         name = "The Gym"
     )
+    db.session.add(gym1)
 
+    users = [
+        User(
+            username = "username1",
+            password="securepassword123",
+            email="email@email.com",
+            first_name="First",
+            last_name="Last",
+            climbing_ability="ability"
+        ), 
+        User(
+
+        )
+    ]
 
     db.session.commit()
     print("Tables seeded...")

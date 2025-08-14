@@ -2,9 +2,8 @@ import os
 
 from flask import Flask
 from dotenv import load_dotenv
-from flask_bcrypt import Bcrypt
 
-from init import db
+from init import db, bcrypt
 from controllers.cli_controller import db_commands
 
 load_dotenv()
@@ -16,7 +15,7 @@ def create_app():
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False # Avoids warnings
 
     db.init_app(app)
-    bcrypt = Bcrypt(app)
+    bcrypt.init_app(app)
 
     app.register_blueprint(db_commands)
 
