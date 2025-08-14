@@ -14,7 +14,7 @@ class User(db.Model):
     email = db.Column(db.String, nullable=False, unique=True)
     first_name = db.Column(db.String, nullable=False)
     last_name = db.Column(db.String, nullable=False)
-    climbing_ability = db.Column(db.string, nullable=False)
+    climbing_ability = db.Column(db.String, nullable=False)
 
     @property
     def password(self):
