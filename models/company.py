@@ -6,6 +6,6 @@ class Company(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False, unique=True)
     website = db.Column(db.String, nullable=True, unique=True)
-
+    
     # one to many with gyms
     # gyms = db.relationship("Gym", back_populates="companies")
