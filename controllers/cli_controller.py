@@ -39,10 +39,15 @@ def seed_tables():
             email="email@email.com",
             first_name="First",
             last_name="Last",
-            climbing_ability="ability"
+            climbing_ability="Beginner"
         ), 
         User(
-
+            username = "username2",
+            password="securepassword1234",
+            email="email1@email.com",
+            first_name="First",
+            last_name="Last",
+            climbing_ability="Intermediate"
         )
     ]
 
