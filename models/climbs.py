@@ -9,4 +9,4 @@ class Climb(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     style = db.Column(db.String, nullable=False)
     difficulty_grade = db.Column(db.String, nullable=False)
-    set_date = db.Column(db.Date, nullable=True)
+    set_date = db.Column(db.Date)
