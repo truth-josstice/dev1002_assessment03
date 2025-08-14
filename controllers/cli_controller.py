@@ -4,6 +4,7 @@ from init import db
 from models.company import Company
 from models.gyms import Gym
 from models.users import User
+from models.climbs import Climb
 
 db_commands = Blueprint("db", __name__)
 
@@ -24,13 +25,23 @@ def seed_tables():
         website = "www.website.com"
     )
     db.session.add(company1)
+    db.session.commit()
 
-    gym1 = Gym(
-        city = "Melbourne",
-        street_address = "123 Fake Street",
-        name = "The Gym"
-    )
-    db.session.add(gym1)
+    gyms = [
+        Gym(
+            city = "Melbourne",
+            company_id = company1.id,
+            street_address = "123 Fake Street",
+            name = "The Gym"
+        ),
+        Gym(
+            city = "Melbourne",
+            company_id = company1.id,
+            street_address = "456 New Fake Street",
+            name = "The Gym 2"
+        )
+    ]
+    db.session.add_all(gyms)
 
     users = [
         User(
@@ -52,6 +63,41 @@ def seed_tables():
     ]
 
     db.session.add_all(users)
+    db.session.commit()
+
+    climbs = [
+        Climb(
+            user_id = users[0].id,
+            gym_id = gyms[0].id,
+            style="Slab",
+            difficulty_grade = "Purple",
+            set_date = "01/01/2025"
+        ), 
+        Climb(
+            user_id = users[0].id,
+            gym_id = gyms[0].id,
+            style = "Dyno",
+            difficulty_grade = "Blue",
+            set_date = "01/01/2025"
+        ), 
+        Climb(
+            user_id = users[1].id,
+            gym_id = gyms[1].id,
+            style = "Slab",
+            difficulty_grade = "4",
+            set_date = "03/01/2025"
+        ), 
+        Climb(
+            user_id = users[1].id,
+            gym_id = gyms[1].id,
+            style = "Overhang",
+            difficulty_grade = "6",
+            set_date = "03/01/2025"
+        )
+    ]
+
+    db.session.add_all(climbs)
+    db.session.commit()
 
     db.session.commit()
     print("Tables seeded...")
