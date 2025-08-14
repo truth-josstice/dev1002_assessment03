@@ -2,7 +2,7 @@ from init import db, bcrypt
 
 from sqlalchemy.ext.declarative import declarative_base
 
-class User(db.model):
+class User(db.Model):
     '''
     User Table Model with constraints
     '''
