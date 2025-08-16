@@ -504,9 +504,9 @@ The app in its current version is intended for submission as an assessment for C
   - Visitor: Will replace non-logged in users, with additional access to aggregate results to see how many members have climbed particular climbs at gyms
 
 - Robust security for personal data:  
-**Status**: Not currently implemented
-**Justification**: No real user data is currently used, the required knowledge for encryption is not something which I have studied or have confidence in
-**Future Implementation**:
+**Status**: Not currently implemented  
+**Justification**: No real user data is currently used, the required knowledge for encryption is not something which I have studied or have confidence in  
+**Future Implementation**:  
   - Field-Level Encryption: encryption of 'email', 'first name', 'last name' columns before storage using PyNaCl (chosen due to being safer for beginners due to automation features and as the project is Python specific)
   - Regular security auditing: regularly scheduled audits of all sensitive data, including the logging of all sensitive data transactions
   - Create managable framework for data purging: research industry standards for data purging and deltion of private sensitive data, implement on database server side
