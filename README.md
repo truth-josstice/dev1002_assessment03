@@ -1,5 +1,7 @@
 # Climbing Progression Tracker
 
+![An example image of a bouldering wall](./assets/images/Bouldering.jpg)
+
 This project is a relational database app which tracks user progression of bouldering across a variety of Climbing Gyms.
 
 ---
@@ -21,7 +23,7 @@ This project is a relational database app which tracks user progression of bould
 5. [Dependencies](#dependencies)
 6. [Ethical Considerations](#ethical-considerations)
 7. [Privacy Policy](#privacy-policy)
-8. [Future Development](#future-development)
+8. [Future Development](#future-development-goals)
 
 ---
 
@@ -404,6 +406,17 @@ Anyone who accesses the site can see gyms and all related entities.
 
 ## Ethical Considerations
 
+### Data Privacy and Player Protection
+
+User Data Security (ACM 1.6 - Respect Privacy):
+"...This requires taking precautions to prevent re-identification of anonymized data or unauthorized data collection, ensuring the accuracy of data, understanding the provenance of the data, and protecting it from unauthorized access and accidental disclosure".
+
+This application obligates users to provide sensitive user information such as email address, first and last name, as well as creating a secure password. In its current form this project uses dummy data to seed tables, and will provide a framework for the creation of user profiles using these parameters. It is not recommended that any sensitive information is added at this stage of development.
+
+- The current project does not use any real user data, only using seed data as a proof of concept, carrying no privacy risk
+- The current project implements password hashing using bcrypt to ensure even in this state passwords are not stored stored in the database in plain text format
+- Future developments would include implementation of data encryption to ensure anonymity in the event of accidental or malicious database access or disclosure (see [future developments](#future-development-goals) for further detail)
+
 ---
 
 ## Dependencies
@@ -454,8 +467,48 @@ Each library is open-source and licensed to allow for educational and personal u
 
 ## Privacy Policy
 
+This project aspires to adhere to the Australian Privacy Principles (APP) for handling personal data. In its current form it does present vulnerabilities for sensitive information to be accessed via malitious or accidental data disclosure, however the data used as part of the project, and any data intended to be added via the server, is purely synthetic in nature and has been designed with the intention to not mimic any individual's sensitive information.
+
+**Current Protections:**  
+
+- Uses synthetic data only (no real user information is processed or stored)
+- Implements password hashing (bcrypt) and row-level access controls as foundational security measures
+
+**APP Alignment:**
+
+- APP 11 (Security): Minimal protections are in place for synthetic data, with ANY future plans to reach production level to address this by encrypting sensitive information before storage
+- APP 4 (Data Quality): All synthetic data is generated in order to avoid any similarity with real individuals
+
+**Future Compliance:**
+
+Production deployments will incorporate:
+
+- Full encryption of personal data (APP 11) or minimization of required personal information.
+- Formal processes for data access/deletion requests (APP 12), in the context of this project a removal request via email.
+
+For further production goals please see below.
+
 ---
 
 ## Future Development Goals
+
+The app in its current version is intended for submission as an assessment for CoderAcedemy's Full Stack Web Development BootCamp course. Future development is not currently intended, however goals for future development as a full stack project would include but are not limited to the below:
+
+- Creation of user roles:  
+**Status**: Not currently implemented  
+**Justification**: Scope of the application in its current form does not necessitate roles other than "user" and "visitor"  
+**Future Implementation**:
+  - Admin: Users who will be able to create a list of climbs for their chosen gym using the standardised "V Scale" for climbs. These users would ideally be climbing gym staff and/or climbing coaches whose objective abilities to grade climb difficulty and style will ensure the accuracy of all data
+  - Owner: Essentially myself, the main developer of the project who can user database level CRUD functions
+  - Member: Will replace the current role-less user and all features associated, with the exception of creating climbs based in a gym, instead focussing on outdoor climbs or custom routes created on splash walls.
+  - Visitor: Will replace non-logged in users, with additional access to aggregate results to see how many members have climbed particular climbs at gyms
+
+- Robust security for personal data:  
+**Status**: Not currently implemented
+**Justification**: No real user data is currently used, the required knowledge for encryption is not something which I have studied or have confidence in
+**Future Implementation**:
+  - Field-Level Encryption: encryption of 'email', 'first name', 'last name' columns before storage using PyNaCl (chosen due to being safer for beginners due to automation features and as the project is Python specific)
+  - Regular security auditing: regularly scheduled audits of all sensitive data, including the logging of all sensitive data transactions
+  - Create managable framework for data purging: research industry standards for data purging and deltion of private sensitive data, implement on database server side
 
 ---

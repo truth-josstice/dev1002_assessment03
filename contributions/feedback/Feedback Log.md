@@ -52,18 +52,17 @@
 
 1. Add NOT NULL constraints to all required columns
 2. Research suggested lenghts of varchar data types and change as required
-3. Add a Usage Instructions section to show flow of the app
-4. Change purpose of app to include a little more about climbing and how this app is intended to work, as well as future development goals
-5. Add ACID and BASE comparison to plan
-6. Include further detail and context on the decisions made between the three SQL DBMS
+3. Change purpose of app to include a little more about climbing and how this app is intended to work, as well as future development goals
+4. Add ACID and BASE comparison to plan
+5. Include further detail and context on the decisions made between the three SQL DBMS
 
 ## Implementation
 
 1. NOT NULL constraints added to ERD
 2. Changed name variables from 32 to 100 which should cover most extreme edge cases of name lengths for individuals or corporations
-3. 
-4. Updated README with clearer description of purpose and user stories.
-5. 
+3. Updated README with clearer description of purpose and user stories.
+4. Added comparison of ACID v BASE to README file to further detail the benefits of my chosen database management system
+5. Added details about why I chose the particular DBMS and why I chose the comparative systems
 
 ---
 
