@@ -11,3 +11,4 @@ class Climb(db.Model):
     set_date = db.Column(db.Date)
 
     gyms = db.relationship("Gym", back_populates="climbs")
+    user = db.relationship("User", back_populates="climbs", cascade="all, delete")
