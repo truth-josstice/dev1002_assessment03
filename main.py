@@ -7,6 +7,7 @@ from init import db, bcrypt
 from controllers.cli_controller import db_commands
 from controllers.company_controller import company_bp
 from controllers.gyms_controller import gym_bp
+from controllers.climbs_controller import climb_bp
 
 load_dotenv()
 
@@ -22,6 +23,7 @@ def create_app():
     app.register_blueprint(db_commands)
     app.register_blueprint(company_bp)
     app.register_blueprint(gym_bp)
+    app.register_blueprint(climb_bp)
 
     app.json.sort_keys = False
 
