@@ -14,13 +14,14 @@ This project is a relational database app which tracks user progression of bould
       - [ACID v BASE](#acid-vs-base)
       - [NoSQL](#why-not-nosql)
     - [Databse Management System](#database-management-system)
-2. [Installation Guide]
-3. [Usage Instructions]
-4. [Features and Functionality](#functionality)
-5. [Dependencies]
-6. [Ethical Considerations]
-7. [Privacy Policy]
-8. [Future Development]
+2. [Installation Guide](#installation-guide)
+3. [Features and Functionality](#functionality)
+4. [Usage Instructions](#usage-instructions)
+    - [API Endpoints](#api-endpoints)
+5. [Dependencies](#dependencies)
+6. [Ethical Considerations](#ethical-considerations)
+7. [Privacy Policy](#privacy-policy)
+8. [Future Development](#future-development)
 
 ---
 
@@ -373,7 +374,11 @@ Anyone who accesses the site can see gyms and all related entities.
 
     - Close the PostgreSQL shell using `\q`
 
-8. **Ensure the Flask database app exists by entering the following commands in bash terminal:**
+---
+
+## Usage Instructions
+
+1. **Ensure the Flask database app exists by entering the following commands in bash terminal:**
 
    ```bash
    flask db drop # Drops all tables if they exist
@@ -381,17 +386,76 @@ Anyone who accesses the site can see gyms and all related entities.
    flask db seed # Seeds data to tall tables
    ```
 
-9. **Run the Application**
+2. **Run the Application**
 
    ```bash
    flask run
    ```
 
-10. **Close Flask and Deactivate Virtual Environment when Finished**
+3. **Close Flask and Deactivate Virtual Environment when Finished**
 
    ```bash
    CTRL+C # Keyboard interrupt to stop flask application
-   deactivate
    ```
+
+## API Endpoints
+
+---
+
+## Ethical Considerations
+
+---
+
+## Dependencies
+
+### Third Party Packages/Libraries Licenses
+
+| **Package/Library**          | **Version** | **License** | **Purpose** |
+| :--------------------------: | :---------: | :---------: | :---------: |
+| `bcrypt`                     | 4.3.0       | [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) | Password hashing and security |
+| `blinker`                    | 1.9.0       | [MIT](https://opensource.org/license/MIT) | Event signaling for Python apps |
+| `click`                      | 8.2.1       | [BSD-3-Clause](https://opensource.org/license/BSD-3-Clause) | Command-line interface toolkit |
+| `Flask`                      | 3.1.1       | [BSD-3-Clause](https://opensource.org/license/BSD-3-Clause) | Web framework |
+| `Flask-Bcrypt`               | 1.0.1       | [BSD-3-Clause](https://opensource.org/license/BSD-3-Clause) | Flask integration for bcrypt |
+| `Flask-SQLAlchemy`           | 3.1.1       | [BSD-3-Clause](https://opensource.org/license/BSD-3-Clause) | Flask integration for SQLAlchemy |
+| `greenlet`                   | 3.2.3       | [MIT](https://opensource.org/license/MIT) | Lightweight coroutines |
+| `gunicorn`                   | 23.0.0      | [MIT](https://opensource.org/license/MIT) | Production WSGI server |
+| `itsdangerous`               | 2.2.0       | [BSD-3-Clause](https://opensource.org/license/BSD-3-Clause) | Secure data serialization |
+| `Jinja2`                     | 3.1.6       | [BSD-3-Clause](https://opensource.org/license/BSD-3-Clause) | Templating engine |
+| `MarkupSafe`                 | 3.0.2       | [BSD-3-Clause](https://opensource.org/license/BSD-3-Clause) | HTML/XML string safety |
+| `marshmallow`                | 4.0.0       | [MIT](https://opensource.org/license/MIT) | Object serialization/deserialization |
+| `marshmallow-sqlalchemy`     | 1.4.2       | [MIT](https://opensource.org/license/MIT) | SQLAlchemy integration for marshmallow |
+| `packaging`                  | 25.0        | [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) or [MIT](https://opensource.org/license/MIT) | Package version utilities |
+| `psycopg2-binary`            | 2.9.10      | [LGPL-3.0](https://www.gnu.org/licenses/lgpl-3.0.html) | PostgreSQL adapter for Python |
+| `python-dotenv`              | 1.1.1       | [BSD-3-Clause](https://opensource.org/license/BSD-3-Clause) | `.env` file loader |
+| `SQLAlchemy`                 | 2.0.41      | [MIT](https://opensource.org/license/MIT) | ORM and database toolkit |
+| `typing_extensions`          | 4.14.1      | [PSF-2.0](https://opensource.org/license/psf-2-0/) | Backported type hints |
+| `Werkzeug`                   | 3.1.3       | [BSD-3-Clause](https://opensource.org/license/BSD-3-Clause) | WSGI utilities (Flask dependency) |
+
+---
+
+### License Versions
+
+Each library is open-source and licensed to allow for educational and personal use under their respective licenses. I acknowledge and respect the work of the open-source community in making these tools available. For more details on each license, please visit the respective project pages on PyPI or via their official repositories.
+
+---
+
+### Security Impacts
+
+| **Package/Library**          | **Potential Risks** | **Mitigation Used** |
+| :--------------------------: | :-----------------: | :-----------------: |
+| `bcrypt`                     | Brute-force attacks if weak passwords are used | Enforce strong password policies |
+| `Flask`                      | CSRF, XSS, or injection attacks if misconfigured | Use Flask-WTF for CSRF, input validation |
+| `psycopg2-binary`            | SQL injection if raw queries are used | Always use SQLAlchemy ORM or parameterized queries |
+| `python-dotenv`              | Exposure of secrets if `.env` files are committed | Add `.env` to `.gitignore` |
+| `SQLAlchemy`                 | ORM misuse leading to injection or data leaks | Follow best practices for query construction |
+
+---
+
+## Privacy Policy
+
+---
+
+## Future Development Goals
 
 ---
