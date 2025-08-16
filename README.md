@@ -269,7 +269,7 @@ Anyone who accesses the site can see gyms and all related entities.
 
 ## Installation Instructions
 
-> ⚠️ **IMPORTANT: Make sure to follow the steps for your specific system to avoid command errors or path issues.**
+> **IMPORTANT: Make sure to follow the steps for your specific system to avoid command errors or path issues.**
 
 ---
 
@@ -401,6 +401,12 @@ Anyone who accesses the site can see gyms and all related entities.
    ```
 
 ## API Endpoints
+
+|Endpoint               |Methods  |   Rule                 | 
+|---------------------  |-------  |----------------------- |
+|climb.get_climbs       |GET      |/climbs/                |
+|company.get_companies  |GET      |/companies/             |
+|gym.get_gyms           |GET      |/gyms/                  |
 
 ---
 
