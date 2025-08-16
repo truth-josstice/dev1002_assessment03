@@ -354,7 +354,7 @@ Anyone who accesses the site can see gyms and all related entities.
     - If the database you want to connect to does not exist, create it by running:
 
        ```SQL
-       CREATE DATABASE climbing_tracker_db;
+       CREATE DATABASE climbing_tracker_db; --> If you want to name your database differently, ensure it is matched elsewhere in this setup guide
        ```
 
     - Verify it exists by listing databases `\l`
@@ -364,14 +364,14 @@ Anyone who accesses the site can see gyms and all related entities.
     - In the PostgreSQL shell, run the following command:
 
        ```SQL
-       CREATE USER c_tracker_dev WITH PASSWORD '123456';
+       CREATE USER <your_username> WITH PASSWORD '<your_password>';
        ```
 
     - Grant the user permissions needed to work with public schema and database:
 
        ```SQL
-       GRANT ALL PRIVILEGES ON DATABASE climbing_tracer_db TO c_tracker_dev; --> Grants CRUD functions for database to user
-       GRANT ALL ON SCHEMA public TO c_tracker_dev; --> Grants table CRUD functions to user
+       GRANT ALL PRIVILEGES ON DATABASE climbing_tracker_db TO <your_username>; --> Grants CRUD functions for database to user, change the database name here if changed in step 6
+       GRANT ALL ON SCHEMA public TO <your_username>; --> Grants table CRUD functions to user
        ```
 
     - Close the PostgreSQL shell using `\q`
