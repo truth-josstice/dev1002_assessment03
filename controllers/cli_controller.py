@@ -107,6 +107,20 @@ def seed_tables():
             style = "Overhang",
             difficulty_grade = "6",
             set_date = "03/01/2025"
+        ),
+        Climb(
+            user_id = users[0].id,
+            gym_id = gyms[2].id,
+            style = "Dyno",
+            difficulty_grade = "v1",
+            set_date = "03/01/2025"
+        ),
+        Climb(
+            user_id = users[1].id,
+            gym_id = gyms[2].id,
+            style = "Slab",
+            difficulty_grade = "v2",
+            set_date = "03/01/2025"
         )
     ]
 
@@ -151,7 +165,23 @@ def seed_tables():
             comments = "Flashed it!",
             completed = True,
             attempt_date = "05/01/2025"
+        ),
+        Attempt(
+            user_id = users[0].id,
+            climb_id = climbs[4].id,
+            fun_rating = 5,
+            comments = "I usually don't like dynamic climbs but this was heaps of fun!",
+            completed = True,
+            attempt_date = "12/01/2025"
         )
+        # Attempt(
+        #     user_id = users[0].id,
+        #     climb_id = climbs[4].id,
+        #     fun_rating = 5,
+        #     comments = "I usually don't like dynamic climbs but this was heaps of fun!",
+        #     completed = True,
+        #     attempt_date = "12/01/2025"
+        # )
     ]
     
     db.session.add_all(attempts)
