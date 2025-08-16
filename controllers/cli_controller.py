@@ -22,25 +22,37 @@ def drop_tables():
 
 @db_commands .cli.command("seed")
 def seed_tables():
-    company1 = Company(
-        name = "Company 1",
-        website = "www.website.com"
-    )
-    db.session.add(company1)
+    companies = [
+        Company(
+            name = "Company 1",
+            website = "www.website.com"
+        ),
+        Company(
+            name = "Company 2",
+            website = "www.website2.com"
+        )
+    ]
+    db.session.add_all(companies)
     db.session.commit()
 
     gyms = [
         Gym(
             city = "Melbourne",
-            company_id = company1.id,
+            company_id = companies[0].id,
             street_address = "123 Fake Street",
             name = "The Gym"
         ),
         Gym(
             city = "Melbourne",
-            company_id = company1.id,
+            company_id = companies[0].id,
             street_address = "456 New Fake Street",
             name = "The Gym 2"
+        ),
+        Gym(
+            city="Sydney",
+            company_id = companies[1].id,
+            street_address = "789 Fake Street",
+            name="The Other Gym"
         )
     ]
     db.session.add_all(gyms)

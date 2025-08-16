@@ -9,3 +9,5 @@ class Climb(db.Model):
     style = db.Column(db.String, nullable=False)
     difficulty_grade = db.Column(db.String, nullable=False)
     set_date = db.Column(db.Date)
+
+    gyms = db.relationship("Gym", back_populates="climbs")

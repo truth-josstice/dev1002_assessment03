@@ -7,6 +7,7 @@ class GymSchema(SQLAlchemyAutoSchema):
         model = Gym
         load_instance = True
         include_fk = True
+        include_relationships = True
 
 gym_schema = GymSchema()
 gyms_schema = GymSchema(many=True)
