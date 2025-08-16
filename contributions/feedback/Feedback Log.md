@@ -61,7 +61,9 @@
 
 1. NOT NULL constraints added to ERD
 2. Changed name variables from 32 to 100 which should cover most extreme edge cases of name lengths for individuals or corporations
-3. Updated README with clearer description of purpose and user stories.
+3. 
+4. Updated README with clearer description of purpose and user stories.
+5. 
 
 ---
 

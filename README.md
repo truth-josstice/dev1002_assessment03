@@ -1,14 +1,22 @@
 # Climbing Progression Tracker
 
 This project is a relational database app which tracks user progression of bouldering across a variety of Climbing Gyms.
+
 ---
 
 ## Table of Contents
 
 1. [Purpose](#purpose-of-the-project)
+    - [Detailed Description](#detailed-description)
+    - [Entity Relationship Diagrams](#diagrams)
+    - [Database Management](#choosing-a-database-system)
+      - [SQL](#sql-and-structure-relationships)
+      - [ACID v BASE](#acid-vs-base)
+      - [NoSQL](#why-not-nosql)
+    - [Databse Management System](#database-management-system)
 2. [Installation Guide]
 3. [Usage Instructions]
-4. [Features and Functionality]
+4. [Features and Functionality](#functionality)
 5. [Dependencies]
 6. [Ethical Considerations]
 7. [Privacy Policy]
@@ -72,6 +80,144 @@ Example PostgreSQL output:
   2 |      2 |       2 |                10 | Intermediate            | This gym has some tough climbs, even the easiest are intermediate level
 ```
 
+---
+
+## Diagrams
+
+The data for this project is presented in a non-normalised format below:
+
+![Base Table Data](./assets/images/De-Normalised%20Data.png)
+
+Here is the plan with entities, attributes, relationships.
+
+![Rough Draft of ERD](./assets/images/Concept_ERD.png)
+
+Here is an ERD with cardinality included for all tables.
+
+![ERD with cardinality](./assets/images/Climbing%20Tracker%20-%20ERD%20Diagram.png)
+
+After receiving Feedback the ERD was revised to reflect all NOT NULL columns, as well as more appropriate VARCHAR limits.
+
+![ERD with revised values for VARCHAR and all NOT NULL columns](./assets/images/Climbing%20Tracker%20-%20ERD%20Diagram%20Revised.png)
+
+---
+
+## Choosing a Database System
+
+### SQL and Structure Relationships
+
+Pictured in my ERD are the below relationships:
+
+- Company connects to Gym
+- Gym connects to Climbs and Gym_Ratings
+- Users connects to Attempts, Gym_Ratings, and Climbs
+- Climbs connects to Attempts
+
+As I have many related tables to consider in this project, with the User and Gym entities being closely related to multiple other entities, the clearly structured nature of a Relational Database is ideal to ensure the data integrity of these related tables. All connections must be Valid, for example an Attempt cannot exist without a User or Climb. This also protects the database from orphaned records, as upon deleting a Gym, all associated Climbs will be deleted.
+
+In addition, my database uses enumerated data (ENUM) and validation checks which are natively enforced in a relational database.
+
+At the current scale of the project (where I expect a number in the realm of thousands of records), a relational database system with strong ACID compliance is ideal. All attempts and ratings are atomic (all or nothing), so if at any point a server crash occurs, there will be no partial records which could threaten the integrity of the database.
+
+SQL queries for this database are lightweight, able to be enacted using simple joins.
+
+A feature of the app is to allow users to ONLY view their own climbs. Native support for UNIQUE constraints, ACID protection of password and username creation, and strict schema validations (such as for password hash length) is a benefit for creating authorisations.
+
+Relational databases are more easily integrated with other tools to auto-hash passwords.
+
+In future if the scale of the app continues to grow, the addition of roles such as admin/owner are more easy to create and manage.
+
+### ACID vs BASE
+
+ACID compliant databases ensure that all transactions (any collection of operations which form a single logical unit of work) are consistent regardless of any external or internal interruptions. The foundations of ACID are the following:
+
+1. Atomicity - Transactions either occur or do not occur, there is no possibility of partial transactions taking place
+2. Consistency - All transactions occur without adverse affects on the data in the database, the database must be consistent before and after a transaction occures
+3. Isolation - If more than one transaction occurs simultaneously, they will be executed completely individually from each other, and no transaction can affect any other transaction
+4. Durability - Any transactions which occur but are not commited are held until they can be correctly commited without any adverse effects on the database
+
+Relational database management systems are the only recommended systems for ACID compliance.
+
+BASE modelled databases are more recent, and have increased in popularity with the development of NoSQL (non-relational) databases. The foundations of BASE are as follows:
+
+1. Basically Available - Instead of ensuring data integrity, BASE modelled databases prefer the information be spread throughout the database first, making the data available as a priority
+2. Soft State - The data values may change over time, and validation and consistency are manually enforced by the developers instead of by the management system
+3. Eventually Consistent - Data reads can occur before all consistency has been implemented by the developers, but the data reads may not reflect accurate and real data
+
+My project has strictly enforced relationships and data types, as well as the need for hashing and encryption of some data. There is also the opportunity for multiple users to transact at the same time. Due to these necessary constraints, an ACID compliant database management system is a much more appropriate choice for my system. Further details in regard to why a NoSQL database is inappropriate for my web server see below.
+
+### Why Not NoSQL?
+
+A non-relational database would be more appropriate if I required horizontal scalability (was expecting a high number of records in the millions), or if the data being stored was arbitrary or unstructured.
+
+Validation and simple relationships in a NoSQL database require a much larger codebase, and add a lot of unnecessary work. For ENUM and CHECK constraints, a lot of application side checks and extra code would be required to achieve the same level of validation. This means unless you take extra steps with extra code, users can enter incorrect data which would affect any visitors to the site looking for objective data.
+
+Querying data based on the relationships described in my ERD would involve much more complicated queries, which presents more risk for error on the application side.
+
+NoSQL Databases do not enforce foreign key cascading natively, meaning upon deletion of records, querying a non-existant record can lead to errors.
+
+In future a hybrid format including Non-Relational Database systems for Climbs and Attempts could be cool, especially if I wanted to include the ability to post a photo of a climb, or other types of but for the beginning of this app I will focus purely on Relational Databases.
+
+---
+
+## Database Management System
+
+I will be using the PostgreSQL as my DBMS for this project, and SQLite for any error testing, as I am studying this in my CoderAcademy course, and have used SQLite for error testing in my classwork.
+
+I will compare the strengths and weaknesses of PostgreSQL and MySQL below in the context of my project, as well as describing the strengths and weaknesses of SQLite. The reason I have chosen these three to compare due to the scale of the project I am working on, and my familiarity with them through my classwork and research, as in particular PostgreSQL and MySQL have wide community usage and discussion. I have chosen SQLite as it is ideal for testing due to its ability to work offline and not demand any resources from the server itself.
+
+**PostgreSQL Strengths:**
+
+- Allows use of JSON, custom data types and advanced joins
+  - My project will require multiple related datapoints to be accessed to form one table, and all body data will be sent and received in JSON format
+- Supports and encourages strict data integrity, especially useful for ENUM and foreign key data
+  - My project will have some enumerated choices, and plenty of foreign key data across my tables, I can more easily constrain these data types using PostgreSQL
+- More scalable than MySQL for heavy record loads
+  - At the point at which multiple users would be creating records, this will be help to ensure the application is viable
+- Always rejects invalid data, and will log errors when invalid data occurs
+  - Ensures that the database will not crash due to incorrectly entered user data, and will allow me to enact fixes quickly and efficiently when they occur
+
+**PostgreSQL Weaknesses:**
+
+- Harder to setup than SQLite
+  - As I already have familiarity with PostgreSQL and have setup completed, I do not face a challenge here
+
+**MySQL Strengths:**
+
+- Great for simple web apps with fast read requirements
+  - Read requirements are not time sensetive in my application
+- Faster for read-heavy loads, though due to the scale of the project this is neglible
+  - Most of the traffic will be transactional and there is not a high scale of users for this application in its current form
+- Easier setup
+  - As I have already setup PostgreSQL this is moot
+
+**MySQL Weaknesses:**
+
+- Less strict data validation by default, and does not warn when invalid data is entered.
+  - Example:
+    - username is valid if 100 or below characters.
+    - user enters a username of 120 characters
+    - MySQL will truncate the data to 100 characters but not flag this by default
+    - user now has a username which no longer matches their entry
+    - no error is logged by default, so fixing corrupt or invalid data is more difficult
+  - My application requires user login, and if the username is truncated without the user or myself as the dev knowing, this will cause an error for the user with no clear fix
+
+**SQLite Strengths:**
+
+- Best for tiny apps with low or no network traffic
+  - I will be using this to test my applications features without demanding any server resources
+- No setup or server requirements
+  - See above
+- Great for testing due to its discrete nature
+  - See above
+
+**SQLite Weaknesses:**
+
+- No user authentication or built in user management
+  - For my application user authentication will be required
+- No concurrent data writing will cause failures if multiple users edit data at once
+  - Multiple users transacting at the same time is a key feature of my application, therefore this means my app would not be able to function if created using SQLite
+
 ### Functionality
 
 **CRUD Operations**
@@ -103,102 +249,149 @@ Users will create climbs and only be able to view their own climbs, but all data
 
 Anyone who accesses the site can see gyms and all related entities.
 
-## Diagrams
+---
 
-The data for this project is presented in a non-normalised format below:
+## Installation Guide
 
-![Base Table Data](./assets/images/De-Normalised%20Data.png)
+---
 
-Here is the plan with entities, attributes, relationships.
+### System Requirements
 
-![Rough Draft of ERD](./assets/images/Concept_ERD.png)
+- Python 3.10+ (3.12 recommended)
+- PIP (python package installer)
+- Windows, Linux, WSL or MacOS
+- PostgreSQL shell 16.9+ (16.9 recommended)
+- Active internet connection for cloning dependencies
+- At least xxx.MB free disc space
 
-Here is an ERD with cardinality included for all tables.
+## Installation Instructions
 
-![ERD with cardinality](./assets/images/Climbing%20Tracker%20-%20ERD%20Diagram.png)
+> ⚠️ **IMPORTANT: Make sure to follow the steps for your specific system to avoid command errors or path issues.**
 
-After receiving Feedback the ERD was revised to reflect all NOT NULL columns, as well as more appropriate VARCHAR limits.
+---
 
-![ERD with revised values for VARCHAR and all NOT NULL columns](./assets/images/Climbing%20Tracker%20-%20ERD%20Diagram%20Revised.png)
+### Setup
 
-## Chosen Database System
+1. **Verify Python Version**
 
-### Database Decision
+    - Linux/WSL/Mac users
 
-**Structured Relationships:**
+      ```bash
+      python3 --version  # Should display Python 3.10 or higher
+      ```
 
-Pictured in my ERD are the below relationships:
+    - Windows users
 
-- Company connects to Gym
-- Gym connects to Climbs and Gym_Ratings
-- Users connects to Attempts, Gym_Ratings, and Climbs
-- Climbs connects to Attempts
+      ```powershell
+      python --version # Should display Python 3.10 or higher
 
-As I have many related tables to consider in this project, with the User and Gym entities being closely related to multiple other entities, the clearly structured nature of a Relational Database is ideal to ensure the data integrity of these related tables. All connections must be Valid, for example an Attempt cannot exist without a User or Climb. This also protects the database from orphaned records, as upon deleting a Gym, all associated Climbs will be deleted.
+      py --version # If the above does not work
+      ```
 
-In addition, my database uses enumerated data (ENUM) and validation checks which are natively enforced in a relational database.
+2. **Choose one of the following methods:**
+   - Download and extract the ZIP folder to your desired directory
+   **OR**
+   - Clone directly from [this github repository](https://github.com/truth-josstice/dev1002_assessment03)
 
-At the current scale of the project (where I expect a number in the realm of thousands of records), a relational database system with strong ACID compliance is ideal. All attempts and ratings are atomic (all or nothing), so if at any point a server crash occurs, there will be no partial records which could threaten the integrity of the database.
+      ```bash
+      git clone https://github.com/truth-josstice/dev1002_assessment03
+      cd dev1002_assessment03
+      ```
 
-SQL queries for this database are lightweight, able to be enacted using simple joins.
+3. **Create and Activate Virtual Environment**
+  
+    - Linux/WSL/MacOs users
 
-A feature of the app is to allow users to ONLY view their own climbs. Native support for UNIQUE constraints, ACID protection of password and username creation, and strict schema validations (such as for password hash length) is a benefit for creating authorisations.
+      ```bash
+      python3 -m venv .venv  # Creates virtual environment
+      source .venv/bin/activate  # Activates virtual environment
+      ```
 
-Relational databases are more easily integrated with other tools to auto-hash passwords.
+    - Windows Users
 
-In future if the scale of the app continues to grow, the addition of roles such as admin/owner are more easy to create and manage.
+      ```powershell
+      python -m venv .venv # Creates virtual environment
+      .\.venv\Scripts\Activate.ps1 # Activates virtual environment
+      ```
 
-**Why not NoSQL?:**
-A non-relational database would be more appropriate if I required horizontal scalability (was expecting a high number of records in the millions), or if the data being stored was arbitrary or unstructured.
+4. **Install Dependencies**
 
-Validation and simple relationships in a NoSQL database require a much larger codebase, and add a lot of unnecessary work. For ENUM and CHECK constraints, a lot of application side checks and extra code would be required to achieve the same level of validation. This means unless you take extra steps with extra code, users can enter incorrect data which would affect any visitors to the site looking for objective data.
+   ```bash
+   pip install -r requirements.txt  # Depending on pip version, pip3 may be required instead
+   ```
 
-Querying data based on the relationships described in my ERD would involve much more complicated queries, which presents more risk for error on the application side.
+5. **Create a .env and .flaskenv file with the variables included in the .example files.**
 
-NoSQL Databases do not enforce foreign key cascading natively, meaning upon deletion of records, querying a non-existant record can lead to errors.
+   ```text
+   DATABASE_URI with string connected to your PostgreSQL database
+   ```
 
-In future a hybrid format including Non-Relational Database systems for Climbs and Attempts could be cool, especially if I wanted to include the ability to post a photo of a climb, or other types of but for the beginning of this app I will focus purely on Relational Databases.
+6. **Ensure that a local database exists by creating one in the PostgreSQL shell:**
 
-### Database Management System
+    - Enter the PostgreSQL shell:
 
-I will be using the PostgreSQL as my DMS for this project, and SQLite for any error testing, as I am studying this in my CoderAcademy course, and have used SQLite for error testing in my classwork.
+       ```bash
+       sudo -u postgres psql # Linux and WSL users
+       ```
 
-I will compare the strengths and weaknesses of PostgreSQL and MySQL below in the context of my project, as well as describing the strengths and weaknesses of SQLite.
+       ```bash
+       psql # MacOS users
+       ```
 
-**PostgreSQL Strengths:**
+       ```bash
+       psql -U postgres # Windows users
+       ```
 
-- Allows use of JSON, custom data types and advanced joins
-- Supports and encourages strict data integrity, especially useful for ENUM and foreign key data
-- More scalable than MySQL for heavy record loads
-- Always rejects invalid data, and will log errors when invalid data occurs
+    - List all existing databases by running:
 
-**PostgreSQL Weaknesses:**
+       ```SQL
+       \l
+       ```
 
-- Harder to setup than SQLite
+    - If the database you want to connect to does not exist, create it by running:
 
-**MySQL Strengths:**
+       ```SQL
+       CREATE DATABASE climbing_tracker_db;
+       ```
 
-- Great for simple web apps with fast read requirements
-- Faster for read-heavy loads, though due to the scale of the project this is neglible
-- Easier setup
+    - Verify it exists by listing databases `\l`
 
-**MySQL Weaknesses:**
+7. **Ensure a user with the correct permissions exists in your database:**
 
-- Less strict data validation by default, and does not warn when invalid data is entered.
-  - Example:
-    - username is valid if 32 or below characters.
-    - user enters a username of 50 characters
-    - MySQL will truncate the data to 32 characters but not flag this by default
-    - user now has a username which no longer matches their entry
-    - no error is logged by default, so fixing corrupt or invalid data is more difficult
+    - In the PostgreSQL shell, run the following command:
 
-**SQLite Strengths:**
+       ```SQL
+       CREATE USER c_tracker_dev WITH PASSWORD '123456';
+       ```
 
-- Best for tiny apps with low or no network traffic
-- No setup or server requirements
-- Great for testing due to its discrete nature
+    - Grant the user permissions needed to work with public schema and database:
 
-**SQLite Weaknesses:**
+       ```SQL
+       GRANT ALL PRIVILEGES ON DATABASE climbing_tracer_db TO c_tracker_dev; --> Grants CRUD functions for database to user
+       GRANT ALL ON SCHEMA public TO c_tracker_dev; --> Grants table CRUD functions to user
+       ```
 
-- No user authentication or built in user management
-- No concurrent data writing will cause failures if multiple users edit data at once
+    - Close the PostgreSQL shell using `\q`
+
+8. **Ensure the Flask database app exists by entering the following commands in bash terminal:**
+
+   ```bash
+   flask db drop # Drops all tables if they exist
+   flask db create # Creates all tables
+   flask db seed # Seeds data to tall tables
+   ```
+
+9. **Run the Application**
+
+   ```bash
+   flask run
+   ```
+
+10. **Close Flask and Deactivate Virtual Environment when Finished**
+
+   ```bash
+   CTRL+C # Keyboard interrupt to stop flask application
+   deactivate
+   ```
+
+---
