@@ -9,5 +9,5 @@ class Gym(db.Model):
     street_address = db.Column(db.String, unique=True)
     name = db.Column(db.String, nullable=False)
 
-    company = db.relationship("Company", back_populates="gyms")
-    climbs = db.relationship("Climb", back_populates="gyms")
+    company = db.relationship("Company", back_populates="gym")
+    climbs = db.relationship("Climb", back_populates="gym")

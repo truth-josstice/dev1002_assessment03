@@ -8,4 +8,4 @@ class Company(db.Model):
     website = db.Column(db.String, unique=True)
     
     # one to many with gyms
-    gyms = db.relationship("Gym", back_populates="company", cascade="all, delete")
+    gym = db.relationship("Gym", back_populates="company", cascade="all, delete")

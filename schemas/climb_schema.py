@@ -12,7 +12,7 @@ class ClimbSchema(SQLAlchemyAutoSchema):
         fields = ("id", "gym_name", "username", "style", "difficulty_grade", "set_date")
         ordered = True
     
-    gym_name = fields.String(attribute="gyms.name")
+    gym_name = fields.String(attribute="gym.name")
     username = fields.String(attribute="user.username")
 
 
