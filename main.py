@@ -9,6 +9,7 @@ from controllers.company_controller import company_bp
 from controllers.gyms_controller import gym_bp
 from controllers.climbs_controller import climb_bp
 from controllers.attempts_controller import attempt_bp
+from controllers.gym_ratings_contoller import gym_rating_bp
 
 load_dotenv()
 
@@ -24,7 +25,7 @@ def create_app() -> Flask:
     bcrypt.init_app(app)
 
     # Register blueprints from a list with a for loop instead of individually
-    blueprints = [db_commands, company_bp, gym_bp, climb_bp, attempt_bp]
+    blueprints = [db_commands, company_bp, gym_bp, climb_bp, attempt_bp, gym_rating_bp]
     for bp in blueprints:
         app.register_blueprint(bp)
 
