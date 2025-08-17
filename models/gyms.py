@@ -11,3 +11,4 @@ class Gym(db.Model):
 
     company = db.relationship("Company", back_populates="gym")
     climbs = db.relationship("Climb", back_populates="gym")
+    gym_rating = db.relationship("GymRating", back_populates="gym")

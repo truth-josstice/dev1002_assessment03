@@ -14,3 +14,6 @@ class Attempt(db.Model):
     comments: str | None = db.Column(db.String)
     completed: bool = db.Column(db.Boolean, default=False)
     attempt_date: date = db.Column(db.Date, server_default=text("CURRENT_DATE"))
+
+    climb = db.relationship("Climb", back_populates="attempt")
+    user = db.relationship("User", back_populates="attempt")

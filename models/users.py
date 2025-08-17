@@ -15,6 +15,8 @@ class User(db.Model):
     climbing_ability = db.Column(db.String, nullable=False)
 
     climbs = db.relationship("Climb", back_populates="user")
+    gym_rating = db.relationship("GymRating", back_populates="user")
+    attempt = db.relationship("Attempt", back_populates="user")
 
     # set password property and raise error if reading is requested
     @property

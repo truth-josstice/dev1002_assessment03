@@ -15,3 +15,4 @@ class Climb(db.Model):
 
     gym = db.relationship("Gym", back_populates="climbs") # Type: Relationship
     user = db.relationship("User", back_populates="climbs", cascade="all, delete") # Type: Relationship
+    attempt = db.relationship("Attempt", back_populates="climb")
