@@ -31,3 +31,4 @@ class User(db.Model):
     # checks plain text input against encrypted hash stored in database
     def check_password(self, password):
         return bcrypt.check_password_hash(self._password_hash, password)
+    
