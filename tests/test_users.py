@@ -1,5 +1,5 @@
 def test_user_creation(app):
-    """Test we can create a user"""
+    """Test we can create a user based on the user model"""
     from models.users import User
     with app.app_context():
         user = User(
