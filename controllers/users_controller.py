@@ -20,4 +20,20 @@ def get_users():
 
 @user_bp.route('/login/', methods=["POST"])
 def user_login():
-    body_data
+    # Get login credentials from JSON body data
+    body_data = request.get_json()
+
+    # Ensure username and password are in the body data, and that body data exists
+    if not body_data or "username" not in body_data or "password" not in body_data:
+        return {"message": "Username and password are required"}, 400
+    
+    # Find user by username
+    stmt = db.select(User).filter_by(username=body_data["username"])
+    user = db.session.scalar(stmt)
+
+    # Verify user exists and password is correct
+    if not user or not user.check_password(body_data["password"]):
+        return {"message": "Invalid username or password"}, 401
+
+    
+
