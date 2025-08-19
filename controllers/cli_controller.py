@@ -8,6 +8,7 @@ from models.climbs import Climb
 from models.attempts import Attempt
 from models.gym_ratings import GymRating
 from models.styles import Style
+from models.skill_level import SkillLevel
 
 db_commands = Blueprint("db", __name__)
 
@@ -23,6 +24,22 @@ def drop_tables():
 
 @db_commands .cli.command("seed")
 def seed_tables():
+    skill_levels = [
+        SkillLevel(
+            level = "Beginner",
+            description = "Just starting your climbing journey, you might know a few terms and styles. Climbing the lowest few difficulty grades."
+        ),
+        SkillLevel(
+            level = "Intermediate",
+            description = "You've learned most of the terms, you've climbed a lot! Climbing the middle difficulty grades, maybe hitting the plateau!"
+        ),
+        SkillLevel(
+            level = "Advanced",
+            description = "You climb regularly, you know how to visualise your beta, you know that everyone loves slopers and the moonboard is the G.O.A.T! Climbing the advanced grades!"
+        )
+    ]
+    db.session.add_all(skill_levels)
+
     styles = [
         Style(
             name = "Slab",
@@ -53,9 +70,7 @@ def seed_tables():
             description = "A style of climb requiring price timing and syncronized movements, usually involving all four limbs at the same time."
         )
     ]
-
     db.session.add_all(styles)
-    db.session.commit()
 
     companies = [
         Company(

@@ -8,6 +8,3 @@ class SkillLevel(db.Model):
     level = db.Column(db.String, unique=True, nullable=False)
     description = db.Column(db.String, unique=True, nullable=False)
 
-    users = db.relationship("User", back_populates="skill_level")
-
-
