@@ -21,7 +21,7 @@ class User(db.Model):
     # set password property and raise error if reading is requested
     @property
     def password(self):
-        raise AttrubuteError("Password is write-only (cannot be read)")
+        raise AttributeError("Password is write-only (cannot be read)")
 
     # set password attribute to be encrypted for storage in the database
     @password.setter

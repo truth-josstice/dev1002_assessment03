@@ -2,6 +2,7 @@ import pytest
 from main import create_app
 from init import db
 
+
 @pytest.fixture
 def app():
     app = create_app()

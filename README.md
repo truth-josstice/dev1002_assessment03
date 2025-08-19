@@ -89,19 +89,23 @@ Example PostgreSQL output:
 
 The data for this project is presented in a non-normalised format below:
 
-![Base Table Data](./assets/images/De-Normalised%20Data.png)
+![Base Table Data](./assets/images/De-Normalised-Data.png)
 
 Here is the plan with entities, attributes, relationships.
 
-![Rough Draft of ERD](./assets/images/Concept_ERD.png)
+![Rough Draft of ERD](./assets/images/Concept-ERD.png)
 
 Here is an ERD with cardinality included for all tables.
 
-![ERD with cardinality](./assets/images/Climbing%20Tracker%20-%20ERD%20Diagram.png)
+![ERD with cardinality](./assets/images/Climbing-Tracker-ERD.png)
 
-After receiving Feedback the ERD was revised to reflect all NOT NULL columns, as well as more appropriate VARCHAR limits.
+After receiving [Feedback from Jordan](./contributions/feedback/Feedback%20Log.md) the ERD was revised to reflect all NOT NULL columns, as well as more appropriate VARCHAR limits.
 
-![ERD with revised values for VARCHAR and all NOT NULL columns](./assets/images/Climbing%20Tracker%20-%20ERD%20Diagram%20Revised.png)
+![ERD with revised values for VARCHAR and all NOT NULL columns](./assets/images/Climbing-Tracker-ERD-Revised.png)
+
+After receiving [Feedback from Nhi](./contributions/feedback/Feedback%20Log.md) the ERD was again revised to reflect all new lookup tables and limit changes wherever appropriate.
+
+![ERD with further revision bases on Nhi's suggestions and some simplification](./assets/images/Climbing-Tracker-ERDRevised-2.png)
 
 ---
 

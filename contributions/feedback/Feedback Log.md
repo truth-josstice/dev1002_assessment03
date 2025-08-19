@@ -142,7 +142,7 @@
 - I had initially considered making the "completed" column more of a "status" column with some constraints, so this is a good idea definitely for a future update. I think the comments section if used correctly would be more appropriate for climbers, as it accounts for varying levels of complexity. A beginner user might just comment "it was fun" or "it was really hard", whereas an intermediate or advanced might include "double kneebar at the start of the climb was really difficult to get set in, but I figured it out and worked on the second half. I have done all the moves in sequence now!"
 - The VARCHAR limit is definitely not large enough, even my example above was too long, will change that to 500.
 - Absolutely great suggestion in regards to the default for attempt_date, this is an easy implementation in to the project as well!
-- Addition of a Lookup table for style of climb is great, I will look into how to enact this into the database!
+- Addition of a Lookup table for style of climb is great, I will look into how to enact this into the database! I will also add another lookup for skill_level as it is used in multiple tables and can be further normalised, as well as enacting database level validation automatically through a primary key
 
 ## Action Plans
 
@@ -150,4 +150,4 @@
 2. Change limit of text input for comments in attempts table
 3. Add to future plans and development in README considerations about addition of "status" v "completed"
 4. Change the attempt_date column to attempted_at and change the default value to current date+time
-5. Create lookup table to styles
+5. Create lookup table for styles and skill level
