@@ -7,6 +7,7 @@ from models.users import User
 from models.climbs import Climb
 from models.attempts import Attempt
 from models.gym_ratings import GymRating
+from models.styles import Style
 
 db_commands = Blueprint("db", __name__)
 
@@ -22,6 +23,40 @@ def drop_tables():
 
 @db_commands .cli.command("seed")
 def seed_tables():
+    styles = [
+        Style(
+            name = "Slab",
+            description = "A style of climb usually on a flat vertical wall, focussing on balance, footwork and precision."
+        ), 
+        Style(
+            name = "Dyno",
+            description = "A style of climb focussing on powerful dynamic movement, often including jumping or running actions."
+        ), 
+        Style(
+            name = "Overhang",
+            description = "A style of climb where the wall is angled towards the climber, focusses on technique and stamina."
+        ), 
+        Style(
+            name = "Vertical",
+            description = "A style of climb at a variety of angles, where the majority of moves take the climber directly upward."
+        ), 
+        Style(
+            name = "Crimp",
+            description = "A style of climb which has holds only wide enough for the climbers fingertips."
+        ), 
+        Style(
+            name = "Traverse",
+            description = "A style of climb at a variety of angles, where the majority of moves are made laterally not upward."
+        ),
+        Style(
+            name= "Coordination",
+            description = "A style of climb requiring price timing and syncronized movements, usually involving all four limbs at the same time."
+        )
+    ]
+
+    db.session.add_all(styles)
+    db.session.commit()
+
     companies = [
         Company(
             name = "Company 1",
@@ -83,42 +118,42 @@ def seed_tables():
         Climb(
             user_id = users[0].id,
             gym_id = gyms[0].id,
-            style="Slab",
+            style_id=styles[0].id,
             difficulty_grade = "Purple",
             set_date = "01/01/2025"
         ), 
         Climb(
             user_id = users[0].id,
             gym_id = gyms[0].id,
-            style = "Dyno",
+            style_id = styles[1].id,
             difficulty_grade = "Blue",
             set_date = "01/01/2025"
         ), 
         Climb(
             user_id = users[1].id,
             gym_id = gyms[1].id,
-            style = "Slab",
+            style_id = styles[0].id,
             difficulty_grade = "4",
             set_date = "03/01/2025"
         ), 
         Climb(
             user_id = users[1].id,
             gym_id = gyms[1].id,
-            style = "Overhang",
+            style_id = styles[2].id,
             difficulty_grade = "6",
             set_date = "03/01/2025"
         ),
         Climb(
             user_id = users[0].id,
             gym_id = gyms[2].id,
-            style = "Dyno",
+            style_id = styles[1].id,
             difficulty_grade = "v1",
             set_date = "03/01/2025"
         ),
         Climb(
             user_id = users[1].id,
             gym_id = gyms[2].id,
-            style = "Slab",
+            style_id = styles[0].id,
             difficulty_grade = "v2",
             set_date = "03/01/2025"
         )
@@ -132,47 +167,41 @@ def seed_tables():
             user_id = users[0].id,
             climb_id = climbs[0].id,
             fun_rating = "4",
-            comments = "This was hard, almost have it",
-            attempt_date = "02/01/2025"
+            comments = "This was hard, almost have it"
         ), 
         Attempt(
             user_id = users[0].id,
             climb_id = climbs[0].id,
             fun_rating = "4",
             comments = "This was fun! Got it on my second visit",
-            completed = True,
-            attempt_date = "04/01/2025"
+            completed = True
         ), 
         Attempt(
             user_id = users[1].id,
             climb_id = climbs[2].id,
             fun_rating = "4",
-            comments = "Almost there! just need to try again",
-            attempt_date = "05/01/2025"
+            comments = "Almost there! just need to try again"
         ), 
         Attempt(
             user_id = users[1].id,
             climb_id = climbs[2].id,
             fun_rating = 5,
             comments = "Sent it weeeheew",
-            completed = True,
-            attempt_date = "05/01/2025"
+            completed = True
         ),
         Attempt(
             user_id = users[1].id,
             climb_id = climbs[3].id,
             fun_rating = 5,
             comments = "Flashed it!",
-            completed = True,
-            attempt_date = "05/01/2025"
+            completed = True
         ),
         Attempt(
             user_id = users[0].id,
             climb_id = climbs[4].id,
             fun_rating = 5,
             comments = "I usually don't like dynamic climbs but this was heaps of fun!",
-            completed = True,
-            attempt_date = "12/01/2025"
+            completed = True
         )
         # Attempt(
         #     user_id = users[0].id,
