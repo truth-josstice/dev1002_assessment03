@@ -2,7 +2,7 @@ from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 from marshmallow_sqlalchemy.fields import RelatedList, Nested
 
 from models.company import Company
-from schemas.gym_schema import GymSchema
+# from schemas.gym_schema import GymSchema
 
 class CompanySchema(SQLAlchemyAutoSchema):
     class Meta:
