@@ -1,7 +1,5 @@
 # Feedback Log
 
-## Feedback Received
-
 **Feedback From:** Jordan Leal-Walker
 **When:** 14/08/2025
 **What docs checked:** ERD table and chosen database explanation & comparison
@@ -42,6 +40,7 @@
 ## Reflections
 
 - ERD needs further clarity including not null constraints
+- Consider using a composite key for gym_ratings, as a unique primary key may be redundant
 - some columns makes sense for users familiar with climbing but not for beginner user, needs clarity in purpose and usage statements
 - some varchar statements are too limited or not appropriate
 - including a brief point covering ACID v BASE would provide further clarity on choosing Relational Database
@@ -51,10 +50,11 @@
 ## Action Plan
 
 1. Add NOT NULL constraints to all required columns
-2. Research suggested lenghts of varchar data types and change as required
-3. Change purpose of app to include a little more about climbing and how this app is intended to work, as well as future development goals
-4. Add ACID and BASE comparison to plan
-5. Include further detail and context on the decisions made between the three SQL DBMS
+2. Change Primary Key of gym_ratings to a composite key
+3. Research suggested lenghts of varchar data types and change as required
+4. Change purpose of app to include a little more about climbing and how this app is intended to work, as well as future development goals
+5. Add ACID and BASE comparison to plan
+6. Include further detail and context on the decisions made between the three SQL DBMS
 
 ## Implementation
 
@@ -66,3 +66,88 @@
 
 ---
 
+**Feedback From:** Nhi Huynh
+**When:** 15/08/2025
+**What docs checked:** ERD table
+
+>## ERD Feedback
+>
+>
+>- **Core Entities/Relationships:**
+>    - Great use of purposeful and clear core entities with clean separations designed for ERD.
+>    - `Users` - `Attempts` - `Climbs` relationships aligns to support your README description regarding the purpose for users to be able to log their climb progress.
+>    - Clear relationship between `Company` and `Gym` reflecting the idea that companies can operate multiple gyms.
+>    - `Gym_Ratings` has been well designed with thoughtful consideration of the field values you have used to capture difficulty_rating + recommended_skill_level + reviews. Provides really purposeful insights to give users a quick overview to compare gyms and get a sense which gyms would be appropriate for them.
+>
+>- **Suggestion:**
+>    - In `Gym_Ratings` for the Reviews - as user reviews can be a powerful tool to influence the reflection of a gym, it could be worth considering enforcing a UNIQUE rule on (user_id, gym_id) to only allow for 'one review rating per user per gym' (users could still be allowed to edit/update their reviews).
+>
+>- **Suggestion Outcome:**
+>    - The unique constraint helps prevent users from being able to add duplicate reviews and therefore supports the data integrity of user's reviews to reflect a more fair and credible approach on a gym's rating.
+>    - Also helps maintain potential risks of moderation in the case if a user who has a bad experience from spamming reviews on a gym and skewing their gym reputation (ethical consideration). Otherwise if there's a future potential for admin moderation, then I guess these can be excluded but just means risk of higher moderation activity.
+>
+>- **'Completed' and 'Comments' columns in `Attempts` table:**
+>    - Great use of bool to make it quick and straightforward for users to log.
+>    - In your README file you noted that users can log comments on their progress, which aligns with your ERD. I personally really like the example of comments inputted by user as makes it very personable like a reflective journal entry (only thing to consider is if the 128 varchar would be sufficient).
+>
+>- **Suggestion:**
+>    - Could consider keeping the 'Comments' column and also add an optional 'Attempt_Outcome' column to support beginner-friendly users get familiar with climbing terms and practice logging their outcomes.
+>    - Could use an ENUMs list with optional detailed descriptions for the 'Attempt_Outcome' column. I just had a quick look online and these were some examples of outcome values that could be considered if you were to have them in a list:
+>        - 'attempted' = tried it, not sent (generic try)
+>        - 'project' = actively working this climb across sessions
+>        - 'flash' = sent on the first try of the first session
+>        - 'redpoint' = sent after one or more prior attempts (most common non-flash send)
+>        - 'repeat' = sent again (after an earlier send)
+>        - 'abandoned' = decided to stop working it (moved on)
+
+>- **Suggestion Outcome:**
+>    - It's not as personable as logging their own user input as a comment.
+>    - Would be good for a more analytical style approach as it would allow easier and cleaner filtering with queries to get a clear separation of these outcome values or even use aggregate functions to get the overall SUM/COUNT of the different outcome values without having to parse through values of a user's comments.
+>
+>
+>- **'Attempt_date' column in `Attempts` table:**
+>    - Great for users to log when they attempted their climbs
+>
+>- **Suggestion:**
+>    - If you wanted to support recording multiple attempts on the same day, could consider replacing with 'Attempted_at': TIMESTAMP DEFAULT now(), instead of DATE (similar to how you would log gym reps).
+>
+>- **Suggestion Outcome:**
+>    - Support tracking multiple attempts within same day to make each attempts distinct and to give user "activity feed" ordering and time of day insights (eg. most successful attempts logged at 6-7pm).
+>
+>
+>- **Constraints and ENUMS:**
+>    - Good use of constraints (FKs and CHECKS) and like that you've used ENUMs for 'recommended_skill_level', 'climbing_ability' and 'style', to keep values simple and consistent.
+>    - This works great if you intend for the values of the lists to remain fixed, but could also add complexity if you wanted to add/rename them later.
+>
+>- **Suggestion:**
+>    - For the ENUMs lists of values, if you want a flexible option to be able to add/change later, you could consider using a lookup table. For example, for the 'styles' list - having it in a lookup table would allow you to store something like:
+>        - Style_ID: (serial PK)
+>        - Style_Name: "Dyno"
+>        - Style_Description/Definition: "A dynamic move where the climber jumps to a distant hold, leaving the wall with all or most of their limbs."
+>
+>- **Suggestion Outcome:**
+>    - Lookup table would support flexibility to easily add/update values if wanting to change later.
+>    - Supports beginner-friendly users to understand how to categorise the styles of their climbs (would have to consider if adding this would benefit with enough value as again not sure as this might be basic common terms for a climber to know or might be detailed on the gym's climb activity).
+>
+>
+> I wrote this suggestion re skill levels prior to fully reading your README, so makes sense how you've got it initially set up!
+>
+>- For 'recommended_skill_levels' in `Gym` table, it includes a list for beginner/intermediate/advanced. I had a quick look at this online about the ["Ewbank system"](https://www.climbfit.com.au/teaching-your-friends-to-indoor-rock-climb/) (not sure if this is related, sorry don't know too much about climbing!) but if you plan to support different grading systems to add more meaning/descriptive values, then this can also be separated and stored into its own lookup table. However, I like what you've got so far beacuse it's pretty simple to understand, this suggestion is just dependant on how descriptive you want to get and also how you would like to filter your queries to a granular level.
+>
+>
+
+## Reflections
+
+- Adding constraints to ensure users only rate a gym once is a really great suggestion, I had not really considered review bombing either in the context of the app, so great to have a simple way to ensure this doesn't occur, should be easy enough to implement into the project as well
+- I had initially considered making the "completed" column more of a "status" column with some constraints, so this is a good idea definitely for a future update. I think the comments section if used correctly would be more appropriate for climbers, as it accounts for varying levels of complexity. A beginner user might just comment "it was fun" or "it was really hard", whereas an intermediate or advanced might include "double kneebar at the start of the climb was really difficult to get set in, but I figured it out and worked on the second half. I have done all the moves in sequence now!"
+- The VARCHAR limit is definitely not large enough, even my example above was too long, will change that to 500.
+- Absolutely great suggestion in regards to the default for attempt_date, this is an easy implementation in to the project as well!
+- Addition of a Lookup table for style of climb is great, I will look into how to enact this into the database!
+
+## Action Plans
+
+1. As I have followed Jordan's feedback and changed the primary key for the gym_ratings table to a composite PK, no action needs to be taken to ensure this is enforced in the database
+2. Change limit of text input for comments in attempts table
+3. Add to future plans and development in README considerations about addition of "status" v "completed"
+4. Change the attempt_date column to attempted_at and change the default value to current date+time
+5. Create lookup table to styles
