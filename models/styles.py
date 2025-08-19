@@ -8,4 +8,4 @@ class Style(db.Model):
     name: str = db.Column(db.String, nullable=False, unique=True)
     description: str = db.Column(db.String, nullable=False, unique=True)
 
-    climbs = db.realtionship("Climb", back_populates="styles")
+    climbs = db.relationship("Climb", back_populates="styles")

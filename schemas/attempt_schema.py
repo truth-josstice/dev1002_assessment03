@@ -12,10 +12,10 @@ class AttemptSchema(SQLAlchemyAutoSchema):
         include_fk = True
         include_relationships = True
         fields = ("id", "climb", "username", "fun_rating", 
-                "comments", "completed", "attempt_date")
+                "comments", "completed", "attempted_at")
         ordered = True
         
-    climb = Nested("ClimbSchema", only=("id", "gym_name"))
+    climb = Nested("ClimbSchema", only=("id", "gym_name", "style_name"))
     username = fields.String(attribute="user.username")
 
 attempt_schema = AttemptSchema()
