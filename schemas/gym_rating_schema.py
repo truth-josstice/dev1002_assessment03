@@ -10,7 +10,7 @@ class GymRatingSchema(SQLAlchemyAutoSchema):
         load_instance = True
         include_fk = True
         include_relationships = True
-        fields = ("id", "gym_name", "username", "difficulty_rating",
+        fields = ("gym_id", "user_id", "gym_name", "username", "difficulty_rating",
                   "recommended_skill_level", "review")
         ordered = True
     

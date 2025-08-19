@@ -229,6 +229,13 @@ def seed_tables():
             difficulty_rating = 10,
             recommended_skill_level = "Intermediate",
             review = "This gym has some tough climbs, even the easiest are intermediate level"
+        ),
+        GymRating(
+            gym_id = gyms[0].id,
+            user_id = users[1].id,
+            difficulty_rating = 6,
+            recommended_skill_level = "Beginner",
+            review = "Lots of climbs in the lower grades, even in the overhang section!"
         )
     ]
     
