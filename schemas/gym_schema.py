@@ -1,21 +1,19 @@
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 from marshmallow_sqlalchemy.fields import RelatedList, Nested
-from marshmallow import fields
 
 from models.gyms import Gym
-from schemas.climb_schema import ClimbSchema
 
 class GymSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = Gym
         load_instance = True
-        include_fk = True
+        include_fk = False
         include_relationships = True
-        fields=("id", "company_name", "name", "city", "street_address", "climbs")
+        fields=("id", "company", "name", "city", "street_address")
         ordered = True
 
-    company_name = fields.String(attribute="company.name")
-    climbs = RelatedList(Nested("ClimbSchema", exclude=("id",)))
+    company = Nested("CompanySchema")
+    
 
 gym_schema = GymSchema()
 gyms_schema = GymSchema(many=True)

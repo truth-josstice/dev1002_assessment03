@@ -12,11 +12,12 @@ class User(db.Model):
     email = db.Column(db.String, nullable=False, unique=True)
     first_name = db.Column(db.String, nullable=False)
     last_name = db.Column(db.String)
-    climbing_ability = db.Column(db.String, nullable=False)
+    skill_level_id = db.Column(db.Integer,db.ForeignKey("skill_levels.id"),  nullable=False)
 
     climbs = db.relationship("Climb", back_populates="user")
     gym_rating = db.relationship("GymRating", back_populates="user")
     attempt = db.relationship("Attempt", back_populates="user")
+    skill_level = db.relationship("SkillLevel", back_populates="user")
 
     # set password property and raise error if reading is requested
     @property

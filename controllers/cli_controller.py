@@ -114,7 +114,7 @@ def seed_tables():
             email="email@email.com",
             first_name="First",
             last_name="Last",
-            climbing_ability="Beginner"
+            skill_level_id=1
         ), 
         User(
             username = "username2",
@@ -122,7 +122,7 @@ def seed_tables():
             email="email1@email.com",
             first_name="First",
             last_name="Last",
-            climbing_ability="Intermediate"
+            skill_level_id=2
         )
     ]
 
@@ -235,21 +235,21 @@ def seed_tables():
             gym_id = gyms[0].id,
             user_id = users[0].id,
             difficulty_rating = 7,
-            recommended_skill_level = "Beginner",
+            skill_level_id = 1,
             review = "This gym is great for all skill levels, it's beginner friendly"
         ),
         GymRating(
             gym_id = gyms[1].id,
             user_id = users[1].id,
             difficulty_rating = 10,
-            recommended_skill_level = "Intermediate",
+            skill_level_id = 2,
             review = "This gym has some tough climbs, even the easiest are intermediate level"
         ),
         GymRating(
             gym_id = gyms[0].id,
             user_id = users[1].id,
             difficulty_rating = 6,
-            recommended_skill_level = "Beginner",
+            skill_level_id = 1,
             review = "Lots of climbs in the lower grades, even in the overhang section!"
         )
     ]

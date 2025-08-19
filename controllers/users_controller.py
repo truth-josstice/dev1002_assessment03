@@ -17,3 +17,7 @@ def get_users():
         return {"message": "No user records found."}, 404
     
     return jsonify(users_schema.dump(users))
+
+@user_bp.route('/login/', methods=["POST"])
+def user_login():
+    body_data
