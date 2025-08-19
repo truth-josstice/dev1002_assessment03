@@ -3,7 +3,7 @@ import os
 from flask import Flask
 from dotenv import load_dotenv
 
-from init import db, bcrypt
+from init import db, bcrypt, jwt_manager
 from controllers.cli_controller import db_commands
 from controllers.company_controller import company_bp
 from controllers.gyms_controller import gym_bp
@@ -21,9 +21,12 @@ def create_app() -> Flask:
     app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URI") # Database URI settings
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False # Disables modification tracking to avoid compatability issues
 
+    app.config["JWT_SECRET_KEY"] = os.environ.get("JWT_SECRET_KEY")
+
     # Initialize extensions
     db.init_app(app)
     bcrypt.init_app(app)
+    jwt_manager.init_app(app)
 
     # Register blueprints from a list with a for loop instead of individually
     blueprints = [

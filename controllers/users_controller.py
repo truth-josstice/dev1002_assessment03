@@ -1,4 +1,6 @@
 from flask import Blueprint, jsonify, request
+from flask_jwt_extended import create_access_token, jwt_required
+from datetime import timedelta
 
 from init import db
 from models.users import User
@@ -23,7 +25,7 @@ def user_login():
     # Get login credentials from JSON body data
     body_data = request.get_json()
 
-    # Ensure username and password are in the body data, and that body data exists
+    # IF username and password are in the body data, or the body data does not exist, send a message
     if not body_data or "username" not in body_data or "password" not in body_data:
         return {"message": "Username and password are required"}, 400
     
@@ -31,9 +33,23 @@ def user_login():
     stmt = db.select(User).filter_by(username=body_data["username"])
     user = db.session.scalar(stmt)
 
-    # Verify user exists and password is correct
+    # IF the user or password are not correct, send a message
     if not user or not user.check_password(body_data["password"]):
         return {"message": "Invalid username or password"}, 401
-
     
+    # Create an access token for the user, sets it to logout automatically after 2 hours
+    token = create_access_token(
+        identity=str(user.id),
+        expires_delta=timedelta(hours=2)
+    )
 
+    # Return the user details and the token
+    return {
+        "message": f"User {user.username} logged in successfully!",
+        "token": token
+    }, 200
+    
+@user_bp.route('/profile/')
+@jwt_required()
+def get_user_profile():
+    return jsonify(user_schema.dump(current_user))
