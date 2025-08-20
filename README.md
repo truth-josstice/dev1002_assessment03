@@ -479,13 +479,20 @@ Each library is open-source and licensed to allow for educational and personal u
 
 | **Package/Library**          | **Potential Risks** | **Mitigation Used** |
 | :--------------------------: | :-----------------: | :-----------------: |
-| `bcrypt`                     | Brute-force attacks if weak passwords are used | Enforce strong password policies |
-| `Flask`                      | CSRF, XSS, or injection attacks if misconfigured | Use Flask-WTF for CSRF, input validation |
-| `psycopg2-binary`            | SQL injection if raw queries are used | Always use SQLAlchemy ORM or parameterized queries |
-| `python-dotenv`              | Exposure of secrets if `.env` files are committed | Add `.env` to `.gitignore` |
-| `SQLAlchemy`                 | ORM misuse leading to injection or data leaks | Follow best practices for query construction |
-
----
+| `bcrypt`                     | Brute-force attacks on weak passwords during development testing | Enforce strong default passwords for test users |
+| `Flask`                      | Accidental exposure of debug endpoints or information | **CRITICAL:** Disable `debug=False` before deployment. Use `python-dotenv` for config, never hardcode secrets. |
+| `Flask-Bcrypt`               | Incorrect password hashing setup leading to weak storage | Verify password hashing and comparison works correctly in unit tests |
+| `Flask-JWT-Extended`         | Testing with insecure tokens or overly long expirations | Use short expiration times (e.g., 15 mins) for tokens. Use strong `JWT_SECRET_KEY` from env var. |
+| `Flask-SQLAlchemy`           | Accidental data leakage or deletion in test database | Use a separate, isolated test database. Be cautious with `db.drop_all()` and `db.create_all()`. |
+| `itsdangerous`               | Token forgery if a weak default secret is used | **CRITICAL:** Set a strong `SECRET_KEY` environment variable. Do not use the Flask default. |
+| `Jinja2`                     | Server-Side Template Injection (SSTI) is a critical risk | **CRITICAL:** Never, under any circumstances, render user-generated or request-modified templates. |
+| `MarkupSafe`                 | Accidental marking of untrusted data as safe | Avoid using the `safe` filter unless the data is from a trusted, internal source and sanitized. |
+| `marshmallow`                | Accepting unwanted field input during API testing | Use strict schemas: define `unknown = EXCLUDE` or `RAISE` to prevent extra data. |
+| `marshmallow-sqlalchemy`     | Dumping sensitive model fields in API responses | Explicitly define which fields to include/exclude in serialization schemas. |
+| `psycopg2-binary`            | SQL injection in raw SQL queries during prototyping | **Avoid raw SQL.** Use SQLAlchemy ORM exclusively. If raw SQL is unavoidable, use parameterized queries. |
+| `python-dotenv`              | Accidentally committing the `.env` file to version control | **IMMEDIATE ACTION:** Add `.env` to your `.gitignore` file. This is the primary mitigation. |
+| `SQLAlchemy`                 | SQL injection through misuse of `text()` construct | Avoid the `text()` construct. Use the ORM or Core with named parameters if absolutely necessary. |
+| `Werkzeug`                   | **Critical information disclosure** if debug mode is enabled | **CRITICAL:** The Werkzeug debugger allows arbitrary code execution. **Ensure `debug=False` for any online server.** |
 
 ## Privacy Policy
 
