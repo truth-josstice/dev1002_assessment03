@@ -274,6 +274,7 @@ Anyone who accesses the site can see gyms and all related entities.
 ## Installation Instructions
 
 > **IMPORTANT: Make sure to follow the steps for your specific system to avoid command errors or path issues.**
+> ***IF* you receive errors on bash systems when entering commands, please try 'python' instead of 'python3'.**
 
 ---
 
@@ -329,10 +330,15 @@ Anyone who accesses the site can see gyms and all related entities.
 
 5. **Create a .env and .flaskenv file with the variables included in the .example files.**
 
-   ```text
-   DATABASE_URI with string connected to your PostgreSQL database
-   ```
+   - Set up DATABASE URI:
+     ```text
+      DATABASE_URI with string connected to your PostgreSQL database
+     ```
 
+   - Set up a SECRET_KEY variable by running the below code:
+     ```python
+     python3 -c 'import os; print(os.urandom(16))'
+     ```
 6. **Ensure that a local database exists by creating one in the PostgreSQL shell:**
 
     - Enter the PostgreSQL shell:
@@ -440,16 +446,22 @@ This application obligates users to provide sensitive user information such as e
 | `click`                      | 8.2.1       | [BSD-3-Clause](https://opensource.org/license/BSD-3-Clause) | Command-line interface toolkit |
 | `Flask`                      | 3.1.1       | [BSD-3-Clause](https://opensource.org/license/BSD-3-Clause) | Web framework |
 | `Flask-Bcrypt`               | 1.0.1       | [BSD-3-Clause](https://opensource.org/license/BSD-3-Clause) | Flask integration for bcrypt |
+| `Flask-JWT-Extended`         | 4.7.1       | [MIT](https://opensource.org/license/MIT) | JWT authentication for Flask |
 | `Flask-SQLAlchemy`           | 3.1.1       | [BSD-3-Clause](https://opensource.org/license/BSD-3-Clause) | Flask integration for SQLAlchemy |
 | `greenlet`                   | 3.2.3       | [MIT](https://opensource.org/license/MIT) | Lightweight coroutines |
 | `gunicorn`                   | 23.0.0      | [MIT](https://opensource.org/license/MIT) | Production WSGI server |
+| `iniconfig`                  | 2.1.0       | [MIT](https://opensource.org/license/MIT) | Configuration file parsing for pytest |
 | `itsdangerous`               | 2.2.0       | [BSD-3-Clause](https://opensource.org/license/BSD-3-Clause) | Secure data serialization |
 | `Jinja2`                     | 3.1.6       | [BSD-3-Clause](https://opensource.org/license/BSD-3-Clause) | Templating engine |
 | `MarkupSafe`                 | 3.0.2       | [BSD-3-Clause](https://opensource.org/license/BSD-3-Clause) | HTML/XML string safety |
 | `marshmallow`                | 4.0.0       | [MIT](https://opensource.org/license/MIT) | Object serialization/deserialization |
 | `marshmallow-sqlalchemy`     | 1.4.2       | [MIT](https://opensource.org/license/MIT) | SQLAlchemy integration for marshmallow |
 | `packaging`                  | 25.0        | [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) or [MIT](https://opensource.org/license/MIT) | Package version utilities |
+| `pluggy`                     | 1.6.0       | [MIT](https://opensource.org/license/MIT) | Plugin system for pytest |
 | `psycopg2-binary`            | 2.9.10      | [LGPL-3.0](https://www.gnu.org/licenses/lgpl-3.0.html) | PostgreSQL adapter for Python |
+| `Pygments`                   | 2.19.2      | [BSD-2-Clause](https://opensource.org/license/BSD-2-Clause) | Syntax highlighting |
+| `PyJWT`                      | 2.10.1      | [MIT](https://opensource.org/license/MIT) | JWT encoding/decoding |
+| `pytest`                     | 8.4.1       | [MIT](https://opensource.org/license/MIT) | Testing framework |
 | `python-dotenv`              | 1.1.1       | [BSD-3-Clause](https://opensource.org/license/BSD-3-Clause) | `.env` file loader |
 | `SQLAlchemy`                 | 2.0.41      | [MIT](https://opensource.org/license/MIT) | ORM and database toolkit |
 | `typing_extensions`          | 4.14.1      | [PSF-2.0](https://opensource.org/license/psf-2-0/) | Backported type hints |
