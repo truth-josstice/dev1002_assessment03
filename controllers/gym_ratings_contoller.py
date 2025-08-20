@@ -91,14 +91,14 @@ def get_gym_info():
     # Serialize and return using schema
     return jsonify(gym_rating_summaries_schema.dump(response_data))
 
-# @gym_rating_bp.route('/details/')
-# def get_gym_ratings():
-#     '''Function to GET multiple gym_ratings from the database'''
-#     # GET statement: SELECT * FROM gym_ratings; --> shows all details of every review
-#     stmt = db.select(GymRating)
-#     gym_ratings = db.session.scalars(stmt).all()
+@gym_rating_bp.route('/details/')
+def get_gym_ratings():
+    '''Function to GET all individual gym_ratings from the database'''
+    # GET statement: SELECT * FROM gym_ratings; --> shows all details of every review
+    stmt = db.select(GymRating)
+    gym_ratings = db.session.scalars(stmt).all()
 
-#     if not gym_ratings:
-#         return {"message": "No gym_rating records found."}, 404
+    if not gym_ratings:
+        return {"message": "No gym_rating records found."}, 404
     
-#     return jsonify(gym_ratings_schema.dump(gym_ratings))
+    return jsonify(gym_ratings_schema.dump(gym_ratings))

@@ -11,4 +11,4 @@ class GymRating(db.Model):
 
     gym = db.relationship("Gym", back_populates="gym_rating")
     user = db.relationship("User", back_populates="gym_rating")
-    skill_level = db.relationship("SkillLevel", back_populates="gym_rating")
+    recommended_skill_level = db.relationship("SkillLevel", back_populates="gym_rating")

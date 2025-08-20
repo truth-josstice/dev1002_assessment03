@@ -9,12 +9,12 @@ class GymRatingSchema(SQLAlchemyAutoSchema):
         load_instance = True
         include_fk = False
         include_relationships = True
-        fields = ("gym", "user", "skill_level", "difficulty_rating", "review")
+        fields = ("gym", "user", "recommended_skill_level", "difficulty_rating", "review")
         ordered = True
     
-    skill_level = Nested("SkillLevelSchema", only=("id", "level"))
+    recommended_skill_level = Nested("SkillLevelSchema", only=("id", "level"))
     gym = Nested("GymSchema", only=("id", "name"))
-    user = Nested("UserSchema", only=("id", "username"))
+    user = Nested("UserSchema", only=("id", "username", "user_skill_level.level"))
 
 
 gym_rating_schema = GymRatingSchema()

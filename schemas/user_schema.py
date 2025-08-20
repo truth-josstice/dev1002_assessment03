@@ -10,9 +10,9 @@ class UserSchema(SQLAlchemyAutoSchema):
         include_fk = True
         # exclude = ("_password_hash",)
         ordered = True
-        fields = ("id", "username", "email", "first_name", "last_name", "skill_level")
+        fields = ("id", "username", "email", "first_name", "last_name", "user_skill_level")
     
-    skill_level = Nested("SkillLevelSchema")
+    user_skill_level = Nested("SkillLevelSchema")
 
 
 user_schema = UserSchema()
