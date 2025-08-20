@@ -123,7 +123,39 @@ def seed_tables():
             first_name="First",
             last_name="Last",
             skill_level_id=2
-        )
+        ),
+        User(
+            username = "username4",
+            password="securepassword12345",
+            email="email2@email.com",
+            first_name="First",
+            last_name="Last",
+            skill_level_id=3
+        ),
+        User(
+            username = "username5",
+            password="securepassword123456",
+            email="email3@email.com",
+            first_name="First",
+            last_name="Last",
+            skill_level_id=2
+        ),
+        User(
+            username = "username6",
+            password="securepassword1234567",
+            email="email4@email.com",
+            first_name="First",
+            last_name="Last",
+            skill_level_id=2
+        ),
+        User(
+            username = "username7",
+            password="securepassword12345678",
+            email="email5@email.com",
+            first_name="First",
+            last_name="Last",
+            skill_level_id=1
+        ),
     ]
 
     db.session.add_all(users)
@@ -232,25 +264,88 @@ def seed_tables():
     
     gym_ratings = [
         GymRating(
-            gym_id = gyms[0].id,
-            user_id = users[0].id,
+            gym_id = 1,
+            user_id = 1,
             difficulty_rating = 7,
             skill_level_id = 1,
             review = "This gym is great for all skill levels, it's beginner friendly"
         ),
         GymRating(
-            gym_id = gyms[1].id,
-            user_id = users[1].id,
+            gym_id = 2,
+            user_id = 2,
             difficulty_rating = 10,
             skill_level_id = 2,
             review = "This gym has some tough climbs, even the easiest are intermediate level"
         ),
         GymRating(
-            gym_id = gyms[0].id,
-            user_id = users[1].id,
+            gym_id = 1,
+            user_id = 2,
             difficulty_rating = 6,
             skill_level_id = 1,
             review = "Lots of climbs in the lower grades, even in the overhang section!"
+        ),
+        GymRating(
+            gym_id = 2,
+            user_id = 1,
+            difficulty_rating = 9,
+            skill_level_id = 2,
+            review = "This gym tested my patience"
+        ),
+        GymRating(
+            gym_id = 3,
+            user_id = 1,
+            difficulty_rating = 10,
+            skill_level_id = 3,
+            review = "This gym really tests you"
+        ),        
+        GymRating(
+            gym_id = 3,
+            user_id = 2,
+            difficulty_rating = 10,
+            skill_level_id = 2,
+            review = "Test review string"
+        ),
+        GymRating(
+            gym_id = 1,
+            user_id = 3,
+            difficulty_rating = 6,
+            skill_level_id = 2,
+            review = "I'll review the test"
+        ),
+        GymRating(
+            gym_id = 1,
+            user_id = 4,
+            difficulty_rating = 8,
+            skill_level_id = 3,
+            review = "I test really poorly"
+        ),
+        GymRating(
+            gym_id = 2,
+            user_id = 5,
+            difficulty_rating = 8,
+            skill_level_id = 3,
+            review = "I test really well"
+        ),
+        GymRating(
+            gym_id = 2,
+            user_id = 6,
+            difficulty_rating = 4,
+            skill_level_id = 1,
+            review = "Testing is easy"
+        ),
+        GymRating(
+            gym_id = 2,
+            user_id = 3,
+            difficulty_rating = 10,
+            skill_level_id = 1,
+            review = "Everyone loves a test"
+        ),
+        GymRating(
+            gym_id = 3,
+            user_id = 4,
+            difficulty_rating = 1,
+            skill_level_id = 1,
+            review = "Tests are for babies"
         )
     ]
     
