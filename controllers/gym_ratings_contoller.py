@@ -49,7 +49,7 @@ def get_gym_info():
 
      # Get all ratings with skill level relationships loaded
     all_ratings = db.session.scalars(
-        select(GymRating).options(db.joinedload(GymRating.skill_level))
+        select(GymRating).options(db.joinedload(GymRating.recommended_skill_level))
     ).all()
 
     # Group by gym and find most common skill level
@@ -59,7 +59,7 @@ def get_gym_info():
         if gym_id not in gym_skill_levels:
             gym_skill_levels[gym_id] = []
         
-        serialized_skill = skill_level_schema.dump(rating.skill_level)
+        serialized_skill = skill_level_schema.dump(rating.recommended_skill_level)
         gym_skill_levels[gym_id].append(serialized_skill)
 
     # Build customised response data
