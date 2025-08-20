@@ -39,13 +39,13 @@
 
 ## Reflections
 
-- ERD needs further clarity including not null constraints
+- ERD needs further clarity including not null constraints, as these were not complete across the diagram
 - Consider using a composite key for gym_ratings, as a unique primary key may be redundant
-- some columns makes sense for users familiar with climbing but not for beginner user, needs clarity in purpose and usage statements
-- some varchar statements are too limited or not appropriate
-- including a brief point covering ACID v BASE would provide further clarity on choosing Relational Database
-- comparing the three database management systems could again be more contextual and nuanced
-- difficulty_grade examples should be included in the readme Usage Instructions
+- Some columns makes sense for users familiar with climbing but not for beginner user, needs clarity in purpose and usage statements
+- Some varchar statements are too limited or not appropriate
+- Including a brief point covering ACID v BASE would provide further clarity on choosing Relational Database
+- Comparing the three database management systems could again be more contextual and nuanced
+- Difficulty_grade examples should be included in the readme Usage Instructions
 
 ## Action Plan
 
@@ -59,10 +59,12 @@
 ## Implementation
 
 1. NOT NULL constraints added to ERD
-2. Changed name variables from 32 to 100 which should cover most extreme edge cases of name lengths for individuals or corporations
-3. Updated README with clearer description of purpose and user stories.
-4. Added comparison of ACID v BASE to README file to further detail the benefits of my chosen database management system
-5. Added details about why I chose the particular DBMS and why I chose the comparative systems
+2. Changed to a composite key for GymRatings!
+    - Had to abandon this composite key, as it would not allow for cascading of records when user with matching user_id was deleted
+3. Changed name variables from 32 to 100 which should cover most extreme edge cases of name lengths for individuals or corporations
+4. Updated README with clearer description of purpose and user stories.
+5. Added comparison of ACID v BASE to README file to further detail the benefits of my chosen database management system
+6. Added details about why I chose the particular DBMS and why I chose the comparative systems
 
 ---
 
@@ -147,7 +149,11 @@
 ## Action Plans
 
 1. As I have followed Jordan's feedback and changed the primary key for the gym_ratings table to a composite PK, no action needs to be taken to ensure this is enforced in the database
-2. Change limit of text input for comments in attempts table
+2. Change limit of text input for comments in attempts table to allow for appropriate length and reflection
 3. Add to future plans and development in README considerations about addition of "status" v "completed"
 4. Change the attempt_date column to attempted_at and change the default value to current date+time
 5. Create lookup table for styles and skill level
+
+## Implementation
+
+1 
