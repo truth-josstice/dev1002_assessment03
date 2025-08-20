@@ -2,8 +2,8 @@ import pytest
 
 from marshmallow import ValidationError
 from init import db
-from models.company import Company
-from schemas.company_schema import company_schema, companies_schema
+from models import Company
+from schemas import company_schema, companies_schema
 
 def test_company_schema_serialization(app):
     """Test company schema serialization to JSON format"""

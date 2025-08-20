@@ -2,8 +2,8 @@ from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 from marshmallow_sqlalchemy.fields import RelatedList, Nested
 from marshmallow import fields
 
-from models.attempts import Attempt
-from schemas.climb_schema import ClimbSchema
+from models.attempt import Attempt
+from schemas.climb import ClimbSchema
 
 class AttemptSchema(SQLAlchemyAutoSchema):
     class Meta:

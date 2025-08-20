@@ -1,7 +1,7 @@
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 from marshmallow import fields
 
-from models.climbs import Climb
+from models.climb import Climb
 
 class ClimbSchema(SQLAlchemyAutoSchema):
     class Meta:

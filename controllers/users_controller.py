@@ -3,8 +3,8 @@ from flask_jwt_extended import create_access_token, jwt_required, current_user
 from datetime import timedelta
 
 from init import db
-from models.users import User
-from schemas.user_schema import user_schema, users_schema
+from models.user import User
+from schemas.user import user_schema, users_schema
 
 user_bp = Blueprint("user", __name__, url_prefix="/users")
 

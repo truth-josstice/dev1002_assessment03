@@ -41,7 +41,7 @@ def test_seed_tables(runner):
     
     # Verify data was actually seeded into the test database
     with create_app().app_context():
-        from models.company import Company
+        from models import Company
         companies = Company.query.all()
         assert len(companies) == 2
         assert companies[0].name == "Company 1"

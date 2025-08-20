@@ -2,8 +2,7 @@ from init import db
 
 def test_company_gym_relationship(app):
     """Test that a company can have multiple gyms"""
-    from models.company import Company
-    from models.gyms import Gym
+    from models import Company, Gym
     
     with app.app_context():
         # Create a company

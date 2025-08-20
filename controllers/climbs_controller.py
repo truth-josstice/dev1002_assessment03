@@ -1,8 +1,8 @@
 from flask import Blueprint, jsonify, request
 
 from init import db
-from models.climbs import Climb
-from schemas.climb_schema import climb_schema, climbs_schema
+from models import Climb
+from schemas import climb_schema, climbs_schema
 
 climb_bp = Blueprint("climb", __name__, url_prefix="/climbs")
 

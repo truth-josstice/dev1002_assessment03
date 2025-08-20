@@ -2,10 +2,10 @@ from flask import Blueprint, jsonify, request
 from sqlalchemy.orm import joinedload
 
 from init import db
-from models.gyms import Gym
+from models.gym import Gym
 
-from schemas.climb_schema import climbs_schema
-from schemas.gym_schema import gym_schema, gyms_schema
+from schemas.climb import climbs_schema
+from schemas.gym import gym_schema, gyms_schema
 
 gym_bp = Blueprint("gym", __name__, url_prefix="/gyms")
 

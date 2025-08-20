@@ -2,9 +2,8 @@ from init import db
 
 def test_company_deletion_cascades_to_gyms(app):
     """Test that when a company is deleted, its gyms are also deleted"""
-    from models.company import Company
-    from models.gyms import Gym
-    
+    from models import Company, Gym
+        
     with app.app_context():
         # Create test data
         company = Company(name="Cascade Test", website="www.cascade.com")

@@ -5,9 +5,8 @@ from init import db
 
 def test_gym_schema_with_company_serialization(app):
     """Test gym schema includes company data when serialized"""
-    from models.company import Company
-    from models.gyms import Gym
-    from schemas.gym_schema import gym_schema
+    from models import Company, Gym
+    from schemas import gym_schema
     
     with app.app_context():
         # Create test data
@@ -29,12 +28,12 @@ def test_gym_schema_with_company_serialization(app):
         
         # Test the serialized output
         assert result["name"] == "Schema Test Gym"
-        assert "company_name" in result  # Check relationship is included
-        assert result["company_name"] == "Schema Test Company"
+        assert "company" in result  # Check relationship is included
+        assert result["company"]["name"] == "Schema Test Company"
 
 def test_gym_schema_company_validation(app):
     """Test that gym schema validates company_id exists"""
-    from schemas.gym_schema import gym_schema
+    from schemas.gym import gym_schema
     
     with app.app_context():
         # Try to create gym with non-existent company

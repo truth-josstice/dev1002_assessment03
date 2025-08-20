@@ -15,6 +15,6 @@ def user_callback(_jwt_header, jwt_data):
     The function below accesses that token to load a user based on the decoded token data.
     Any time the JWT required function is called, this function will run to verify credentials.
     """
-    from models.users import User # Imports the user model only when called
+    from models.user import User # Imports the user model only when called
     identity = jwt_data["sub"]
     return db.session.get(User, identity)

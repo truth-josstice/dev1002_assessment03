@@ -4,12 +4,15 @@ from sqlalchemy import func, select
 from collections import Counter
 
 from init import db
-from models.gym_ratings import GymRating
-from models.gyms import Gym
-from models.skill_level import SkillLevel
-from schemas.gym_rating_summary_schema import gym_rating_summaries_schema
-from schemas.skill_level_schema import skill_level_schema
-from schemas.gym_rating_schema import gym_rating_schema, gym_ratings_schema
+
+from models import GymRating, Gym
+
+from schemas import (
+    gym_rating_summaries_schema,
+    gym_rating_schema,
+    gym_ratings_schema,
+    skill_level_schema
+)
 
 gym_rating_bp = Blueprint("gym_rating", __name__, url_prefix="/gym_ratings")
 

@@ -2,8 +2,8 @@ from flask import Blueprint, jsonify, request
 from flask_jwt_extended import current_user, jwt_required
 
 from init import db
-from models.attempts import Attempt
-from schemas.attempt_schema import attempt_schema, attempts_schema
+from models import Attempt
+from schemas import attempt_schema, attempts_schema
 
 attempt_bp = Blueprint("attempt", __name__, url_prefix="/attempts")
 

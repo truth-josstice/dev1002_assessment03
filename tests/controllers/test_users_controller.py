@@ -1,5 +1,7 @@
 from init import db
 
+from models import User, SkillLevel
+
 def test_get_users_empty(client):
     """Test GET /users with no users (empty DB) returns error and correct status code"""
     response = client.get('/users/')
@@ -10,13 +12,20 @@ def test_get_users_with_data(client, app):
     """Test GET /users with existing users returns correct responses and status code"""
     # Add test user directly with discrete paramaters
     with app.app_context():
-        from models.users import User
+        skill = SkillLevel(
+            id = 1,
+            level = "Beginner",
+            description = "testdescription"
+        )
+        db.session.add(skill)
+        db.session.commit()
+
         test_user = User(
             username="testuser",
             email="test@test.com",
             first_name="Test",
-            climbing_ability="5.10a",
-            password="123"
+            skill_level_id=skill.id,
+            password="test123"  # Will be hashed by model
         )
         db.session.add(test_user)
         db.session.commit()

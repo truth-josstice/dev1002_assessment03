@@ -1,14 +1,18 @@
 from flask import Blueprint
 from init import db
 
-from models.company import Company
-from models.gyms import Gym
-from models.users import User
-from models.climbs import Climb
-from models.attempts import Attempt
-from models.gym_ratings import GymRating
-from models.styles import Style
-from models.skill_level import SkillLevel
+from models import (
+    Attempt,
+    Climb,
+    Company,
+    GymRating,
+    Gym,
+    SkillLevel,
+    Style,
+    User
+)
+
+
 
 db_commands = Blueprint("db", __name__)
 

@@ -1,17 +1,25 @@
 import pytest
 from marshmallow import ValidationError
 from init import db
-from models.users import User
-from schemas.user_schema import user_schema, users_schema
+from models import User, SkillLevel
+from schemas import user_schema, users_schema
 
 def test_user_schema_serialization(app):
     """Test user schema serialization to JSON format"""
     with app.app_context():
+        skill = SkillLevel(
+            id = 1,
+            level = "Beginner",
+            description = "testdescription"
+        )
+        db.session.add(skill)
+        db.session.commit()
+
         user = User(
             username="serial_test",
             email="serial@test.com",
             first_name="Serial",
-            climbing_ability="5.10a",
+            skill_level_id=skill.id,
             password="test123"  # Will be hashed by model
         )
         db.session.add(user)
@@ -27,12 +35,12 @@ def test_user_schema_deserialization(app):
     """Test schema loading with valid User object data"""
     with app.app_context():
         # Test data matching what your schema actually accepts
+
         valid_data = {
             "username": "load_test",
             "email": "load@test.com",
             "first_name": "Load",
-            "last_name": "Test",
-            "climbing_ability": "5.9"
+            "last_name": "Test"
             # Omit password since it is not returned in the data
         }
         
@@ -44,12 +52,19 @@ def test_user_schema_password_handling(app):
     """Test password is handled outside of the user schema in order to never be displayed as part of request"""
     with app.app_context():
         # Create user directly to test password
+        skill = SkillLevel(
+            id = 1,
+            level = "Beginner",
+            description = "testdescription"
+        )
+        db.session.add(skill)
+        db.session.commit()
         user = User(
-            username="pw_test",
-            email="pw@test.com",
-            first_name="Password",
-            climbing_ability="5.8",
-            password="correct123"  # Hashed using the password.setter bcrypt decorator function
+            username="serial_test",
+            email="serial@test.com",
+            first_name="Serial",
+            skill_level_id=skill.id,
+            password="test123"  # Will be hashed by model
         )
         db.session.add(user)
         db.session.commit()
