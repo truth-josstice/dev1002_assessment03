@@ -9,7 +9,7 @@ gym_rating_bp = Blueprint("gym_rating", __name__, url_prefix="/gym_ratings")
 @gym_rating_bp.route('/')
 def get_gym_ratings():
     '''Function to GET multiple gym_ratings from the database'''
-    # GET statement: SELECT * FROM gym_ratings;
+    # GET statement: SELECT * FROM gym_ratings; --> shows all details of every review
     stmt = db.select(GymRating)
     gym_ratings = db.session.scalars(stmt).all()
 
