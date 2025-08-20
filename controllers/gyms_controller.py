@@ -1,10 +1,8 @@
 from flask import Blueprint, jsonify, request
 from sqlalchemy.orm import joinedload
-from sqlalchemy import func, select
 
 from init import db
 from models.gyms import Gym
-from models.gym_ratings import GymRating
 
 from schemas.climb_schema import climbs_schema
 from schemas.gym_schema import gym_schema, gyms_schema
@@ -22,25 +20,6 @@ def get_gyms():
         return {"message": "No gym records found."}, 404
     
     return jsonify(gyms_schema.dump(gyms))
-
-@gym_bp.route('/info/')
-def get_gym_info():
-    """
-    """
-    stmt = (
-        select(
-            GymRating.gym_id,
-            func.avg(GymRating.difficulty_rating).label("average__difficulty_rating"),
-            func.count().label("review_count"),
-            func.max(GymRating.skill_level_id).label("recommended_skill_level")
-        )
-        .group_by(GymRating.gym_id)
-        .order_by(GymRating.gym_id)
-    )
-
-    results = db.session.execute(stmt).all()
-    
-    
 
 
 @gym_bp.route('/climbs/')

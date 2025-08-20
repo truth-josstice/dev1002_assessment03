@@ -6,6 +6,8 @@ from schemas.company_schema import company_schema, companies_schema
 
 company_bp = Blueprint("company", __name__, url_prefix="/companies")
 
+
+
 @company_bp.route('/')
 def get_companies():
     '''Function to GET multiple companies from the database'''
