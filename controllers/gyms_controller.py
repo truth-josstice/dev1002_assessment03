@@ -4,8 +4,11 @@ from sqlalchemy.orm import joinedload
 from init import db
 from models.gym import Gym
 
-from schemas.climb import climbs_schema
-from schemas.gym import gym_schema, gyms_schema
+from schemas import (
+    climbs_output_schema, 
+    gym_schema, 
+    gyms_schema
+)
 
 gym_bp = Blueprint("gym", __name__, url_prefix="/gyms")
 
@@ -21,6 +24,18 @@ def get_gyms():
     
     return jsonify(gyms_schema.dump(gyms))
 
+@gym_bp.route('/<int:gym_id>/')
+def get_a_gym(gym_id):
+    '''Function to get a single gym record from the database'''
+    # GET statements: SELECT * FROM gyms WHERE Gym.id == gym_id;
+    stmt = db.select(Gym).where(Gym.id==gym_id)
+    gym = db.session.scalar(stmt)
+
+    if not gym:
+        return {"message": f"No gym with id {gym_id} exists."},404
+    
+    return jsonify(gym_schema.dump(gym))
+
 
 @gym_bp.route('/climbs/')
 def get_gym_climbs():
@@ -35,7 +50,7 @@ def get_gym_climbs():
             "gym_id": gym.id,
             "name": gym.name,
             "city": gym.city,
-            "climbs": climbs_schema.dump(gym.climbs)
+            "climbs": climbs_output_schema.dump(gym.climbs)
         }
         result.append(gym_data)
     

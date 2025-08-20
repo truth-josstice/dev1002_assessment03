@@ -1,6 +1,6 @@
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
-from models.style import Style
+from models import Style
 
 class StyleSchema(SQLAlchemyAutoSchema):
     class Meta:

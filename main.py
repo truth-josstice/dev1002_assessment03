@@ -9,7 +9,7 @@ from controllers.company_controller import company_bp
 from controllers.gyms_controller import gym_bp
 from controllers.climbs_controller import climb_bp
 from controllers.attempts_controller import attempt_bp
-from controllers.gym_ratings_contoller import gym_rating_bp
+from controllers.gym_ratings_controller import gym_rating_bp
 from controllers.users_controller import user_bp
 
 load_dotenv()

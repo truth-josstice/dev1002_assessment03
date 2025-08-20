@@ -1,7 +1,7 @@
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 from marshmallow_sqlalchemy.fields import Nested
 
-from models.gym_rating import GymRating
+from models import GymRating
 
 class GymRatingSchema(SQLAlchemyAutoSchema):
     class Meta:

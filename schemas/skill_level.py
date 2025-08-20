@@ -1,6 +1,6 @@
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
-from models.skill_level import SkillLevel
+from models import SkillLevel
 
 class SkillLevelSchema(SQLAlchemyAutoSchema):
     class Meta:

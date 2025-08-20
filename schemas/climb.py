@@ -1,9 +1,15 @@
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 from marshmallow import fields
 
-from models.climb import Climb
+from models import Climb
 
-class ClimbSchema(SQLAlchemyAutoSchema):
+class ClimbInputSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Climb
+        load_instance = True
+        include_fk = True
+
+class ClimbOutputSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = Climb
         load_instance = True
@@ -16,6 +22,7 @@ class ClimbSchema(SQLAlchemyAutoSchema):
     username = fields.String(attribute="user.username")
     style_name = fields.String(attribute="styles.name")
 
-
-climb_schema = ClimbSchema()
-climbs_schema = ClimbSchema(many=True)
+climb_input_schema = ClimbInputSchema()
+climb_inputs_schema = ClimbInputSchema(many=True)
+climb_output_schema = ClimbOutputSchema()
+climbs_output_schema = ClimbOutputSchema(many=True)

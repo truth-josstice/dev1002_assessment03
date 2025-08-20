@@ -27,10 +27,10 @@ def get_gym_info():
         select(
             GymRating.gym_id,
             func.avg(GymRating.difficulty_rating).label("average_rating"),
-            func.count().label("review_count"),
+            func.count(GymRating.id).label("review_count"),  # ✅ Count by ID
         )
-        .group_by(GymRating.gym_id) # Group by Gym
-        .order_by(GymRating.gym_id) # Order by Gym Id
+        .group_by(GymRating.gym_id)
+        .order_by(GymRating.gym_id)
     )
 
     results = db.session.execute(stmt).all() # Executes the SQL Query

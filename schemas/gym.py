@@ -1,7 +1,7 @@
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 from marshmallow_sqlalchemy.fields import RelatedList, Nested
 
-from models.gym import Gym
+from models import Gym
 
 class GymSchema(SQLAlchemyAutoSchema):
     class Meta:
@@ -13,7 +13,6 @@ class GymSchema(SQLAlchemyAutoSchema):
         ordered = True
 
     company = Nested("CompanySchema")
-    
 
 gym_schema = GymSchema()
 gyms_schema = GymSchema(many=True)

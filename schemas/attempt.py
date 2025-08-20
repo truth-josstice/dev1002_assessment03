@@ -2,8 +2,7 @@ from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 from marshmallow_sqlalchemy.fields import RelatedList, Nested
 from marshmallow import fields
 
-from models.attempt import Attempt
-from schemas.climb import ClimbSchema
+from models import Attempt
 
 class AttemptSchema(SQLAlchemyAutoSchema):
     class Meta:
@@ -15,7 +14,7 @@ class AttemptSchema(SQLAlchemyAutoSchema):
                 "comments", "completed", "attempted_at")
         ordered = True
         
-    climb = Nested("ClimbSchema", only=("id", "gym_name", "style_name"))
+    climb = Nested("ClimbOutputSchema", only=("id", "gym_name", "style_name"))
 
 attempt_schema = AttemptSchema()
 attempts_schema = AttemptSchema(many=True)
