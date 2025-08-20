@@ -9,6 +9,8 @@ class UserSchema(SQLAlchemyAutoSchema):
         load_instance = True
         include_fk = True
         exclude = ("_password_hash",)
+        ordered = True
+        
     
     skill_level = Nested("SkillLevelSchema")
 

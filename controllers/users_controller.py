@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, session
 from flask_jwt_extended import create_access_token, jwt_required, current_user
 from datetime import timedelta
 
@@ -22,6 +22,13 @@ def get_users():
 
 @user_bp.route('/login/', methods=["POST"])
 def user_login():
+    """
+    On successful login, the frontend should: 
+    1. Store the current user token
+    2. Redirect to the user profile with:
+        - Authorization: Bearer <token>
+    """
+    
     # Get login credentials from JSON body data
     body_data = request.get_json()
 
@@ -42,12 +49,19 @@ def user_login():
         identity=str(user.id),
         expires_delta=timedelta(hours=2)
     )
+    
 
-    # Return the user details and the token
+    # Return the token and redirect to the user's profile
     return {
-        "message": f"User {user.username} logged in successfully!",
-        "token": token
-    }, 200
+        "token": token,
+        "redirect": {
+            "url": "/profile/",
+            "method": "GET",
+            "headers": {
+                "Authorization": f"Bearer {token}"
+            }
+        }
+    }
     
 @user_bp.route('/profile/')
 @jwt_required()
