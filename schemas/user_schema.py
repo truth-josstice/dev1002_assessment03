@@ -1,5 +1,5 @@
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
-from marshmallow_sqlalchemy.fields import Nested
+from marshmallow_sqlalchemy.fields import Nested, RelatedList
 
 from models.users import User
 
@@ -8,9 +8,9 @@ class UserSchema(SQLAlchemyAutoSchema):
         model = User
         load_instance = True
         include_fk = True
-        exclude = ("_password_hash",)
+        # exclude = ("_password_hash",)
         ordered = True
-        
+        fields = ("id", "username", "email", "first_name", "last_name", "skill_level")
     
     skill_level = Nested("SkillLevelSchema")
 

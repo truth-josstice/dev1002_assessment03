@@ -8,7 +8,8 @@ climb_bp = Blueprint("climb", __name__, url_prefix="/climbs")
 
 @climb_bp.route('/')
 def get_climbs():
-    '''Function to GET multiple climbs from the database'''
+    '''Function to GET multiple climbs from the database. 
+    All visitors to site can use this function.'''
     # GET statement: SELECT * FROM climbs;
     stmt = db.select(Climb)
     climbs = db.session.scalars(stmt).all()

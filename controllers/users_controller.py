@@ -52,7 +52,7 @@ def user_login():
     
 
     # Return the token and redirect to the user's profile
-    return {
+    return jsonify({
         "token": token,
         "redirect": {
             "url": "/profile/",
@@ -61,9 +61,10 @@ def user_login():
                 "Authorization": f"Bearer {token}"
             }
         }
-    }
+    })
     
 @user_bp.route('/profile/')
 @jwt_required()
 def get_user_profile():
     return jsonify(user_schema.dump(current_user))
+
