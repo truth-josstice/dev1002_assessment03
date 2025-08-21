@@ -20,7 +20,7 @@ def test_user_schema_serialization(app):
             email="serial@test.com",
             first_name="Serial",
             skill_level_id=skill.id,
-            password="test123"  # Will be hashed by model
+            password="Test123!"  # Will be hashed by model
         )
         db.session.add(user)
         db.session.commit()
@@ -64,7 +64,7 @@ def test_user_schema_password_handling(app):
             email="serial@test.com",
             first_name="Serial",
             skill_level_id=skill.id,
-            password="test123"  # Will be hashed by model
+            password="Test123!"  # Will be hashed by model
         )
         db.session.add(user)
         db.session.commit()

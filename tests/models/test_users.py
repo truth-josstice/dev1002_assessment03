@@ -19,7 +19,7 @@ def test_user_creation(app):
             email="simple@test.com",
             first_name="Simple",
             skill_level_id=skill.id,
-            password="test123"  # Will be hashed by model
+            password="Test123!"  # Will be hashed by model
         )
         assert user.username == "simpleuser"
         assert user.email == "simple@test.com"

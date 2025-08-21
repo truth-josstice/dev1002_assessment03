@@ -4,9 +4,10 @@ from flask_jwt_extended import current_user, jwt_required
 from init import db
 from models import Attempt
 from schemas import (
-    attempt_schema, 
-    attempts_schema,
-    admin_attempts_schema
+    attempt_output_schema, 
+    attempts_output_schema,
+    admin_attempts_schema,
+    attempt_input_schema
 )
 from utils import admin_required
 
@@ -25,7 +26,7 @@ def get_user_attempts():
     
     return jsonify({
         "username": current_user.username, 
-        "attempts": attempts_schema.dump(attempts)
+        "attempts": attempts_output_schema.dump(attempts)
         })
 
 @attempt_bp.route('/<int:attempt_id>/')
@@ -42,7 +43,23 @@ def get_a_single_attempt(attempt_id):
     if not attempt:
         return {"message": "No attempt record found."}
     
-    return jsonify(attempt_schema.dump(attempt))
+    return jsonify(attempt_output_schema.dump(attempt))
+
+@attempt_bp.route('/add-attempt/', methods=["POST"])
+@jwt_required()
+def add_an_attempt():
+    """Function to add a single attempt using current_user"""
+    # GET JSON body data
+    body_data = request.get_json()
+
+    new_attempt = attempt_input_schema.load(body_data, session=db.session)
+
+    new_attempt.user = current_user
+
+    db.session.add(new_attempt)
+    db.session.commit()
+
+    return jsonify(attempt_output_schema.dump(new_attempt))
 
 @attempt_bp.route('/all/')
 @jwt_required()

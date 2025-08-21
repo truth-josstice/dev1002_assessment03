@@ -4,7 +4,7 @@ from marshmallow import fields
 
 from models import Attempt
 
-class AttemptSchema(SQLAlchemyAutoSchema):
+class AttemptOutputSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = Attempt
         load_instance = True
@@ -16,8 +16,6 @@ class AttemptSchema(SQLAlchemyAutoSchema):
         
     climb = Nested("ClimbOutputSchema", only=("id", "gym_name", "style_name"))
 
-attempt_schema = AttemptSchema()
-attempts_schema = AttemptSchema(many=True)
 
 class AdminAttemptSchema(SQLAlchemyAutoSchema):
     class Meta:
@@ -31,4 +29,16 @@ class AdminAttemptSchema(SQLAlchemyAutoSchema):
 
     climb = Nested("ClimbOutputSchema")
 
+
+class AttemptInputSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Attempt
+        load_instance = True
+        include_fk = True
+
+
+attempt_output_schema = AttemptOutputSchema()
+attempts_output_schema = AttemptOutputSchema(many=True)
 admin_attempts_schema = AdminAttemptSchema(many=True)
+attempt_input_schema = AttemptInputSchema()
+attempts_input_schema = AttemptInputSchema(many=True)

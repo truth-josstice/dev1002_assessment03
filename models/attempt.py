@@ -12,7 +12,7 @@ class Attempt(db.Model):
     climb_id: int = db.Column(db.Integer, db.ForeignKey("climbs.id"))
     fun_rating: int = db.Column(db.Integer, nullable=False)
     comments: str | None = db.Column(db.String)
-    completed: bool = db.Column(db.Boolean, default=False)
+    completed: bool = db.Column(db.Boolean, default=False, nullable=False)
     attempted_at: datetime = db.Column(db.DateTime, server_default=text("CURRENT_TIMESTAMP"))
 
     climb = db.relationship("Climb", back_populates="attempt")
