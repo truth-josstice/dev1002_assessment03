@@ -73,7 +73,7 @@ def add_a_gym():
     db.session.add(new_gym)
     db.session.commit()
 
-    return jsonify(gym_schema.dump(new_gym))
+    return jsonify(gym_schema.dump(new_gym)), 201
 
 @gym_bp.route('/admin/remove/<int:gym_id>', methods=["DELETE"])
 @jwt_required()

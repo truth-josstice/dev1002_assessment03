@@ -29,7 +29,7 @@ def get_gym_info():
         select(
             GymRating.gym_id,
             func.avg(GymRating.difficulty_rating).label("average_rating"),
-            func.count(GymRating.id).label("review_count"),  # ✅ Count by ID
+            func.count(GymRating.id).label("review_count"),  # Count by ID
         )
         .group_by(GymRating.gym_id)
         .order_by(GymRating.gym_id)
@@ -122,7 +122,7 @@ def get_a_gyms_reviews(gym_id):
         return jsonify(data)
     
     else:
-        return {"message": "Record not found"}
+        return {"message": "Record not found"}, 404
 
 @gym_rating_bp.route('/by-user/<int:user_id>/')
 def get_a_users_reviews(user_id):
@@ -138,7 +138,7 @@ def get_a_users_reviews(user_id):
         return jsonify(data)
     
     else:
-        return {"message": "Records not found"}
+        return {"message": "Records not found"}, 404
 
 
 @gym_rating_bp.route('/<int:rating_id>/')
@@ -185,14 +185,17 @@ def add_rating():
     db.session.add(new_rating)
     db.session.commit()
 
-    return jsonify(gym_rating_output_schema.dump(new_rating))
+    return jsonify(gym_rating_output_schema.dump(new_rating)), 201
 
 @gym_rating_bp.route('/remove-rating/<int:gym_rating_id>/', methods=["DELETE"])
 @jwt_required()
 def remove_a_gym_rating(gym_rating_id):
     """Function to DELETE a single gym rating belonging to the user"""
     #GET statement: SELECT * FROM gym_ratings WHERE GymRating.id == gym_rating_id;
-    stmt = db.select(GymRating).where(GymRating.id == gym_rating_id)
+    stmt = db.select(GymRating).where(
+        (GymRating.id == gym_rating_id) &
+        (GymRating.user_id == current_user.id)
+    )
     rating = db.session.scalar(stmt)
   
     # Check that the rating exists
@@ -200,13 +203,14 @@ def remove_a_gym_rating(gym_rating_id):
         return {"message": f"No rating was found with id {gym_rating_id}."}, 404
     
     # Check that the current user owns the rating
-    if GymRating.user_id != current_user.id:
-        return {"message": f"{current_user.username}, you are not authorised to delete this rating."}, 400
+    if rating.user_id != current_user.id:
+        return {"message": f"{current_user.username}, you are not authorised to delete this rating."}, 403
 
     # If both checks pass delete the rating
     db.session.delete(rating)
     db.session.commit()
     return {"message": f"Climb with id {gym_rating_id} has been removed successfully."}, 200
+
 
 @gym_rating_bp.route('/admin/remove/<int:gym_rating_id>/', methods=["DELETE"])
 @jwt_required()
@@ -221,22 +225,29 @@ def remove_any_rating(gym_rating_id):
     if not rating:
         return {"message": f"No rating was found with id {gym_rating_id}."}, 404
 
-    # If both checks pass delete the rating
+    # If check passes delete the rating
     db.session.delete(rating)
     db.session.commit()
     return {"message": f"Climb with id {gym_rating_id} has been removed successfully."}, 200
 
+
 @gym_rating_bp.route('/update/<int:gym_rating_id>/', methods=["PUT", "PATCH"])
 @jwt_required()
 def update_a_gym_rating_record(gym_rating_id):
-    """Function to UPDATE a single gym_rating from the database for admins"""
+    """Function to UPDATE a users own gym_rating from the database"""
     # GET statement: SELECT * FROM companies WHERE GymRating.id = gym_rating_id
-    stmt = db.select(GymRating).where(GymRating.id==gym_rating_id)
+    stmt = db.select(GymRating).where(
+        (GymRating.id==gym_rating_id) &
+        (GymRating.user_id==current_user.id)
+        )
     gym_rating = db.session.scalar(stmt)
 
     # Check that the gym rating exists
     if not gym_rating:
-        return {"message": f"GymRating with id {gym_rating_id} does not exist."}, 404
+        return {"message": f"Rating with id {gym_rating_id} does not exist."}, 404
+    
+    if current_user.id != gym_rating.id:
+        return {"message": f"{current_user.username}, you are not authorised to update this rating."}, 403
     
     # GET JSON body data
     body_data = request.get_json()

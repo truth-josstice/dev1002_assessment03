@@ -1,14 +1,11 @@
 from flask import Blueprint, jsonify, request
-from flask_jwt_extended import create_access_token, jwt_required
+from flask_jwt_extended import create_access_token, jwt_required, current_user
 from datetime import timedelta
 
 from init import db
 from models import User
 from schemas import (
-    UserSchema, 
-    UserInputSchema, 
-    user_schema, 
-    users_schema, 
+    user_output_schema, 
     user_input_schema
 )
 
@@ -83,7 +80,7 @@ def register_user():
     return {
         "message": "User created successfully.",
         "access_token": access_token,
-        "user": user_schema.dump(new_user)
+        "user": user_output_schema.dump(new_user)
         }, 201
 
 @auth_bp.route('/logout')
@@ -96,3 +93,18 @@ def user_logout():
     Future development would include refresh tokens and blacklist them on logout.
     """
     return {"message": "Successfully logged out, access token will expire shortly."}, 200
+
+@auth_bp.route('/delete-my-profile/')
+@jwt_required()
+def user_delete_profile():
+    """Function for user to delete their own profile"""
+    # GET statement: SELECT * FROM users WHERE id = current_user.id;
+    stmt = db.select(User).where(User.id == current_user.id)
+    user = db.session.scalar(stmt)
+
+    # User MUST exist due to JWT token requirement
+    # Delete user from database 
+    db.session.delete(user)
+    db.session.commit()
+
+    return {"message": "Your user account and all associated data has been deleted. Please join us again sometime."},201

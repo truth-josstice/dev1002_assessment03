@@ -74,7 +74,7 @@ def remove_a_climb(climb_id):
     
     # Check that the current user owns the climb
     if climb.user_id != current_user.id:
-        return {"message": f"{current_user.username}, you are not authorised to delete this climb."}, 400
+        return {"message": f"{current_user.username}, you are not authorised to delete this climb."}, 403
 
     # If both checks pass delete the climb
     db.session.delete(climb)
@@ -95,7 +95,7 @@ def update_a_climb_record(climb_id):
     
     # Check that the current user owns the climb
     if climb.user_id != current_user.id:
-        return {"message": f"{current_user.username}, you are not authorised to update this climb."}
+        return {"message": f"{current_user.username}, you are not authorised to update this climb."}, 403
     
     # GET JSON body data
     body_data = request.get_json()

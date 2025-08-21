@@ -86,7 +86,7 @@ def add_new_user():
     db.session.add(new_user)
     db.session.commit()
 
-    return jsonify(user_output_schema.dump(new_user))
+    return jsonify(user_output_schema.dump(new_user)), 201
 
 @user_bp.route('/admin/remove/<int:user_id>', methods=["DELETE"])
 @jwt_required()
