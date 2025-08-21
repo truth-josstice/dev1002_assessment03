@@ -65,8 +65,31 @@ def remove_a_company(company_id):
 
     return {"message": f"Company with id {company_id} deleted successfully."}, 200
 
-@company_bp.route('/update/<int:company_id>', methods=["PUT", "PATCH"])
+@company_bp.route('/update/<int:company_id>/', methods=["PUT", "PATCH"])
 @jwt_required()
 @admin_required
 def update_a_company_record(company_id):
+    """Function to UPDATE a single company from the database for admins"""
+    # GET statement: SELECT * FROM companies WHERE Company.id = company_id
+    stmt = db.select(Company).where(Company.id==company_id)
+    company = db.session.scalar(stmt)
+
+    # Check that the company exists
+    if not company:
+        return {"message": f"Company with id {company_id} does not exist."}, 404
     
+    # GET JSON body data
+    body_data = request.get_json()
+
+    # Load data into company through company_schema
+    updated_company = company_schema.load(
+        body_data,
+        instance = company,
+        session = db.session,
+        partial = True
+    )
+
+    db.session.add(updated_company)
+    db.session.commit()
+
+    return jsonify(company_schema.dump(updated_company))
