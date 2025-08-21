@@ -139,23 +139,19 @@ def get_a_users_reviews(user_id):
         return {"message": "Records not found"}
 
 
-@gym_rating_bp.route('/search/<int:gym_id>/<int:user_id>/')
-def get_a_gym_rating(gym_id, user_id):
+@gym_rating_bp.route('/search/<int:rating_id>/')
+def get_a_gym_rating(rating_id):
     """ 
     Retrieves a unique database record using a composite key and returns results in JSON format
     """
     # SELECT * FROM gym_ratings WHERE gym_rating.id == rating_id;
-    stmt = db.select(GymRating).where(
-        (GymRating.gym_id == gym_id) &
-        (GymRating.user_id == user_id)
-    )
+    stmt = db.select(GymRating).where(GymRating.id == rating_id)
     
     # Execute the query
     rating = db.session.scalar(stmt)
 
-    if rating:
-        data = gym_rating_schema.dump(rating)
-        return jsonify(data)
-
-    else:
+    if not rating:
         return {"message": "The record you are searching for does not exist."},404
+    
+    return jsonify(gym_rating_schema.dump(rating))
+        

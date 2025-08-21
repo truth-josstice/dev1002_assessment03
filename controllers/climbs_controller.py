@@ -25,11 +25,14 @@ def get_climbs():
     return jsonify(climbs_output_schema.dump(climbs))
 
 @climb_bp.route('/add-climb/', methods=["POST"])
+@jwt_required()
 def new_climb():
     # Get data from the REQUEST body
     body_data = request.get_json()
     
     new_climb = climb_input_schema.load(body_data, session=db.session)
+
+    new_climb.user = current_user
     
     db.session.add(new_climb)
     db.session.commit()
@@ -37,6 +40,7 @@ def new_climb():
     return jsonify(climb_output_schema.dump(new_climb)), 201
 
 @climb_bp.route('/add-climbs/', methods=["POST"])
+@jwt_required()
 def new_climbs():
     # Get data from the REQUEST body
     body_data = request.get_json()
@@ -45,6 +49,7 @@ def new_climbs():
 
     for data in body_data:
         new_climb = climb_input_schema.load(data, session=db.session)
+        new_climb.user = current_user
         new_climbs.append(new_climb)
     
     db.session.add_all(new_climbs)

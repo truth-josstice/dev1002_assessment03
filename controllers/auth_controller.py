@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from flask_jwt_extended import create_access_token, create_refresh_token
+from flask_jwt_extended import create_access_token, jwt_required
 from datetime import timedelta
 
 from init import db
@@ -84,3 +84,14 @@ def register_user():
         "access_token": access_token,
         "user": user_schema.dump(new_user)
         }, 201
+
+@auth_bp.route('/logout')
+@jwt_required()
+def user_logout():
+    """
+    Logout endpoint.
+    Note: The access tokens in this app have a short lifespan of 15 minutes.
+    At this stage of development I don't have refresh tokens so nothing is blacklisted.
+    Future development would include refresh tokens and blacklist them on logout.
+    """
+    return {"message": "Successfully logged out, access token will expire shortly."}, 200
