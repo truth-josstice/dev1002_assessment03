@@ -225,3 +225,31 @@ def remove_any_rating(gym_rating_id):
     db.session.delete(rating)
     db.session.commit()
     return {"message": f"Climb with id {gym_rating_id} has been removed successfully."}, 200
+
+@gym_rating_bp.route('/update/<int:gym_rating_id>/', methods=["PUT", "PATCH"])
+@jwt_required()
+def update_a_gym_rating_record(gym_rating_id):
+    """Function to UPDATE a single gym_rating from the database for admins"""
+    # GET statement: SELECT * FROM companies WHERE GymRating.id = gym_rating_id
+    stmt = db.select(GymRating).where(GymRating.id==gym_rating_id)
+    gym_rating = db.session.scalar(stmt)
+
+    # Check that the gym rating exists
+    if not gym_rating:
+        return {"message": f"GymRating with id {gym_rating_id} does not exist."}, 404
+    
+    # GET JSON body data
+    body_data = request.get_json()
+
+    # Load data into gym_rating through gym_rating_schema
+    updated_gym_rating = gym_rating_input_schema.load(
+        body_data,
+        instance = gym_rating,
+        session = db.session,
+        partial = True
+    )
+
+    db.session.add(updated_gym_rating)
+    db.session.commit()
+
+    return jsonify(gym_rating_output_schema.dump(updated_gym_rating))
