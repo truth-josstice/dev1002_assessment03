@@ -78,6 +78,9 @@ def register_user():
     db.session.commit()
 
     access_token = create_access_token(identity=new_user.id)
-    refresh_token = create_refresh_token(identity=new_user.id)
 
-    return jsonify(user_schema.dump(new_user))
+    return {
+        "message": "User created successfully.",
+        "access_token": access_token,
+        "user": user_schema.dump(new_user)
+        }, 201
