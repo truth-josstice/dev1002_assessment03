@@ -70,6 +70,7 @@ def register_user():
     if db.session.scalar(stmt):
         return {"message": "An account with this email already exists, please login or enter a different email."}, 409
     
+    # Check if user with username already exists
     stmt = db.select(User).where(User.username==new_user.username)
     if db.session.scalar(stmt):
         return {"message": f"An account with the username {new_user.username} already exists. Please choose a different username."}, 409

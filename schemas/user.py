@@ -5,7 +5,7 @@ from marshmallow import fields, validate
 from models import User
 from utils import validate_password_for_schema
 
-class UserSchema(SQLAlchemyAutoSchema):
+class UserOutputSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = User
         load_instance = True
@@ -29,6 +29,6 @@ class UserInputSchema(SQLAlchemyAutoSchema):
         validate=validate_password_for_schema
     )
 
-user_schema = UserSchema()
-users_schema = UserSchema(many=True)
+user_output_schema = UserOutputSchema()
+users_output_schema = UserOutputSchema(many=True)
 user_input_schema = UserInputSchema()

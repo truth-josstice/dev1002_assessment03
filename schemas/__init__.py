@@ -48,9 +48,9 @@ from .style import (
     styles_schema
 )
 from .user import (
-    UserSchema, 
-    user_schema, 
-    users_schema, 
+    UserOutputSchema, 
+    user_output_schema, 
+    users_output_schema, 
     user_input_schema, 
     UserInputSchema
 )
@@ -68,7 +68,7 @@ __all__ = [
     'GymSchema',
     'SkillLevelSchema',
     'StyleSchema',
-    'UserSchema',
+    'UserOutputSchema',
     'attempt_output_schema',
     'attempts_output_schema',
     'admin_attempts_schema',
@@ -90,8 +90,8 @@ __all__ = [
     'skill_levels_schema',
     'style_schema',
     'styles_schema',
-    'user_schema',
-    'users_schema',
+    'user_output_schema',
+    'users_output_schema',
     'user_input_schema',
     'UserInputSchema'
 ]

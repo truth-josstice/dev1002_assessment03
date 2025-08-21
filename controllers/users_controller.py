@@ -4,7 +4,11 @@ from datetime import timedelta
 
 from init import db
 from models import User
-from schemas import user_schema, users_schema
+from schemas import (
+    user_output_schema, 
+    users_output_schema,
+    user_input_schema
+)
 from utils import admin_required
 
 user_bp = Blueprint("user", __name__, url_prefix="/users")
@@ -22,11 +26,36 @@ def get_users():
     if not users:
         return {"message": "No user records found."}, 404
     
-    return jsonify(users_schema.dump(users))
+    return jsonify(users_output_schema.dump(users))
     
 @user_bp.route('/profile/')
 @jwt_required()
 def get_user_profile():
     """Function to GET user profile using authorisation token"""
-    return jsonify(user_schema.dump(current_user))
+    return jsonify(user_output_schema.dump(current_user))
 
+@user_bp.route('/admin/add/', methods=["POST"])
+@jwt_required()
+@admin_required
+def add_new_user():
+    """Function to POST a new user for admin"""
+    # GET JSON body data
+    body_data = request.get_json()
+
+    # Create user from body data
+    new_user = user_input_schema.load(body_data, session=db.session)
+
+    # Check if user with email already exists
+    stmt = db.select(User).where(User.email==new_user.email)
+    if db.session.scalar(stmt):
+        return {"message": "An account with this email already exists, please login or enter a different email."}, 409
+    
+    # Check if user with username already exists
+    stmt = db.select(User).where(User.username==new_user.username)
+    if db.session.scalar(stmt):
+        return {"message": f"An account with the username {new_user.username} already exists. Please choose a different username."}, 409
+    
+    db.session.add(new_user)
+    db.session.commit()
+
+    return jsonify(user_output_schema.dump(new_user))
