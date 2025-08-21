@@ -4,13 +4,17 @@ from flask import Flask
 from dotenv import load_dotenv
 
 from init import db, bcrypt, jwt_manager
-from controllers.cli_controller import db_commands
-from controllers.company_controller import company_bp
-from controllers.gyms_controller import gym_bp
-from controllers.climbs_controller import climb_bp
-from controllers.attempts_controller import attempt_bp
-from controllers.gym_ratings_controller import gym_rating_bp
-from controllers.users_controller import user_bp
+from utils import register_error_handlers
+from controllers import (
+    db_commands,
+    auth_bp,
+    company_bp,
+    gym_bp,
+    climb_bp,
+    attempt_bp,
+    gym_rating_bp,
+    user_bp
+)
 
 load_dotenv()
 
@@ -21,7 +25,7 @@ def create_app() -> Flask:
     app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URI") # Database URI settings
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False # Disables modification tracking to avoid compatability issues
 
-    app.config["JWT_SECRET_KEY"] = os.environ.get("JWT_SECRET_KEY")
+    app.config["JWT_SECRET_KEY"] = os.environ.get("JWT_SECRET_KEY") # Retrieves random SECRET KEY from .env
 
     # Initialize extensions
     db.init_app(app)
@@ -36,10 +40,13 @@ def create_app() -> Flask:
         climb_bp, 
         attempt_bp, 
         gym_rating_bp,
-        user_bp]
+        user_bp,
+        auth_bp]
     
     for bp in blueprints:
         app.register_blueprint(bp)
+
+    register_error_handlers(app)
 
     # removed for DRY coding
     # app.register_blueprint(db_commands)

@@ -113,16 +113,17 @@ def seed_tables():
 
     users = [
         User(
-            username = "username1",
-            password="securepassword123",
+            username = "adminuser",
+            password="Secureadminpassword123!",
             email="email@email.com",
             first_name="First",
             last_name="Last",
-            skill_level_id=1
+            skill_level_id=1,
+            is_admin=True
         ), 
         User(
             username = "username2",
-            password="securepassword1234",
+            password="Securepassword1234@",
             email="email1@email.com",
             first_name="First",
             last_name="Last",
@@ -130,7 +131,7 @@ def seed_tables():
         ),
         User(
             username = "username4",
-            password="securepassword12345",
+            password="Securepassword12345#",
             email="email2@email.com",
             first_name="First",
             last_name="Last",
@@ -138,7 +139,7 @@ def seed_tables():
         ),
         User(
             username = "username5",
-            password="securepassword123456",
+            password="Securepassword123456%",
             email="email3@email.com",
             first_name="First",
             last_name="Last",
@@ -146,7 +147,7 @@ def seed_tables():
         ),
         User(
             username = "username6",
-            password="securepassword1234567",
+            password="Securepassword1234567^",
             email="email4@email.com",
             first_name="First",
             last_name="Last",
@@ -154,7 +155,7 @@ def seed_tables():
         ),
         User(
             username = "username7",
-            password="securepassword12345678",
+            password="Securepassword12345678*",
             email="email5@email.com",
             first_name="First",
             last_name="Last",

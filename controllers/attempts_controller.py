@@ -11,7 +11,7 @@ attempt_bp = Blueprint("attempt", __name__, url_prefix="/attempts")
 @jwt_required()
 def get_user_attempts():
     '''Function to GET multiple attempts from the database'''
-    # GET statement: SELECT * FROM attempts WHERE current_user and attempt.user_id match;
+    # GET statement: SELECT * FROM attempts WHERE current_user.id == attempt.user_id;
     stmt = db.select(Attempt).where(current_user.id == Attempt.user_id)
     attempts = db.session.scalars(stmt).all()
 
@@ -23,3 +23,17 @@ def get_user_attempts():
         "attempts": attempts_schema.dump(attempts)
         })
 
+@attempt_bp.route('/<int:attempt_id>/')
+def get_a_single_attempt(attempt_id):
+    """Function to get a single attempt record from the database"""
+    # GET statement: SELECT * FROM attempts WHERE current_user.id == attempt.user_id AND Attempt.id == attempt_id;
+    stmt = db.select(Attempt).where(
+        (current_user.id == Attempt.user_id) & 
+        (attempt_id == Attempt.id)
+        )
+    attempt = db.session.scalar(stmt)
+
+    if not attempt:
+        return {"message": "No attempt record found."}
+    
+    return jsonify(attempt_schema.dump(attempt))

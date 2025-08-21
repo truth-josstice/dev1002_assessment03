@@ -6,7 +6,7 @@ from .gym_rating_summary import GymRatingSummarySchema, gym_rating_summary_schem
 from .gym import GymSchema, gym_schema, gyms_schema
 from .skill_level import SkillLevelSchema, skill_level_schema, skill_levels_schema
 from .style import StyleSchema, style_schema, styles_schema
-from .user import UserSchema, user_schema, users_schema
+from .user import UserSchema, user_schema, users_schema, user_input_schema, UserInputSchema
 
 __all__ = [
     'ClimbInputSchema',
@@ -37,5 +37,7 @@ __all__ = [
     'style_schema',
     'styles_schema',
     'user_schema',
-    'users_schema'
+    'users_schema',
+    'user_input_schema',
+    'UserInputSchema'
 ]

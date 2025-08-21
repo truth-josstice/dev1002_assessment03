@@ -1,0 +1,59 @@
+from flask import jsonify
+from jwt import ExpiredSignatureError, InvalidTokenError
+from flask_jwt_extended.exceptions import JWTExtendedException
+from marshmallow import ValidationError
+from sqlalchemy.exc import DataError, IntegrityError
+from psycopg2 import errorcodes
+from werkzeug.exceptions import BadRequest
+
+
+def register_error_handlers(app):
+
+    @app.errorhandler(BadRequest)
+    def handle_bad_request(error):
+        return {"error": error.description if hasattr(error, 'description') else str(error)}, 400
+
+    @app.errorhandler(JWTExtendedException)
+    def handle_jwt_extended_errors(error):
+        return {"error": str(error)}, 401
+    
+    @app.errorhandler(ExpiredSignatureError)
+    def handle_expired_signature(error):
+        return {"error": "Token has expired. Please log in again."}, 401
+    
+    @app.errorhandler(InvalidTokenError)
+    def handle_invalid_token(error):
+        return {"error": "Invalid token."}, 401
+    
+    @app.errorhandler(ValidationError)
+    def handle_validation_error(err):
+        return {"error": "Validation failed", "details": err.messages}, 400
+    
+    @app.errorhandler(IntegrityError)
+    def handle_integrity_error(err):
+        if hasattr(err, "orig") and err.orig:
+            if err.orig.pgcode == errorcodes.NOT_NULL_VIOLATION:
+                return {"error": f"Required field {err.orig.diag.column_name} cannot be null."}, 400
+        
+            if err.orig.pgcode == errorcodes.UNIQUE_VIOLATION:
+                return {"error": err.orig.diag.message_primary}, 400
+            
+            if err.orig.pgcode == errorcodes.DIVISION_BY_ZERO:
+                return {"error": err.org.diag.message_primary}, 400
+            
+            if err.orig.pgcode == errorcodes.NUMERIC_VALUE_OUT_OF_RANGE:
+                return {"error": err.org.diag.message_primary}, 400
+        
+        return {"error": "Database Integrity error has occured."}, 400
+    
+    @app.errorhandler(DataError)
+    def handle_data_error(err):
+        return {"error": err.orig.diag.message_primary}, 400
+    
+    @app.errorhandler(404)
+    def handle_404_error(err):
+        return {"error": "Resource not found."}, 404
+    
+    @app.errorhandler(500)
+    def handle_500_error(err):
+        return {"error": "Server error occured."}, 500

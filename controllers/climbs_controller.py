@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request
+from flask_jwt_extended import current_user, jwt_required
 
 from init import db
 from models import Climb
@@ -52,16 +53,21 @@ def new_climbs():
     return jsonify(climbs_output_schema.dump(new_climbs)), 201
 
 @climb_bp.route('/remove-climb/<int:climb_id>/', methods=["DELETE"])
+@jwt_required()
 def remove_a_climb(climb_id):
     #GET statement: SELECT * FROM climbs WHERE Climb.id == climb_id;
     stmt = db.select(Climb).where(Climb.id == climb_id)
     climb = db.session.scalar(stmt)
-
+  
     # Check that the climb exists
-    if climb:
-        db.session.delete(climb)
-        db.session.commit()
-        return {"message": f"Climb with id {climb_id} has been removed successfully."},200
-    
-    else:
+    if not climb:
         return {"message": f"No climb was found with id {climb_id}."}, 404
+    
+    # Check that the current user owns the climb
+    if climb.user_id != current_user.id:
+        return {"message": f"{current_user.username}, you are not authorised to delete this climb."}
+
+    # If both checks pass delete the climb
+    db.session.delete(climb)
+    db.session.commit()
+    return {"message": f"Climb with id {climb_id} has been removed successfully."},200
