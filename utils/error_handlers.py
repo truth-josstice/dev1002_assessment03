@@ -36,6 +36,15 @@ def register_error_handlers(app):
                 return {"error": f"Required field {err.orig.diag.column_name} cannot be null."}, 400
         
             if err.orig.pgcode == errorcodes.UNIQUE_VIOLATION:
+                # Custom error message for reviews to handle extreme edge cases (2 simultaneous reviews)
+                # Note: this is more for high traffic situations, but good just to have in case
+                constraint_name = err.org.diag.constraint_name
+
+                # Check for user_id and gym_id unique table constraint '_user_gym_uc' in gym_ratings table
+                if constraint_name == '_user_gym_uc':
+                    return{"message": "You've already reviewed this gym. Each user can only review a gym once."}, 409
+                
+                # Handles all other unique violations
                 return {"error": err.orig.diag.message_primary}, 400
             
             if err.orig.pgcode == errorcodes.DIVISION_BY_ZERO:

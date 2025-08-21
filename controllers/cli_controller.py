@@ -106,7 +106,13 @@ def seed_tables():
             city="Sydney",
             company_id = companies[1].id,
             street_address = "789 Fake Street",
-            name="The Other Gym"
+            name = "The Other Gym"
+        ),
+        Gym(
+            city="Melbourne",
+            company_id = companies[1].id,
+            street_address = "1011 Fake Street",
+            name = "The Other Gym But In Melbourne"
         )
     ]
     db.session.add_all(gyms)

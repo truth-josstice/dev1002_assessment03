@@ -163,7 +163,20 @@ def add_rating():
     # GET JSON body_data
     body_data = request.get_json()
 
-    # Create rating with gym_rating_input_schema
+    # Check for existing reviews
+    stmt = db.select(GymRating).where(
+        (GymRating.user_id == current_user.id) &
+        (GymRating.gym_id == body_data["gym_id"])
+    )
+    existing_rating = db.session.scalar(stmt)
+    
+    # IF a review already exists
+    if existing_rating:
+        return {
+            "message": f"{current_user.username}, you've already reviewed this gym. Each user can only review a gym once."
+        }, 409
+
+    # IF no review exists, create rating with gym_rating_input_schema
     new_rating = gym_rating_input_schema.load(body_data, session=db.session)
     
     # Assign current user to new_rating
