@@ -1,12 +1,12 @@
 from flask import Blueprint, jsonify, request
+from flask_jwt_extended import jwt_required
 
 from init import db
 from models import Company
 from schemas import company_schema, companies_schema
+from utils import admin_required
 
 company_bp = Blueprint("company", __name__, url_prefix="/companies")
-
-
 
 @company_bp.route('/')
 def get_companies():
@@ -19,3 +19,54 @@ def get_companies():
         return {"message": "No company records found."}, 404
     
     return jsonify(companies_schema.dump(companies))
+
+@company_bp.route('/<int:company_id>')
+def get_a_company(company_id):
+    """Funtion to GET single company record from the database"""
+    # GET statement: SELECT * FROM companies WHERE Company.id == company_id
+    stmt = db.select(Company).where(Company.id==company_id)
+    company = db.session.scalar(stmt)
+
+    if not company:
+        {"message": f"Company with id {company_id} not found."}, 404
+
+    return jsonify(company_schema.dump(company))
+
+@company_bp.route('/add-company/', methods=["POST"])
+@jwt_required()
+@admin_required
+def add_a_company():
+    """Function to POST a single company to the database for admins"""
+    # GET JSON body data
+    body_data = request.get_json()
+
+    # Create company using company schema
+    new_company = company_schema.load(body_data, session=db.session)
+
+    db.session.add(new_company)
+    db.session.commit()
+
+    return jsonify(company_schema.dump(new_company))
+
+@company_bp.route('/remove-company/<int:company_id>', methods=["DELETE"])
+@jwt_required()
+@admin_required
+def remove_a_company(company_id):
+    """Function to DELETE a company from the database for admins"""
+    # GET statement: SELECT * FROM company WHERE Company.id = company_id;
+    stmt = db.select(Company).where(Company.id==company_id)
+    company = db.session.scalar(stmt)
+
+    if not company:
+        return {"message": f"Company with id {company_id} does not exist."}, 404
+    
+    db.session.delete(company)
+    db.session.commit()
+
+    return {"message": f"Company with id {company_id} deleted successfully."}, 200
+
+@company_bp.route('/update/<int:company_id>', methods=["PUT", "PATCH"])
+@jwt_required()
+@admin_required
+def update_a_company_record(company_id):
+    

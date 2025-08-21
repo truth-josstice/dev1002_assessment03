@@ -4,7 +4,7 @@ from flask_jwt_extended.exceptions import JWTExtendedException
 from marshmallow import ValidationError
 from sqlalchemy.exc import DataError, IntegrityError
 from psycopg2 import errorcodes
-from werkzeug.exceptions import BadRequest
+from werkzeug.exceptions import BadRequest, InternalServerError
 
 
 def register_error_handlers(app):
@@ -54,6 +54,6 @@ def register_error_handlers(app):
     def handle_404_error(err):
         return {"error": "Resource not found."}, 404
     
-    @app.errorhandler(500)
-    def handle_500_error(err):
-        return {"error": "Server error occured."}, 500
+    @app.errorhandler(InternalServerError)
+    def handle_internal_server_error(err):
+        return {"error": "Unknown server error occured."}, 500

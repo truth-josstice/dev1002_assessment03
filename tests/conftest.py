@@ -1,7 +1,9 @@
 import pytest
-from main import create_app
-from init import db
 
+from flask_sqlalchemy import SQLAlchemy
+from main import create_app
+
+db = SQLAlchemy()
 
 @pytest.fixture
 def app():
