@@ -87,3 +87,21 @@ def add_new_user():
     db.session.commit()
 
     return jsonify(user_output_schema.dump(new_user))
+
+@user_bp.route('/admin/remove/<int:user_id>', methods=["DELETE"])
+@jwt_required()
+@admin_required
+def delete_user(user_id):
+    """Function to DELETE any user for admin"""
+    # GET statement: SELECT * FROM users WHERE id = user_id;
+    stmt = db.select(User).where(User.id == user_id)
+    user = db.session.scalar(stmt)
+
+    # Check if user exists
+    if not user:
+        return {"message": f"User with id {user_id} does not exist."}, 404
+    
+    db.session.delete(user)
+    db.session.commit()
+
+    return {"message": f"User with id {user_id} deleted successfully."}, 200
