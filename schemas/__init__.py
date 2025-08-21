@@ -1,4 +1,4 @@
-from .attempt import AttemptSchema, attempt_schema, attempts_schema
+from .attempt import AttemptSchema, attempt_schema, attempts_schema, AdminAttemptSchema, admin_attempts_schema
 from .climb import ClimbInputSchema, ClimbOutputSchema, climb_input_schema, climb_output_schema, climbs_output_schema
 from .company import CompanySchema, company_schema, companies_schema
 from .gym_rating import GymRatingSchema, gym_rating_schema, gym_ratings_schema
@@ -12,6 +12,7 @@ __all__ = [
     'ClimbInputSchema',
     'ClimbOutputSchema',
     'AttemptSchema',
+    'AdminAttemptSchema',
     'CompanySchema',
     'GymRatingSchema',
     'GymRatingSummarySchema',
@@ -21,6 +22,7 @@ __all__ = [
     'UserSchema',
     'attempt_schema',
     'attempts_schema',
+    'admin_attempts_schema',
     'climb_input_schema',
     'climb_output_schema',
     'climbs_output_schema',

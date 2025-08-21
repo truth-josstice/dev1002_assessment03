@@ -18,3 +18,17 @@ class AttemptSchema(SQLAlchemyAutoSchema):
 
 attempt_schema = AttemptSchema()
 attempts_schema = AttemptSchema(many=True)
+
+class AdminAttemptSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Attempt
+        load_instance = True
+        include_fk = True
+        include_relationships = True
+        fields = ("id", "climb", "fun_rating", 
+                "comments", "completed", "attempted_at")
+        ordered = True
+
+    climb = Nested("ClimbOutputSchema")
+
+admin_attempts_schema = AdminAttemptSchema(many=True)
