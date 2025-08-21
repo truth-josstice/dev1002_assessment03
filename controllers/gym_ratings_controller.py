@@ -1,18 +1,20 @@
 from flask import Blueprint, jsonify, request
 from sqlalchemy import func, select
+from flask_jwt_extended import jwt_required, current_user
 
 from collections import Counter
 
 from init import db
 
 from models import GymRating, Gym
-
 from schemas import (
     gym_rating_summaries_schema,
-    gym_rating_schema,
-    gym_ratings_schema,
+    gym_rating_output_schema,
+    gym_ratings_output_schema,
+    gym_rating_input_schema,
     skill_level_schema
 )
+from utils import admin_required
 
 gym_rating_bp = Blueprint("gym_rating", __name__, url_prefix="/gym_ratings")
 
@@ -104,7 +106,7 @@ def get_gym_ratings():
     if not gym_ratings:
         return {"message": "No gym_rating records found."}, 404
     
-    return jsonify(gym_ratings_schema.dump(gym_ratings))
+    return jsonify(gym_ratings_output_schema.dump(gym_ratings))
 
 @gym_rating_bp.route('/by-gym/<int:gym_id>/')
 def get_a_gyms_reviews(gym_id):
@@ -116,7 +118,7 @@ def get_a_gyms_reviews(gym_id):
     ratings = db.session.scalars(stmt)
 
     if ratings:
-        data = gym_ratings_schema.dump(ratings)
+        data = gym_ratings_output_schema.dump(ratings)
         return jsonify(data)
     
     else:
@@ -132,14 +134,14 @@ def get_a_users_reviews(user_id):
     ratings = db.session.scalars(stmt)
 
     if ratings:
-        data = gym_ratings_schema.dump(ratings)
+        data = gym_ratings_output_schema.dump(ratings)
         return jsonify(data)
     
     else:
         return {"message": "Records not found"}
 
 
-@gym_rating_bp.route('/search/<int:rating_id>/')
+@gym_rating_bp.route('/<int:rating_id>/')
 def get_a_gym_rating(rating_id):
     """ 
     Retrieves a unique database record using a composite key and returns results in JSON format
@@ -153,5 +155,22 @@ def get_a_gym_rating(rating_id):
     if not rating:
         return {"message": "The record you are searching for does not exist."},404
     
-    return jsonify(gym_rating_schema.dump(rating))
+    return jsonify(gym_rating_output_schema.dump(rating))
         
+@gym_rating_bp.route('/add-rating/', methods=["POST"])
+@jwt_required()
+def add_rating():
+    # GET JSON body_data
+    body_data = request.get_json()
+
+    # Create rating with gym_rating_input_schema
+    new_rating = gym_rating_input_schema.load(body_data, session=db.session)
+    
+    # Assign current user to new_rating
+    new_rating.user = current_user
+
+    db.session.add(new_rating)
+    db.session.commit()
+
+    return jsonify(gym_rating_output_schema.dump(new_rating))
+

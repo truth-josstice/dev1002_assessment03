@@ -3,7 +3,7 @@ from marshmallow_sqlalchemy.fields import Nested
 
 from models import GymRating
 
-class GymRatingSchema(SQLAlchemyAutoSchema):
+class GymRatingOutputSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = GymRating
         load_instance = True
@@ -12,10 +12,17 @@ class GymRatingSchema(SQLAlchemyAutoSchema):
         fields = ("gym", "user", "recommended_skill_level", "difficulty_rating", "review")
         ordered = True
     
-    recommended_skill_level = Nested("SkillLevelSchema", only=("id", "level"))
+    recommended_skill_level = Nested("SkillLevelSchema", only=("level",))
     gym = Nested("GymSchema", only=("id", "name"))
     user = Nested("UserSchema", only=("id", "username", "user_skill_level.level"))
 
+gym_rating_output_schema = GymRatingOutputSchema()
+gym_ratings_output_schema = GymRatingOutputSchema(many=True)
 
-gym_rating_schema = GymRatingSchema()
-gym_ratings_schema = GymRatingSchema(many=True)
+class GymRatingInputSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = GymRating
+        load_instance = True
+        include_fk = True
+
+gym_rating_input_schema = GymRatingInputSchema()

@@ -29,11 +29,14 @@ def get_climbs():
 def new_climb():
     # Get data from the REQUEST body
     body_data = request.get_json()
-    
+
+    # Create new climb using climb_input_schema
     new_climb = climb_input_schema.load(body_data, session=db.session)
 
+    # Assign current user to new climb
     new_climb.user = current_user
     
+    # Add new climb to session and commit
     db.session.add(new_climb)
     db.session.commit()
     

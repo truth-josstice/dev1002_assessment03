@@ -21,9 +21,11 @@ from .company import (
     companies_schema
 )
 from .gym_rating import (
-    GymRatingSchema, 
-    gym_rating_schema, 
-    gym_ratings_schema
+    GymRatingOutputSchema, 
+    gym_rating_output_schema, 
+    gym_ratings_output_schema,
+    GymRatingInputSchema,
+    gym_rating_input_schema
 )
 from .gym_rating_summary import (
     GymRatingSummarySchema, 
@@ -60,7 +62,8 @@ __all__ = [
     'AdminAttemptSchema',
     'AttemptInputSchema',
     'CompanySchema',
-    'GymRatingSchema',
+    'GymRatingOutputSchema',
+    'GymRatingInputSchema',
     'GymRatingSummarySchema',
     'GymSchema',
     'SkillLevelSchema',
@@ -76,8 +79,9 @@ __all__ = [
     'climbs_output_schema',
     'company_schema',
     'companies_schema',
-    'gym_rating_schema',
-    'gym_ratings_schema',
+    'gym_rating_output_schema',
+    'gym_ratings_output_schema',
+    'gym_rating_input_schema',
     'gym_rating_summary_schema',
     'gym_rating_summaries_schema',
     'gym_schema',
