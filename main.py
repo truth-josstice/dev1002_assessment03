@@ -18,14 +18,17 @@ from controllers import (
 
 load_dotenv()
 
-def create_app() -> Flask:
+def create_app(test_config=None) -> Flask:
     """Creates and configures the Flask application with database and blueprints."""
     app = Flask(__name__)
 
-    app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URI") # Database URI settings
-    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False # Disables modification tracking to avoid compatability issues
-
-    app.config["JWT_SECRET_KEY"] = os.environ.get("JWT_SECRET_KEY") # Retrieves random SECRET KEY from .env
+    if test_config:
+        app.config.from_mapping(test_config)
+    
+    else:
+        app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URI") # Database URI settings
+        app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False # Disables modification tracking to avoid compatability issues
+        app.config["JWT_SECRET_KEY"] = os.environ.get("JWT_SECRET_KEY") # Retrieves random SECRET KEY from .env
 
     # Initialize extensions
     db.init_app(app)

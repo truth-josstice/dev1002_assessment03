@@ -7,9 +7,9 @@ class Climb(db.Model):
     __tablename__ = "climbs"
 
     id: int = db.Column(db.Integer, primary_key=True)
-    gym_id: int = db.Column(db.Integer, db.ForeignKey("gyms.id"))
+    gym_id: int = db.Column(db.Integer, db.ForeignKey("gyms.id", ondelete="CASCADE"))
     user_id: int = db.Column(db.Integer, db.ForeignKey("users.id", ondelete="CASCADE"))
-    style_id: int = db.Column(db.Integer, db.ForeignKey("styles.id"))
+    style_id: int = db.Column(db.Integer, db.ForeignKey("styles.id", ondelete="SET NULL"))
     difficulty_grade: str = db.Column(db.String, nullable=False)
     set_date: date = db.Column(db.Date)
 

@@ -61,7 +61,7 @@ def add_an_attempt():
 
     return jsonify(attempt_output_schema.dump(new_attempt))
 
-@attempt_bp.route('/all/')
+@attempt_bp.route('/admin/all/')
 @jwt_required()
 @admin_required
 def get_all_attempts():

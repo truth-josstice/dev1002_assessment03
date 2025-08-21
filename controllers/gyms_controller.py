@@ -1,8 +1,11 @@
 from flask import Blueprint, jsonify, request
 from sqlalchemy.orm import joinedload
+from flask_jwt_extended import jwt_required
+
 
 from init import db
-from models.gym import Gym
+from models import Gym
+from utils import admin_required
 
 from schemas import (
     climbs_output_schema, 
@@ -55,3 +58,64 @@ def get_gym_climbs():
         result.append(gym_data)
     
     return jsonify(result)
+
+@gym_bp.route('/admin/add/', methods=["POST"])
+@jwt_required()
+@admin_required
+def add_a_gym():
+    """A function to POST a gym for admins"""
+    # GET JSON body data
+    body_data = request.get_json()
+
+    # Create gym from body_data using gym_schema
+    new_gym = gym_schema.load(body_data, session=db.session)
+
+    db.session.add(new_gym)
+    db.session.commit()
+
+    return jsonify(gym_schema.dump(new_gym))
+
+@gym_bp.route('/admin/remove/<int:gym_id>', methods=["DELETE"])
+@jwt_required()
+@admin_required
+def remove_a_gym(gym_id):
+    # GET statement: SELECT * FROM gyms WHERE Gym.id = gym_id;
+    stmt = db.select(Gym).where(Gym.id==gym_id)
+    gym = db.session.scalar(stmt)
+
+    if not gym:
+        return {"message": f"Gym with id {gym_id} does not exist."}, 404
+    
+    db.session.delete(gym)
+    db.session.commit()
+
+    return {"message": f"Gym with id {gym_id} deleted successfully."}, 200
+
+@gym_bp.route('/admin/update/<int:gym_id>/', methods=["PUT", "PATCH"])
+@jwt_required()
+@admin_required
+def update_a_gym_record(gym_id):
+    """Function to UPDATE a single gym from the database for admins"""
+    # GET statement: SELECT * FROM gyms WHERE Gym.id = gym_id
+    stmt = db.select(Gym).where(Gym.id==gym_id)
+    gym = db.session.scalar(stmt)
+
+    # Check that the gym exists
+    if not gym:
+        return {"message": f"Gym with id {gym_id} does not exist."}, 404
+    
+    # GET JSON body data
+    body_data = request.get_json()
+
+    # Load data into gym through gym_schema
+    updated_gym = gym_schema.load(
+        body_data,
+        instance = gym,
+        session = db.session,
+        partial = True
+    )
+
+    db.session.add(updated_gym)
+    db.session.commit()
+
+    return jsonify(gym_schema.dump(updated_gym))

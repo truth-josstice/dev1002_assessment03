@@ -2,15 +2,19 @@ import pytest
 
 from flask_sqlalchemy import SQLAlchemy
 from main import create_app
+from init import db
 
-db = SQLAlchemy()
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def app():
-    app = create_app()
-    app.config['TESTING'] = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
+    test_config = {
+        'TESTING': True,
+        'SQLALCHEMY_DATABASE_URI': 'sqlite:///:memory:',
+        'JWT_SECRET_KEY': 'test-secret-key'
+    }
     
+    app = create_app(test_config=test_config)
+
     with app.app_context():
         db.create_all()
         yield app
