@@ -34,6 +34,34 @@ def get_user_profile():
     """Function to GET user profile using authorisation token"""
     return jsonify(user_output_schema.dump(current_user))
 
+@user_bp.route('/update-profile/', methods=["PUT", "PATCH"])
+@jwt_required()
+def update_user_profile():
+    """Function to PUT/PATCH users own profile"""
+    # GET statement: SELECT * FROM users WHERE id = id;
+    stmt = db.select(User).where(User.id == current_user.id)
+    user = db.session.scalar(stmt)
+
+    # User must exist so can skip any if loops
+    # GET JSON body data
+    body_data = request.get_json()
+
+    # Load data into user via user_input_schema
+    updated_user = user_input_schema.load(
+        body_data, 
+        session = db.session,
+        instance = user,
+        partial = True
+        )
+    
+    db.session.add(updated_user)
+    db.session.commit()
+
+    return {
+        "message": "User updated successfully.",
+        "details": jsonify(user_output_schema.dump(updated_user))
+    }, 200
+
 @user_bp.route('/admin/add/', methods=["POST"])
 @jwt_required()
 @admin_required

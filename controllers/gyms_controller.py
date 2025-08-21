@@ -118,4 +118,7 @@ def update_a_gym_record(gym_id):
     db.session.add(updated_gym)
     db.session.commit()
 
-    return jsonify(gym_schema.dump(updated_gym))
+    return {
+        "message": "Gym updated successfully.",
+        "details": jsonify(gym_schema.dump(updated_gym))
+    }, 200

@@ -92,4 +92,7 @@ def update_a_company_record(company_id):
     db.session.add(updated_company)
     db.session.commit()
 
-    return jsonify(company_schema.dump(updated_company))
+    return {
+        "message": "Company updated successfully.",
+        "details": jsonify(company_schema.dump(updated_company))
+    }, 200

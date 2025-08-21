@@ -252,4 +252,7 @@ def update_a_gym_rating_record(gym_rating_id):
     db.session.add(updated_gym_rating)
     db.session.commit()
 
-    return jsonify(gym_rating_output_schema.dump(updated_gym_rating))
+    return {
+        "message": "Rating updated successfully.",
+        "details": jsonify(gym_rating_output_schema.dump(updated_gym_rating))
+    }, 200

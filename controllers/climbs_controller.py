@@ -111,4 +111,7 @@ def update_a_climb_record(climb_id):
     db.session.add(updated_climb)
     db.session.commit()
 
-    return jsonify(climb_output_schema.dump(updated_climb))
+    return {
+        "message": "Climb updated successfully",
+        "details": jsonify(climb_output_schema.dump(updated_climb))
+        }, 200
