@@ -15,7 +15,7 @@ class ClimbInputSchema(SQLAlchemyAutoSchema):
     )
 
     # Validation for set_date: must be date
-    set_date = fields.Date()
+    set_date = fields.Date(required=False)
 
 class ClimbOutputSchema(SQLAlchemyAutoSchema):
     class Meta:
