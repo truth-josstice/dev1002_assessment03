@@ -43,6 +43,7 @@ def get_skill_levels():
 @jwt_required()
 @admin_required
 def add_style():
+    """Function to add a single style record for admin"""
     # GET JSON body data
     body_data = request.get_json()
 
@@ -59,6 +60,7 @@ def add_style():
 @jwt_required()
 @admin_required
 def add_skill():
+    """Function to add a single skill record for admin"""
     # GET JSON body data
     body_data = request.get_json()
 
@@ -70,3 +72,38 @@ def add_skill():
 
     return {"message": f"Style {new_skill.level} added successfully"}, 201
 
+info_bp.route('/admin/remove-style/<int:style_id>', methods=["DELETE"])
+@jwt_required()
+@admin_required
+def remove_style(style_id):
+    """Function to remove a single style record for admin"""
+    # GET statement: SELECT * FROM styles WHERE id = style_id;
+    stmt = db.select(Style).where(Style.id==style_id)
+    style = db.session.scalar(stmt)
+
+    # Check style record exists
+    if not style:
+        return {"message": f"Style with id {style_id} does not exist"}, 404
+    
+    db.session.delete(style)
+    db.session.commit()
+
+    return {"message": f"Style with id {style_id} deleted successfully"}, 200
+
+info_bp.route('/admin/remove-skill/<int:skill_level_id>', methods=["DELETE"])
+@jwt_required()
+@admin_required
+def remove_skill(skill_level_id):
+    """Function to remove a single skill record for admin"""
+    # GET statement: SELECT * FROM skills WHERE id = skill_id;
+    stmt = db.select(SkillLevel).where(SkillLevel.id==skill_level_id)
+    skill = db.session.scalar(stmt)
+
+    # Check skill record exists
+    if not skill:
+        return {"message": f"Skill level with id {skill_level_id} does not exist"}, 404
+    
+    db.session.delete(skill)
+    db.session.commit()
+
+    return {"message": f"Skill level with id {skill_level_id} deleted successfully"}, 200
