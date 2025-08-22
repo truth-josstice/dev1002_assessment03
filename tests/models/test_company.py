@@ -4,7 +4,7 @@ def test_company_creation(app):
     with app.app_context():
         company = Company(
             name="simplecompany",
-            website="www.company.com",
+            website="http://www.company.com",
             )
         assert company.name == "simplecompany"
-        assert company.website == "www.company.com"
+        assert company.website == "http://www.company.com"

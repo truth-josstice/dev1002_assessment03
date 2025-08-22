@@ -1,4 +1,6 @@
 from flask import Blueprint
+from datetime import date
+
 from init import db
 
 from models import (
@@ -178,42 +180,42 @@ def seed_tables():
             gym_id = gyms[0].id,
             style_id=styles[0].id,
             difficulty_grade = "Purple",
-            set_date = "01/01/2025"
+            set_date = date(2025, 1, 1)
         ), 
         Climb(
             user_id = users[0].id,
             gym_id = gyms[0].id,
             style_id = styles[1].id,
             difficulty_grade = "Blue",
-            set_date = "01/01/2025"
+            set_date = date(2025, 1, 1)
         ), 
         Climb(
             user_id = users[1].id,
             gym_id = gyms[1].id,
             style_id = styles[0].id,
             difficulty_grade = "4",
-            set_date = "03/01/2025"
+            set_date = date(2025, 1, 3)
         ), 
         Climb(
             user_id = users[1].id,
             gym_id = gyms[1].id,
             style_id = styles[2].id,
             difficulty_grade = "6",
-            set_date = "03/01/2025"
+            set_date = date(2025, 1, 3)
         ),
         Climb(
             user_id = users[0].id,
             gym_id = gyms[2].id,
             style_id = styles[1].id,
             difficulty_grade = "v1",
-            set_date = "03/01/2025"
+            set_date = date(2025, 1, 3)
         ),
         Climb(
             user_id = users[1].id,
             gym_id = gyms[2].id,
             style_id = styles[0].id,
             difficulty_grade = "v2",
-            set_date = "03/01/2025"
+            set_date = date(2025, 1, 3)
         )
     ]
 

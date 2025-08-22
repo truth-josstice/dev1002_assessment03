@@ -10,7 +10,7 @@ def test_company_schema_serialization(app):
     with app.app_context():
         company = Company(
             name="serial_test",
-            website="www.company.com",
+            website="http://www.company.com",
             )
         db.session.add(company)
         db.session.commit()
@@ -18,7 +18,7 @@ def test_company_schema_serialization(app):
         result = company_schema.dump(company)
         
         assert result["name"] == "serial_test"
-        assert "www" in result["website"]
+        assert "http" in result["website"]
 
 def test_company_schema_deserialization(app):
     """Test schema loading with valid Company object data"""
@@ -26,19 +26,19 @@ def test_company_schema_deserialization(app):
         # Test data matching what your schema actually accepts
         valid_data = {
             "name": "load_test",
-            "website": "www.load.com"
+            "website": "http://www.load.com"
         }
         
         # Check the data is loaded correctly
         loaded = company_schema.load(valid_data, session=db.session)
         assert loaded.name == "load_test"
-        assert loaded.website == "www.load.com"
+        assert loaded.website == "http://www.load.com"
 
 def test_company_schema_validation(app):
     """Test schema validation for NOT NULL fields"""
     with app.app_context():
         invalid_data = {
-            "website": "www.websiteonly.com"
+            "website": "http://www.websiteonly.com"
             # Missing required name field
         }
         

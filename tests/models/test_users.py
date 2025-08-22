@@ -7,7 +7,7 @@ def test_user_creation(app):
     
     with app.app_context():
         skill = SkillLevel(
-            id = 1,
+            id = 4,
             level = "Beginner",
             description = "testdescription"
         )

@@ -171,3 +171,12 @@ def update_skill(skill_level_id):
         "message": f"Skill level with id {skill_level_id} updated successfully",
         "details": jsonify(skill_level_schema.dump(updated_skill))
         }, 200
+
+@info_bp.route('/about-api/')
+def api_info():
+    return {
+        "message": "Climbing Tracker API",
+        "version": "1.0",
+        "assessment": "DEV1002 - Assessment 03",
+        "documentation": "See API DOCUMENTATION.md for endpoint details"
+    }

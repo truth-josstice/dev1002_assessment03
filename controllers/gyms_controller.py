@@ -25,7 +25,7 @@ def get_gyms():
     if not gyms:
         return {"message": "No gym records found."}, 404
     
-    return jsonify(gyms_schema.dump(gyms))
+    return jsonify(gyms_schema.dump(gyms)), 200
 
 @gym_bp.route('/<int:gym_id>/')
 def get_a_gym(gym_id):

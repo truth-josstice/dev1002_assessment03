@@ -2,7 +2,7 @@ import pytest
 from marshmallow import ValidationError
 from init import db
 from models import User, SkillLevel
-from schemas import user_schema, users_schema
+from schemas import user_input_schema, user_output_schema, users_output_schema
 
 def test_user_schema_serialization(app):
     """Test user schema serialization to JSON format"""
@@ -25,7 +25,7 @@ def test_user_schema_serialization(app):
         db.session.add(user)
         db.session.commit()
 
-        result = user_schema.dump(user)
+        result = user_output_schema.dump(user)
         
         assert result["username"] == "serial_test"
         assert "password" not in result  # Password should never be exposed when data is requested
@@ -45,7 +45,7 @@ def test_user_schema_deserialization(app):
         }
         
         # Check the data is loaded correctly
-        loaded = user_schema.load(valid_data, session=db.session)
+        loaded = user_output_schema.load(valid_data, session=db.session)
         assert loaded.username == "load_test"
 
 def test_user_schema_password_handling(app):
@@ -82,6 +82,6 @@ def test_user_schema_validation(app):
         }
         
         with pytest.raises(ValidationError) as err:
-            user_schema.load(invalid_data, session=db.session)
+            user_input_schema.load(invalid_data, session=db.session)
         
         assert "username" in str(err.value)  # Should complain about missing username

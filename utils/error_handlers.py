@@ -1,4 +1,3 @@
-from flask import jsonify
 from jwt import ExpiredSignatureError, InvalidTokenError
 from flask_jwt_extended.exceptions import JWTExtendedException
 from marshmallow import ValidationError
@@ -46,7 +45,7 @@ def register_error_handlers(app):
             if err.orig.pgcode == errorcodes.UNIQUE_VIOLATION:
                 # Custom error message for reviews to handle extreme edge cases (2 simultaneous reviews)
                 # Note: this is more for high traffic situations, but good just to have in case
-                constraint_name = err.org.diag.constraint_name
+                constraint_name = err.orig.diag.constraint_name
 
                 # Check for user_id and gym_id unique table constraint '_user_gym_uc' in gym_ratings table
                 if constraint_name == '_user_gym_uc':
@@ -59,7 +58,7 @@ def register_error_handlers(app):
                 return {"error": err.org.diag.message_primary}, 400
             
             if err.orig.pgcode == errorcodes.NUMERIC_VALUE_OUT_OF_RANGE:
-                return {"error": err.org.diag.message_primary}, 400
+                return {"error": err.orig.diag.message_primary}, 400
         
         return {"error": "Database Integrity error has occured."}, 400
     
@@ -67,10 +66,27 @@ def register_error_handlers(app):
     def handle_data_error(err):
         return {"error": err.orig.diag.message_primary}, 400
     
-    @app.errorhandler(404)
-    def handle_404_error(err):
-        return {"error": "Resource not found."}, 404
-    
+    @app.errorhandler(TimeoutError)
+    def handle_timeout_error(error):
+        return {"error": "Operation on database has timed out. Please try again."}, 408
+           
     @app.errorhandler(InternalServerError)
     def handle_internal_server_error(err):
         return {"error": "Unknown server error occured."}, 500
+    
+    @app.errorhandler(404)
+    def handle_404_error(err):
+        return {"error": "API endpoint not found."}, 404
+    
+    @app.errorhandler(405)
+    def handle_405_error(err):
+        return {"error": "Method not allowed for this endpoint."}, 405
+    
+    @app.errorhandler(422)
+    def handle_422_error(err):
+        return {"error": "Unprocessable entity - unknown validation error"}, 422
+    
+    @app.errorhandler(Exception)
+    def handle_general_error(error):
+        app.logger.error(f'Unhandled exception: {str(error)}')
+        return {"error": "An unexpected error has occurred. Please try again later."}, 500

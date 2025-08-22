@@ -15,10 +15,19 @@ This project is a relational database app which tracks user progression of bould
       - [SQL](#sql-and-structure-relationships)
       - [ACID v BASE](#acid-vs-base)
       - [NoSQL](#why-not-nosql)
-    - [Databse Management System](#database-management-system)
+    - [Database Management System](#database-management-system)
 2. [Installation Guide](#installation-guide)
+    - [System Requirements](#system-requirements)
+    - [Quick Start](#quick-start)
+    - [Set Up Guide](#setup)
 3. [Features and Functionality](#functionality)
+    - [CRUD OPERATIONS](#crud-operations)
+      - [Create](#create)
+      - [Read](#read)
+      - [Update](#update)
+      - [Delete](#delete)
 4. [Usage Instructions](#usage-instructions)
+    - [CLI Commands](#cli-commands)
     - [API Endpoints](#api-endpoints)
 5. [Dependencies](#dependencies)
 6. [Ethical Considerations](#ethical-considerations)
@@ -229,11 +238,13 @@ I will compare the strengths and weaknesses of PostgreSQL and MySQL below in the
 - No concurrent data writing will cause failures if multiple users edit data at once
   - Multiple users transacting at the same time is a key feature of my application, therefore this means my app would not be able to function if created using SQLite
 
-### Functionality
+---
 
-**CRUD Operations**  
+## Functionality
 
-**Create:**  
+### CRUD Operations
+
+#### Create
 
 - Visitors:
   - Create user profile with unique email, username, with password login
@@ -244,7 +255,7 @@ I will compare the strengths and weaknesses of PostgreSQL and MySQL below in the
 - Admins:
   - Create all entities as required
 
-**Read:**  
+#### Read
 
 - Visitors:
   - See overall gym ratings
@@ -259,7 +270,7 @@ I will compare the strengths and weaknesses of PostgreSQL and MySQL below in the
 - Admin:
   - See all entitites as required
 
-**Update:**  
+#### Update
 
 - Visitors:
   - Not authorised for any update functions
@@ -271,7 +282,7 @@ I will compare the strengths and weaknesses of PostgreSQL and MySQL below in the
 - Admin:
   - Update all entities except for reviews (to avoid changing user's input, though deletion is still an option if reviews are not in the spirit of the app or are inappropriate)
 
-**Delete:**  
+#### Delete
 
 - Visitors:
   - Not authorised for any delete functions
@@ -286,12 +297,14 @@ I will compare the strengths and weaknesses of PostgreSQL and MySQL below in the
 
 ### Privileges & Tokens
 
-**Admin**:
-User records have a boolean "is_admin" column, defaulting to false on the creation of their account. 
+**Admin**:  
+User records have a boolean "is_admin" column, defaulting to false on the creation of their account.  
 
-Users will be given a token upon login to their account
+**Token**:  
+All routes which require a user require an authorization token in the header.
 
-Anyone who accesses the site can see gyms and all related entities.
+**Visitors**:  
+Anyone who accesses the site access areas not requirign a token.
 
 ---
 
@@ -301,12 +314,14 @@ Anyone who accesses the site can see gyms and all related entities.
 
 ### System Requirements
 
+- At least 100MB of local Disk Space for the application
+- 50-100MB of local Disk Space for the databse
+
 - Python 3.10+ (3.12 recommended)
 - PIP (python package installer)
 - Windows, Linux, WSL or MacOS
 - PostgreSQL shell 16.9+ (16.9 recommended)
 - Active internet connection for cloning dependencies
-- At least xxx.MB free disc space
 
 ## Installation Instructions
 
@@ -314,6 +329,19 @@ Anyone who accesses the site can see gyms and all related entities.
 > ***IF* you receive errors on bash systems when entering commands, please try 'python' instead of 'python3'.**
 
 ---
+
+### Quick Start
+
+For experienced users:
+
+1. `git clone https://github.com/truth-josstice/dev1002_assessment03`
+2. `cd dev1002_assessment03`
+3. `python -m venv .venv`
+4. `source .venv/bin/activate` (or `.\.venv\Scripts\activate.ps1` on Windows)
+5. `pip install -r requirements.txt`
+6. Set up `.env` file as per `.env.example` file
+7. `flask db drop && flask db create && flask db seed`
+8. `flask run`
 
 ### Setup
 
@@ -368,14 +396,17 @@ Anyone who accesses the site can see gyms and all related entities.
 5. **Create a .env and .flaskenv file with the variables included in the .example files.**
 
    - Set up DATABASE URI:
+
      ```text
-      DATABASE_URI with string connected to your PostgreSQL database
+     DATABASE_URI with string connected to your PostgreSQL database
      ```
 
    - Set up a SECRET_KEY variable by running the below code:
+
      ```python
      python3 -c 'import os; print(os.urandom(16))'
      ```
+
 6. **Ensure that a local database exists by creating one in the PostgreSQL shell:**
 
     - Enter the PostgreSQL shell:
@@ -427,6 +458,8 @@ Anyone who accesses the site can see gyms and all related entities.
 
 ## Usage Instructions
 
+### CLI Commands
+
 1. **Ensure the Flask database app exists by entering the following commands in bash terminal:**
 
    ```bash
@@ -447,13 +480,9 @@ Anyone who accesses the site can see gyms and all related entities.
    CTRL+C # Keyboard interrupt to stop flask application
    ```
 
-## API Endpoints
+### API Endpoints
 
-|Endpoint               |Methods  |   Rule                 | 
-|---------------------  |-------  |----------------------- |
-|climb.get_climbs       |GET      |/climbs/                |
-|company.get_companies  |GET      |/companies/             |
-|gym.get_gyms           |GET      |/gyms/                  |
+See [API DOCUMENTATION.md](./API%20DOCUMENTATION.md) for full list of endpoints and descriptions.
 
 ---
 
@@ -562,8 +591,9 @@ The app in its current version is intended for submission as an assessment for C
 
 - Creation of user roles:  
 **Status**: Not currently implemented  
-**Justification**: Scope of the application in its current form does not necessitate roles other than "user" and "visitor"  
+**Justification**: Scope of the application in its current form does not necessitate roles other than "user", "admin" and "visitor"  
 **Future Implementation**:
+Rollout of role based privileges for the app:
   - Admin: Users who will be able to create a list of climbs for their chosen gym using the standardised "V Scale" for climbs. These users would ideally be climbing gym staff and/or climbing coaches whose objective abilities to grade climb difficulty and style will ensure the accuracy of all data
   - Owner: Essentially myself, the main developer of the project who can user database level CRUD functions
   - Member: Will replace the current role-less user and all features associated, with the exception of creating climbs based in a gym, instead focussing on outdoor climbs or custom routes created on splash walls.
@@ -575,6 +605,6 @@ The app in its current version is intended for submission as an assessment for C
 **Future Implementation**:  
   - Field-Level Encryption: encryption of 'email', 'first name', 'last name' columns before storage using PyNaCl (chosen due to being safer for beginners due to automation features and as the project is Python specific)
   - Regular security auditing: regularly scheduled audits of all sensitive data, including the logging of all sensitive data transactions
-  - Create managable framework for data purging: research industry standards for data purging and deltion of private sensitive data, implement on database server side
+  - Create managable framework for data purging: research industry standards for data purging and deletion of private sensitive data, implement on database server side
 
 ---
