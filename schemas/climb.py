@@ -16,7 +16,7 @@ class ClimbInputSchema(SQLAlchemyAutoSchema):
     style_id = fields.Integer(required=True)
     difficulty_grade = fields.Integer(
         required=True,
-        validate=[validate.Range(min=1, max=10, error="Rating must be between 1-10")]
+        validate=[validate.Length(max=32, error="Difficulty grade cannot exceed 32 characters")]
     )
     set_date = fields.Date(required=False)
 

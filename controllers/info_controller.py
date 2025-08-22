@@ -1,9 +1,15 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
+from flask_jwt_extended import jwt_required
+from utils import admin_required
 
 from init import db
 
 from models import SkillLevel, Style
-from schemas import skill_levels_schema, styles_schema
+from schemas import (
+    skill_level_schema,
+    skill_levels_schema, 
+    style_schema,
+    styles_schema)
 
 info_bp = Blueprint('info', __name__, url_prefix="/learn")
 
@@ -32,3 +38,35 @@ def get_skill_levels():
         return {"message": "No skills found"}, 404
     
     return jsonify(skill_levels_schema.dump(skills))
+
+@info_bp.route('/admin/add-style/', methods = ["POST"])
+@jwt_required()
+@admin_required
+def add_style():
+    # GET JSON body data
+    body_data = request.get_json()
+
+    # Create style record using style_schema
+    new_style = style_schema.load(body_data, session=db.session)
+
+    db.session.add(new_style)
+    db.session.commit()
+
+    return {"message": f"Style {new_style.name} added successfully"}, 201
+
+
+@info_bp.route('/admin/add-skill/', methods = ["POST"])
+@jwt_required()
+@admin_required
+def add_skill():
+    # GET JSON body data
+    body_data = request.get_json()
+
+    # Create style record using style_schema
+    new_skill = skill_level_schema.load(body_data, session=db.session)
+
+    db.session.add(new_skill)
+    db.session.commit()
+
+    return {"message": f"Style {new_skill.level} added successfully"}, 201
+
