@@ -72,7 +72,7 @@ def add_skill():
 
     return {"message": f"Style {new_skill.level} added successfully"}, 201
 
-info_bp.route('/admin/remove-style/<int:style_id>', methods=["DELETE"])
+@info_bp.route('/admin/remove-style/<int:style_id>', methods=["DELETE"])
 @jwt_required()
 @admin_required
 def remove_style(style_id):
@@ -90,7 +90,7 @@ def remove_style(style_id):
 
     return {"message": f"Style with id {style_id} deleted successfully"}, 200
 
-info_bp.route('/admin/remove-skill/<int:skill_level_id>', methods=["DELETE"])
+@info_bp.route('/admin/remove-skill/<int:skill_level_id>', methods=["DELETE"])
 @jwt_required()
 @admin_required
 def remove_skill(skill_level_id):
@@ -107,3 +107,67 @@ def remove_skill(skill_level_id):
     db.session.commit()
 
     return {"message": f"Skill level with id {skill_level_id} deleted successfully"}, 200
+
+@info_bp.route('/admin/update-style/<int:style_id>', methods=["PUT", "PATCH"])
+@jwt_required()
+@admin_required
+def update_style(style_id):
+    """Function to update a single style record for admin"""
+    # GET statement: SELECT * FROM styles WHERE id = style_id;
+    stmt = db.select(Style).where(Style.id==style_id)
+    style = db.session.scalar(stmt)
+
+    # Check style record exists
+    if not style:
+        return {"message": f"Style with id {style_id} does not exist"}, 404
+    
+    # GET JSON body data
+    body_data = request.get_json()
+
+    # Update selected style
+    updated_style = style_schema.load(
+        body_data,
+        instance=style,
+        session=db.session,
+        partial=True
+    )
+
+    db.session.add(updated_style)
+    db.session.commit()
+
+    return {
+        "message": f"Style with id {style_id} updated successfully",
+        "details": jsonify(style_schema.dump(updated_style))
+        }, 200
+
+@info_bp.route('/admin/update-skill/<int:skill_level_id>', methods=["PUT", "PATCH"])
+@jwt_required()
+@admin_required
+def update_skill(skill_level_id):
+    """Function to update a single skill record for admin"""
+    # GET statement: SELECT * FROM skills WHERE id = skill_id;
+    stmt = db.select(SkillLevel).where(SkillLevel.id==skill_level_id)
+    skill = db.session.scalar(stmt)
+
+    # Check skill record exists
+    if not skill:
+        return {"message": f"Skill level with id {skill_level_id} does not exist"}, 404
+    
+     # GET JSON body data
+    body_data = request.get_json()
+
+    # Update selected skill
+    updated_skill = skill_level_schema.load(
+        body_data,
+        instance=skill,
+        session=db.session,
+        partial=True
+    )
+
+    db.session.add(updated_skill)
+    db.session.commit()
+
+    return {
+        "message": f"Skill level with id {skill_level_id} updated successfully",
+        "details": jsonify(skill_level_schema.dump(updated_skill))
+        }, 200
