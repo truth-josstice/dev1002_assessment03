@@ -1,5 +1,5 @@
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
-from marshmallow import fields
+from marshmallow import fields, validate
 
 from models import Climb
 
@@ -8,6 +8,14 @@ class ClimbInputSchema(SQLAlchemyAutoSchema):
         model = Climb
         load_instance = True
         include_fk = True
+
+    # Validation for difficulty grade: must be between 1 * 10
+    difficulty_grade = fields.Integer(
+        validate=[validate.Range(min=1, max=10, error="Rating must be between 1-10")]
+    )
+
+    # Validation for set_date: must be date
+    set_date = fields.Date()
 
 class ClimbOutputSchema(SQLAlchemyAutoSchema):
     class Meta:
