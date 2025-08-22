@@ -248,11 +248,11 @@ I will compare the strengths and weaknesses of PostgreSQL and MySQL below in the
 
 - Visitors:
   - Create user profile with unique email, username, with password login
-- Users:
+- User exclusive:
   - Add gym ratings for each gym
   - Add climbs as they are set
   - Add attempts when attempting climbs at gyms
-- Admins:
+- Admin exclusive:
   - Create all entities as required
 
 #### Read
@@ -264,35 +264,36 @@ I will compare the strengths and weaknesses of PostgreSQL and MySQL below in the
   - See gym information
   - See company information including website
   - See a list of climbs posted by users
-- Users:
+  - See a list of skill levels
+  - See a lits of styles
+- User exclusive:
   - See their user profile
   - See all attempts connected to their account
-- Admin:
+- Admin exclusive:
   - See all entitites as required
 
 #### Update
 
 - Visitors:
   - Not authorised for any update functions
-- Users:
+- User exclusive:
   - Update climbs they have posted
   - Update their user information
   - Update any reviews they have created
   - Updating attempts is not how this API is intended to function
-- Admin:
+- Admin exclusive:
   - Update all entities except for reviews (to avoid changing user's input, though deletion is still an option if reviews are not in the spirit of the app or are inappropriate)
 
 #### Delete
 
 - Visitors:
   - Not authorised for any delete functions
-- Users:
+- User exclusive:
   - Delete their own user profile and all associated relationships
   - Delete gym ratings
   - Delete any climbs associated with their account
   - Deleted attempts is not how this API is intended to function
-- Admin:
-  - Delete attempts upon user request
+- Admin exclusive:
   - Delete any and all entities as required
 
 ### Privileges & Tokens

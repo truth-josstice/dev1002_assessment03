@@ -14,10 +14,11 @@ auth_bp = Blueprint("auth", __name__, url_prefix="/")
 @auth_bp.route('/login', methods=["POST"])
 def user_login():
     """
-    On successful login, the frontend should: 
+    Authenticates a user and returns a JWT access token.
+
+    The client should:
     1. Store the current user token
-    2. Redirect to the user profile with:
-        - Authorization: Bearer <token>
+    2. Use the authorization token for all protected requests
     """
     
     # Get login credentials from JSON body data
@@ -35,23 +36,15 @@ def user_login():
     if not user or not user.check_password(body_data["password"]):
         return {"message": "Invalid username or password"}, 401
     
-    # Create an access token for the user, sets it to logout automatically after 2 hours
+    # Create an access token for the user, sets it to logout automatically after 15 minutes
     token = create_access_token(
         identity=str(user.id),
         expires_delta=timedelta(minutes=15)
     )
     
-
     # Return the token and redirect to the user's profile
     return jsonify({
         "token": token,
-        "redirect": {
-            "url": "/profile/",
-            "method": "GET",
-            "headers": {
-                "Authorization": f"Bearer {token}"
-            }
-        }
     })
 
 @auth_bp.route('/register', methods=["POST"])
