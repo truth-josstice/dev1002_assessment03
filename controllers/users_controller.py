@@ -105,3 +105,24 @@ def delete_user(user_id):
     db.session.commit()
 
     return {"message": f"User with id {user_id} deleted successfully."}, 200
+
+@user_bp.route('/admin/make-admin/<int:user_id>', methods=["PATCH"])
+@jwt_required()
+@admin_required
+def make_user_admin(user_id):
+    """Function to make user an admin user"""
+    # GET statement: SELECT * FROM users WHERE id = id;
+    stmt = db.select(User).where(User.id == user_id)
+    user = db.session.scalar(stmt)
+
+    # Check user exists
+    if not user:
+        return {"message": f"User with id {user_id} does not exist."}, 404
+    
+    user.is_admin = True
+    db.session.commit()
+
+    return {
+        "message": f"User {user.username} has been granted admin privileges.",
+        "details": jsonify(user_output_schema.dump(user))
+    }, 200

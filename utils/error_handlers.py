@@ -27,6 +27,14 @@ def register_error_handlers(app):
     
     @app.errorhandler(ValidationError)
     def handle_validation_error(err):
+
+        if "is_admin" in err.messages:
+            return {
+                "error": "Validation failed",
+                "details": {
+                    "is_admin": "Users cannot set status to admin. Please contact system administrators."
+                }
+            }
         return {"error": "Validation failed", "details": err.messages}, 400
     
     @app.errorhandler(IntegrityError)

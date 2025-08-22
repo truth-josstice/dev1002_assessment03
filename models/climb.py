@@ -7,13 +7,13 @@ class Climb(db.Model):
     __tablename__ = "climbs"
 
     id: int = db.Column(db.Integer, primary_key=True)
-    gym_id: int = db.Column(db.Integer, db.ForeignKey("gyms.id", ondelete="CASCADE"))
-    user_id: int = db.Column(db.Integer, db.ForeignKey("users.id", ondelete="CASCADE"))
-    style_id: int = db.Column(db.Integer, db.ForeignKey("styles.id", ondelete="SET NULL"))
-    difficulty_grade: str = db.Column(db.String, nullable=False)
+    gym_id: int = db.Column(db.Integer, db.ForeignKey("gyms.id", ondelete="CASCADE"), nullable=False)
+    user_id: int = db.Column(db.Integer, db.ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    style_id: int = db.Column(db.Integer, db.ForeignKey("styles.id", ondelete="SET NULL"), nullable=True)
+    difficulty_grade: str = db.Column(db.String(32), nullable=False)
     set_date: date = db.Column(db.Date)
 
-    gym = db.relationship("Gym", back_populates="climbs") # Type: Relationship
-    user = db.relationship("User", back_populates="climbs") # Type: Relationship
+    gym = db.relationship("Gym", back_populates="climbs") 
+    user = db.relationship("User", back_populates="climbs") 
     attempt = db.relationship("Attempt", back_populates="climb")
     styles = db.relationship("Style", back_populates="climbs")

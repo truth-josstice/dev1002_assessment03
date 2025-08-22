@@ -107,6 +107,10 @@ After receiving [Feedback from Nhi](./contributions/feedback/Feedback%20Log.md) 
 
 ![ERD with further revision bases on Nhi's suggestions and some simplification](./assets/images/Climbing-Tracker-ERDRevised-2.png)
 
+After finalising the database relationship structure and processing all feedback the final ERD looks like this:
+
+![The finalised ERD table with all relationships and constraints depicted](./assets/images/Climbing-Tracker-ERD-Finalised.png)
+
 ---
 
 ## Choosing a Database System
@@ -227,32 +231,65 @@ I will compare the strengths and weaknesses of PostgreSQL and MySQL below in the
 
 ### Functionality
 
-**CRUD Operations**
-Users of the API will be able to:
+**CRUD Operations**  
 
-**Create:**
-Add gym ratings for each gym
-Add climbs as they are set
-Add attempts when attempting climbs at gyms
-Create user profile with unique email, username, with password login
+**Create:**  
 
-**Read:**
-Selected queries for individual gyms, gym ratings, locations, companies
-Aggregate functions for overall gym ratings and checking climbing progression
+- Visitors:
+  - Create user profile with unique email, username, with password login
+- Users:
+  - Add gym ratings for each gym
+  - Add climbs as they are set
+  - Add attempts when attempting climbs at gyms
+- Admins:
+  - Create all entities as required
 
-**Update:**
-Update attempt progression and comments
-Update user attributes
-Update gym rating and review
+**Read:**  
 
-**Delete:**
-Delete their own user profile and all associated relationships
-Delete attempts
-Delete gym rating
+- Visitors:
+  - See overall gym ratings
+  - See individual gym reviews
+  - See all gym reviews
+  - See gym information
+  - See company information including website
+  - See a list of climbs posted by users
+- Users:
+  - See their user profile
+  - See all attempts connected to their account
+- Admin:
+  - See all entitites as required
 
-### User Access
+**Update:**  
 
-Users will create climbs and only be able to view their own climbs, but all data will be held online. At a later date if this app become more widely used, I would initiate admins to create and standardise climbs and difficulties across multiple gyms, but as most gyms in Australia don't follow any standardised difficulty levels this is not applicable at this stage.
+- Visitors:
+  - Not authorised for any update functions
+- Users:
+  - Update climbs they have posted
+  - Update their user information
+  - Update any reviews they have created
+  - Updating attempts is not how this API is intended to function
+- Admin:
+  - Update all entities except for reviews (to avoid changing user's input, though deletion is still an option if reviews are not in the spirit of the app or are inappropriate)
+
+**Delete:**  
+
+- Visitors:
+  - Not authorised for any delete functions
+- Users:
+  - Delete their own user profile and all associated relationships
+  - Delete gym ratings
+  - Delete any climbs associated with their account
+  - Deleted attempts is not how this API is intended to function
+- Admin:
+  - Delete attempts upon user request
+  - Delete any and all entities as required
+
+### Privileges & Tokens
+
+**Admin**:
+User records have a boolean "is_admin" column, defaulting to false on the creation of their account. 
+
+Users will be given a token upon login to their account
 
 Anyone who accesses the site can see gyms and all related entities.
 

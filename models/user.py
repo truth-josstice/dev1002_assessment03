@@ -11,11 +11,11 @@ class User(db.Model):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String, nullable=False, unique=True)
+    username = db.Column(db.String(100), nullable=False, unique=True)
     _password_hash = db.Column(db.String, nullable=False) # Secure storage of passwords
-    email = db.Column(db.String, nullable=False, unique=True)
-    first_name = db.Column(db.String, nullable=False)
-    last_name = db.Column(db.String)
+    email = db.Column(db.String(320), nullable=False, unique=True)
+    first_name = db.Column(db.String(100), nullable=False)
+    last_name = db.Column(db.String(100))
     skill_level_id = db.Column(db.Integer,db.ForeignKey("skill_levels.id"),  nullable=False)
     is_admin = db.Column(db.Boolean, default=False, nullable=False)
 

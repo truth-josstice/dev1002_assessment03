@@ -96,7 +96,7 @@ def get_gym_info():
     # Serialize and return using schema
     return jsonify(gym_rating_summaries_schema.dump(response_data))
 
-@gym_rating_bp.route('/details/')
+@gym_rating_bp.route('/all/')
 def get_gym_ratings():
     '''Function to GET all individual gym_ratings from the database'''
     # GET statement: SELECT * FROM gym_ratings; --> shows all details of every review
@@ -144,7 +144,7 @@ def get_a_users_reviews(user_id):
 @gym_rating_bp.route('/<int:rating_id>/')
 def get_a_gym_rating(rating_id):
     """ 
-    Retrieves a unique database record using a composite key and returns results in JSON format
+    Retrieves a unique database record and returns results in JSON format
     """
     # SELECT * FROM gym_ratings WHERE gym_rating.id == rating_id;
     stmt = db.select(GymRating).where(GymRating.id == rating_id)

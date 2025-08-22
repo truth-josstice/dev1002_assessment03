@@ -5,7 +5,7 @@ class Style(db.Model):
     __tablename__ = "styles"
 
     id: int = db.Column(db.Integer, primary_key=True)
-    name: str = db.Column(db.String, nullable=False, unique=True)
-    description: str = db.Column(db.String, nullable=False, unique=True)
+    name: str = db.Column(db.String(32), nullable=False, unique=True)
+    description: str = db.Column(db.String(255), nullable=False, unique=True)
 
     climbs = db.relationship("Climb", back_populates="styles")
