@@ -4,7 +4,7 @@ from marshmallow import fields, validate
 from models import SkillLevel
 
 class SkillLevelSchema(SQLAlchemyAutoSchema):
-    """Represents the different skill levels available to be chosen by the user"""
+    """Schema for skill levels both input and display as it is a lookup table"""
     class Meta:
         model = SkillLevel
         load_instance = True
