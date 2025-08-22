@@ -4,20 +4,24 @@ from marshmallow import fields, validate
 from models import Climb
 
 class ClimbInputSchema(SQLAlchemyAutoSchema):
+    """Input schema for users to add climbs including all validation"""
     class Meta:
         model = Climb
         load_instance = True
         include_fk = True
 
-    # Validation for difficulty grade: must be between 1 * 10
+    # Validation for fields:
+    gym_id = fields.Integer(required=True)
+    user_id = fields.Integer(required=True)
+    style_id = fields.Integer(required=True)
     difficulty_grade = fields.Integer(
+        required=True,
         validate=[validate.Range(min=1, max=10, error="Rating must be between 1-10")]
     )
-
-    # Validation for set_date: must be date
     set_date = fields.Date(required=False)
 
 class ClimbOutputSchema(SQLAlchemyAutoSchema):
+    """Display schema with customised fields for clean and simplified display"""
     class Meta:
         model = Climb
         load_instance = True

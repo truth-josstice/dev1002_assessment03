@@ -1,10 +1,11 @@
 from init import db
 
 class Gym(db.Model):
+    """Represents a gym and its location, directly related to company entity"""
     __tablename__ = "gyms"
 
     id: int = db.Column(db.Integer, primary_key=True)
-    company_id: int = db.Column(db.Integer, db.ForeignKey("companies.id", ondelete="CASCADE"))
+    company_id: int = db.Column(db.Integer, db.ForeignKey("companies.id", ondelete="CASCADE"), nullable=False)
     city: str = db.Column(db.String(100), nullable=False)
     street_address: str = db.Column(db.String(255), unique=True)
     name: str = db.Column(db.String(100), nullable=False)

@@ -2,6 +2,7 @@ from init import db
 from sqlalchemy import CheckConstraint
 
 class GymRating(db.Model):
+    """Represents a user posted rating for a gym directly related to user, gym and skill level entitites"""
     __tablename__ = "gym_ratings"
 
     id: int = db.Column(db.Integer, primary_key=True)

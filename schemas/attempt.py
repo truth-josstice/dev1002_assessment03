@@ -1,6 +1,7 @@
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 from marshmallow_sqlalchemy.fields import Nested
 from marshmallow import fields, validate
+from datetime import datetime
 
 from models import Attempt
 
@@ -39,21 +40,19 @@ class AttemptInputSchema(SQLAlchemyAutoSchema):
         load_instance = True
         include_fk = True
 
-    # Validation for fun_rating: must be between 1 & 5
+    # Validation for fields:
+    user_id = fields.Integer(required=True)
+    climb_id = fields.Integer(required=True)
     fun_rating = fields.Integer(
         required=True,
-        validate=[
-            validate.Range(min=1, max=5, error="Ratings must be between 1-5")
-        ]
+        validate=[validate.Range(min=1, max=5, error="Ratings must be between 1-5")]
     )
-
-    # Validation for comments: must be below 500 chars
     comments = fields.String(
+        required=False,
         validate=[validate.Length(max=500, error="Comments cannot exceed 500 characters")]
     )
-
-    # Validation for completed: defaults to false
     completed = fields.Boolean(load_default=False)
+    attempted_at = fields.DateTime(load_default=datetime.now)
 
 
 attempt_output_schema = AttemptOutputSchema()

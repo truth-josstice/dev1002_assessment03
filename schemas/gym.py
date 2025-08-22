@@ -1,9 +1,11 @@
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
-from marshmallow_sqlalchemy.fields import RelatedList, Nested
+from marshmallow_sqlalchemy.fields import Nested
+from marshmallow import fields, validate
 
 from models import Gym
 
 class GymSchema(SQLAlchemyAutoSchema):
+    """Schema for gym entities both input and display as it is a simple entity"""
     class Meta:
         model = Gym
         load_instance = True
@@ -12,7 +14,23 @@ class GymSchema(SQLAlchemyAutoSchema):
         fields=("id", "company", "name", "city", "street_address")
         ordered = True
 
+    # Company relationship
     company = Nested("CompanySchema")
+
+    # Validation for fields:
+    company_id = fields.Integer(required=True)
+    city = fields.String(
+        required=True,
+        validate=[validate.Length(max=100, error="City cannot exceed 100 characters")]
+    )
+    street_address = fields.String(
+        required=True,
+        validate=[validate.Length(max=255, error="Street address cannot exceed 255 characters")]
+    )
+    name = fields.String(
+        required=True,
+        validate=[validate.Length(max=100, error="Name cannot exceed 100 characters")]
+    )
 
 gym_schema = GymSchema()
 gyms_schema = GymSchema(many=True)

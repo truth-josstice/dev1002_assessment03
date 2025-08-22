@@ -71,7 +71,7 @@ def seed_tables():
         ),
         Style(
             name= "Coordination",
-            description = "A style of climb requiring price timing and syncronized movements, usually involving all four limbs at the same time."
+            description = "A style of climb requiring precice timing and syncronized movements, usually involving all four limbs at the same time."
         )
     ]
     db.session.add_all(styles)
@@ -79,11 +79,11 @@ def seed_tables():
     companies = [
         Company(
             name = "Company 1",
-            website = "www.website.com"
+            website = "https://example.com"
         ),
         Company(
             name = "Company 2",
-            website = "www.website2.com"
+            website = "https://test.com"
         )
     ]
     db.session.add_all(companies)
@@ -261,14 +261,6 @@ def seed_tables():
             comments = "I usually don't like dynamic climbs but this was heaps of fun!",
             completed = True
         )
-        # Attempt(
-        #     user_id = users[0].id,
-        #     climb_id = climbs[4].id,
-        #     fun_rating = 5,
-        #     comments = "I usually don't like dynamic climbs but this was heaps of fun!",
-        #     completed = True,
-        #     attempt_date = "12/01/2025"
-        # )
     ]
     
     db.session.add_all(attempts)

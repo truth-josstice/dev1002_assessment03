@@ -60,9 +60,13 @@
 
 1. NOT NULL constraints added to ERD
 2. Changed to a composite key for GymRatings!
-    - Had to abandon this composite key, as it would not allow for cascading of records when user with matching user_id was deleted
-3. Changed name variables from 32 to 100 which should cover most extreme edge cases of name lengths for individuals or corporations
-4. Updated README with clearer description of purpose and user stories.
+    - Had to abandon this composite key, later on during schemas and models as it would not allow for cascading of records when user with matching user_id was deleted
+3. VARCHAR changes:
+    - Changed name variables from 32 to 100 which should cover most extreme edge cases of name lengths for individuals or corporations and added to validators on DB and Schema level
+    - Changed website URL length to 1000 to ensure edge cases are still allowed and added to validators on DB and Schema level
+    - Email lenght of 255 is standard due to constraints on email addresses as part of standard formatting
+    - As at this stage the scope of the project is only Australia, 255 length is appropriate in almost all but the most extreme edge cases including rural addresses and company titles. However due to the relationship between companies and gyms this should not be required as companies are already listed
+4. Updated README with clearer description of purpose and user stories
 5. Added comparison of ACID v BASE to README file to further detail the benefits of my chosen database management system
 6. Added details about why I chose the particular DBMS and why I chose the comparative systems
 
@@ -144,11 +148,11 @@
 - I had initially considered making the "completed" column more of a "status" column with some constraints, so this is a good idea definitely for a future update. I think the comments section if used correctly would be more appropriate for climbers, as it accounts for varying levels of complexity. A beginner user might just comment "it was fun" or "it was really hard", whereas an intermediate or advanced might include "double kneebar at the start of the climb was really difficult to get set in, but I figured it out and worked on the second half. I have done all the moves in sequence now!"
 - The VARCHAR limit is definitely not large enough, even my example above was too long, will change that to 500.
 - Absolutely great suggestion in regards to the default for attempt_date, this is an easy implementation in to the project as well!
-- Addition of a Lookup table for style of climb is great, I will look into how to enact this into the database! I will also add another lookup for skill_level as it is used in multiple tables and can be further normalised, as well as enacting database level validation automatically through a primary key
+- Addition of a Lookup table for style of climb is great, I will look into how to enact this into the database! I will also add another lookup for skill_level as it is used in multiple tables and can be further normalised, as well as enacting database level validation automatically through a primary key. This definitely makes a lot of the constraints much easier to enact, as looking up id from a table eliminates the need for ENUM constraints.
 
 ## Action Plans
 
-1. As I have followed Jordan's feedback and changed the primary key for the gym_ratings table to a composite PK, no action needs to be taken to ensure this is enforced in the database
+1. Add unique constraint to allow users only one review per gym
 2. Change limit of text input for comments in attempts table to allow for appropriate length and reflection
 3. Add to future plans and development in README considerations about addition of "status" v "completed"
 4. Change the attempt_date column to attempted_at and change the default value to current date+time
@@ -156,4 +160,10 @@
 
 ## Implementation
 
-1 
+1. Added table_args constraint to the gym_ratings table after re-instating the primary key for correct CASCADE functionality
+    - "_ _ table_args _ _" in gym_rating model
+2. VARCHAR changes:
+    - Changed the limit of comments and reviews to 500 to allow for detailed information and added to all validation on DB and Schema level
+3. Appended readme with future considerations for design choices
+4. Implemented the change above and added to validation on DB and schema level
+5. Implemented and added both a styles and skill level table and created relationships across all entities

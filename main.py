@@ -13,7 +13,8 @@ from controllers import (
     climb_bp,
     attempt_bp,
     gym_rating_bp,
-    user_bp
+    user_bp,
+    info_bp
 )
 
 load_dotenv()
@@ -44,18 +45,13 @@ def create_app(test_config=None) -> Flask:
         attempt_bp, 
         gym_rating_bp,
         user_bp,
-        auth_bp]
+        auth_bp,
+        info_bp]
     
     for bp in blueprints:
         app.register_blueprint(bp)
 
     register_error_handlers(app)
-
-    # removed for DRY coding
-    # app.register_blueprint(db_commands)
-    # app.register_blueprint(company_bp)
-    # app.register_blueprint(gym_bp)
-    # app.register_blueprint(climb_bp)
 
     app.json.sort_keys = False
 

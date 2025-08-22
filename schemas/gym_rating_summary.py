@@ -5,6 +5,7 @@ from marshmallow import fields
 from models import GymRating
 
 class GymRatingSummarySchema(SQLAlchemyAutoSchema):
+    """Display schema for summary of gym ratings"""
     class Meta:
         model = GymRating
         load_instance = False
@@ -16,7 +17,7 @@ class GymRatingSummarySchema(SQLAlchemyAutoSchema):
     
     # Aggregate fields
     average_difficulty_rating = fields.Float(required=True)
-    total_reviews = fields.Int(required=True)
+    total_reviews = fields.Integer(required=True)
     recommended_skill_level = Nested("SkillLevelSchema", only=("level", "description"))
 
 gym_rating_summary_schema = GymRatingSummarySchema()
