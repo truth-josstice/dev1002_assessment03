@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request
+from sqlalchemy.orm import joinedload
 from flask_jwt_extended import jwt_required
 
 from init import db
@@ -12,8 +13,8 @@ company_bp = Blueprint("company", __name__, url_prefix="/companies")
 def get_companies():
     '''Function to GET multiple companies from the database'''
     # GET statement: SELECT * FROM companies;
-    stmt = db.select(Company)
-    companies = db.session.scalars(stmt).all()
+    stmt = db.select(Company).options(joinedload(Company.gym))
+    companies = db.session.scalars(stmt).unique().all()
 
     if not companies:
         return {"message": "No company records found."}, 404

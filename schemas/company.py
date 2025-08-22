@@ -1,5 +1,5 @@
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
-from marshmallow_sqlalchemy.fields import RelatedList, Nested
+from marshmallow_sqlalchemy.fields import RelatedList, Nested, Related
 from marshmallow import fields, validate
 
 from models import Company
@@ -10,12 +10,11 @@ class CompanySchema(SQLAlchemyAutoSchema):
     class Meta:
         model = Company
         load_instance = True
-        include_relationships=True
         ordered=True
-        fields=("id", "name", "website", "gyms")
+        fields=("id", "name", "website", "gym")
     
     # Gym relationship
-    gyms=RelatedList(Nested("GymSchema", only=("name", "street_address")))
+    gym=RelatedList(Nested("GymSchema", only=("name", "street_address")))
 
     # Validation for fields:
     name = fields.String(

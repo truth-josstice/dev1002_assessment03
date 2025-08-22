@@ -11,11 +11,8 @@ class GymSchema(SQLAlchemyAutoSchema):
         load_instance = True
         include_fk = False
         include_relationships = True
-        fields=("id", "company", "name", "city", "street_address")
+        fields=("id", "company_id", "name", "city", "street_address")
         ordered = True
-
-    # Company relationship
-    company = Nested("CompanySchema")
 
     # Validation for fields:
     company_id = fields.Integer(required=True)

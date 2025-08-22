@@ -16,7 +16,7 @@ from schemas import (
 )
 from utils import admin_required
 
-gym_rating_bp = Blueprint("gym_rating", __name__, url_prefix="/gym_ratings")
+gym_rating_bp = Blueprint("gym_rating", __name__, url_prefix="/gym-ratings")
 
 
 @gym_rating_bp.route('/')
