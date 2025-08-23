@@ -59,6 +59,9 @@ def register_error_handlers(app):
             
             if err.orig.pgcode == errorcodes.NUMERIC_VALUE_OUT_OF_RANGE:
                 return {"error": err.orig.diag.message_primary}, 400
+            
+            if err.orig.pgcode == errorcodes.FOREIGN_KEY_VIOLATION:
+                return {"error": err.orig.diag.message_primary}, 400
         
         return {"error": "Database Integrity error has occured."}, 400
     

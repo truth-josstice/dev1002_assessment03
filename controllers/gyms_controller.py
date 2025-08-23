@@ -1,14 +1,12 @@
 from flask import Blueprint, jsonify, request
-from sqlalchemy.orm import joinedload
 from flask_jwt_extended import jwt_required
 
 
 from init import db
-from models import Gym
+from models import Gym, Company
 from utils import admin_required
 
 from schemas import (
-    climbs_output_schema, 
     gym_schema, 
     gyms_schema
 )
@@ -46,6 +44,17 @@ def add_a_gym():
     """A function to POST a gym for admins"""
     # GET JSON body data
     body_data = request.get_json()
+
+    # Get company_id from body data
+    company_id = body_data.get('company_id')
+
+    # Check if company exists
+    stmt = db.select(Company).where(Company.id==company_id)
+    company = db.session.scalar(stmt)
+
+    # If company doesn't exist
+    if not company:
+        return jsonify({"error": f"Company with id {company_id} does not exist"}), 400
 
     # Create gym from body_data using gym_schema
     new_gym = gym_schema.load(body_data, session=db.session)

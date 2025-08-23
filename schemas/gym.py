@@ -1,5 +1,4 @@
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
-from marshmallow_sqlalchemy.fields import Nested
 from marshmallow import fields, validate
 
 from models import Gym
