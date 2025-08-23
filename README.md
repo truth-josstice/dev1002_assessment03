@@ -528,6 +528,8 @@ The application is currently live at: [https://climbing-tracker-of-truth-and-jos
 ### Continuous Deployment
 
 - The setup for my deployment supports automatic deployments from GitHub: pushes to main branch will trigger new build
+  - Example:
+![An example of live deployment with the latest commit to GitHub](./assets/images/automatic-continuous-deployment.png)
 - It does not currently support database schema changes to the deployed environment, creation of `flask db migrate` and `flask db update` would be necessary for this to occur to ensure database integrity
 - Any new database operations should be tested in a local development environment first to ensure deployed database integrity
 
