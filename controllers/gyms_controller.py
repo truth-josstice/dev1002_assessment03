@@ -39,27 +39,7 @@ def get_a_gym(gym_id):
     
     return jsonify(gym_schema.dump(gym))
 
-
-@gym_bp.route('/climbs/')
-def get_gym_climbs():
-    """Function to get all the climbs for all gyms"""
-    gyms_with_climbs = Gym.query.options(
-        joinedload(Gym.climbs)
-    ).order_by(Gym.name).all()
-
-    result = []
-    for gym in gyms_with_climbs:
-        gym_data = {
-            "gym_id": gym.id,
-            "name": gym.name,
-            "city": gym.city,
-            "climbs": climbs_output_schema.dump(gym.climbs)
-        }
-        result.append(gym_data)
-    
-    return jsonify(result)
-
-@gym_bp.route('/admin/add/', methods=["POST"])
+@gym_bp.route('/', methods=["POST"])
 @jwt_required()
 @admin_required
 def add_a_gym():
@@ -75,7 +55,7 @@ def add_a_gym():
 
     return jsonify(gym_schema.dump(new_gym)), 201
 
-@gym_bp.route('/admin/remove/<int:gym_id>', methods=["DELETE"])
+@gym_bp.route('/<int:gym_id>/', methods=["DELETE"])
 @jwt_required()
 @admin_required
 def remove_a_gym(gym_id):
@@ -91,7 +71,7 @@ def remove_a_gym(gym_id):
 
     return {"message": f"Gym with id {gym_id} deleted successfully."}, 200
 
-@gym_bp.route('/admin/update/<int:gym_id>/', methods=["PUT", "PATCH"])
+@gym_bp.route('/<int:gym_id>/', methods=["PUT", "PATCH"])
 @jwt_required()
 @admin_required
 def update_a_gym_record(gym_id):

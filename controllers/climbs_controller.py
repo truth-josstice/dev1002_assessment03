@@ -24,9 +24,10 @@ def get_climbs():
     
     return jsonify(climbs_output_schema.dump(climbs))
 
-@climb_bp.route('/add-climb/', methods=["POST"])
+@climb_bp.route('/', methods=["POST"])
 @jwt_required()
 def new_climb():
+    """Function to add a climb to the database using current user."""
     # Get data from the REQUEST body
     body_data = request.get_json()
 
@@ -42,9 +43,10 @@ def new_climb():
     
     return jsonify(climb_output_schema.dump(new_climb)), 201
 
-@climb_bp.route('/add-climbs/', methods=["POST"])
+@climb_bp.route('/batch/', methods=["POST"])
 @jwt_required()
 def new_climbs():
+    """Function to add multiple climbs using current user"""
     # Get data from the REQUEST body
     body_data = request.get_json()
 
@@ -60,7 +62,7 @@ def new_climbs():
     
     return jsonify(climbs_output_schema.dump(new_climbs)), 201
 
-@climb_bp.route('/remove-climb/<int:climb_id>/', methods=["DELETE"])
+@climb_bp.route('/<int:climb_id>/', methods=["DELETE"])
 @jwt_required()
 def remove_a_climb(climb_id):
     """Function to DELETE a single climb belonging to the user"""
@@ -81,7 +83,7 @@ def remove_a_climb(climb_id):
     db.session.commit()
     return {"message": f"Climb with id {climb_id} has been removed successfully."},200
 
-@climb_bp.route('/update/<int:climb_id>/', methods=["PUT", "PATCH"])
+@climb_bp.route('/<int:climb_id>/', methods=["PUT", "PATCH"])
 @jwt_required()
 def update_a_climb_record(climb_id):
     """Function to UPDATE a single climb belonging to the user"""

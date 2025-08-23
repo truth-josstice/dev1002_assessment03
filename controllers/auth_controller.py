@@ -87,7 +87,7 @@ def user_logout():
     """
     return {"message": "Successfully logged out, access token will expire shortly."}, 200
 
-@auth_bp.route('/delete-my-profile/')
+@auth_bp.route('/delete', methods=["DELETE"])
 @jwt_required()
 def user_delete_profile():
     """Function for user to delete their own profile"""

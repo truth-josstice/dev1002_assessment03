@@ -14,7 +14,8 @@ from controllers import (
     attempt_bp,
     gym_rating_bp,
     user_bp,
-    info_bp
+    info_bp,
+    routes_bp
 )
 
 load_dotenv()
@@ -46,7 +47,9 @@ def create_app(test_config=None) -> Flask:
         gym_rating_bp,
         user_bp,
         auth_bp,
-        info_bp]
+        info_bp,
+        routes_bp
+        ]
     
     for bp in blueprints:
         app.register_blueprint(bp)

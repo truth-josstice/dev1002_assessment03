@@ -33,7 +33,7 @@ def get_a_company(company_id):
 
     return jsonify(company_schema.dump(company))
 
-@company_bp.route('/admin/add/', methods=["POST"])
+@company_bp.route('/', methods=["POST"])
 @jwt_required()
 @admin_required
 def add_a_company():
@@ -49,7 +49,7 @@ def add_a_company():
 
     return jsonify(company_schema.dump(new_company))
 
-@company_bp.route('/admin/remove/<int:company_id>', methods=["DELETE"])
+@company_bp.route('/<int:company_id>', methods=["DELETE"])
 @jwt_required()
 @admin_required
 def remove_a_company(company_id):
@@ -66,7 +66,7 @@ def remove_a_company(company_id):
 
     return {"message": f"Company with id {company_id} deleted successfully."}, 200
 
-@company_bp.route('/admin/update/<int:company_id>/', methods=["PUT", "PATCH"])
+@company_bp.route('/<int:company_id>/', methods=["PUT", "PATCH"])
 @jwt_required()
 @admin_required
 def update_a_company_record(company_id):

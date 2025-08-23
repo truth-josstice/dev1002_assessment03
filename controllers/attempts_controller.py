@@ -31,7 +31,7 @@ def get_user_attempts():
         "attempts": attempts_output_schema.dump(attempts)
         })
 
-@attempt_bp.route('/<int:attempt_id>/')
+@attempt_bp.route('/<int:attempt_id>')
 @jwt_required()
 def get_a_single_attempt(attempt_id):
     """Function to get a single attempt record from the database"""
@@ -48,7 +48,7 @@ def get_a_single_attempt(attempt_id):
     
     return jsonify(attempt_output_schema.dump(attempt))
 
-@attempt_bp.route('/add-attempt/', methods=["POST"])
+@attempt_bp.route('/', methods=["POST"])
 @jwt_required()
 def add_an_attempt():
     """Function to add a single attempt using current_user"""
@@ -66,7 +66,7 @@ def add_an_attempt():
 
     return jsonify(attempt_output_schema.dump(new_attempt))
 
-@attempt_bp.route('/admin/all/')
+@attempt_bp.route('/all/')
 @jwt_required()
 @admin_required
 def get_all_attempts():
@@ -94,7 +94,7 @@ def remove_an_attempt(attempt_id):
     if not attempt:
         return {"message": f"Attempt with id {attempt_id} does not exist."}, 404
     
-    db.session.remove(attempt)
+    db.session.delete(attempt)
     db.session.commit()
 
     return {"message": f"Attempt with id {attempt_id} deleted successfully."}, 200

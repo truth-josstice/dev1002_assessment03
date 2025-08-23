@@ -7,6 +7,7 @@ from .attempts_controller import attempt_bp
 from .gym_ratings_controller import gym_rating_bp
 from .users_controller import user_bp
 from .info_controller import info_bp
+from .route_info_controller import routes_bp
 
 __all__ =[
     'db_commands',
@@ -17,5 +18,6 @@ __all__ =[
     'attempt_bp',
     'gym_rating_bp',
     'user_bp',
-    'info_bp'
+    'info_bp',
+    'routes_bp'
 ]

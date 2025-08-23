@@ -157,7 +157,7 @@ def get_a_gym_rating(rating_id):
     
     return jsonify(gym_rating_output_schema.dump(rating))
         
-@gym_rating_bp.route('/add-rating/', methods=["POST"])
+@gym_rating_bp.route('/', methods=["POST"])
 @jwt_required()
 def add_rating():
     # GET JSON body_data
@@ -187,7 +187,7 @@ def add_rating():
 
     return jsonify(gym_rating_output_schema.dump(new_rating)), 201
 
-@gym_rating_bp.route('/remove-rating/<int:gym_rating_id>/', methods=["DELETE"])
+@gym_rating_bp.route('/<int:gym_rating_id>/', methods=["DELETE"])
 @jwt_required()
 def remove_a_gym_rating(gym_rating_id):
     """Function to DELETE a single gym rating belonging to the user"""
@@ -212,7 +212,7 @@ def remove_a_gym_rating(gym_rating_id):
     return {"message": f"Climb with id {gym_rating_id} has been removed successfully."}, 200
 
 
-@gym_rating_bp.route('/admin/remove/<int:gym_rating_id>/', methods=["DELETE"])
+@gym_rating_bp.route('/admin/<int:gym_rating_id>/', methods=["DELETE"])
 @jwt_required()
 @admin_required
 def remove_any_rating(gym_rating_id):
@@ -231,7 +231,7 @@ def remove_any_rating(gym_rating_id):
     return {"message": f"Climb with id {gym_rating_id} has been removed successfully."}, 200
 
 
-@gym_rating_bp.route('/update/<int:gym_rating_id>/', methods=["PUT", "PATCH"])
+@gym_rating_bp.route('/<int:gym_rating_id>/', methods=["PUT", "PATCH"])
 @jwt_required()
 def update_a_gym_rating_record(gym_rating_id):
     """Function to UPDATE a users own gym_rating from the database"""

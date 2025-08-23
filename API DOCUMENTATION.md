@@ -26,7 +26,7 @@
 
 ### Deployment URL
 
-`<paste deployment address here>`
+`<paste deployment address here>/`
 
 ### Authentication & Encryption
 
@@ -38,59 +38,59 @@
 
 ## Endpoint List
 
-| Endpoint | Methods | Rule |
-| :--- | :--- | :--- |
-| `attempt.add_an_attempt` | POST | `/attempts/add-attempt/` |
-| `attempt.get_a_single_attempt` | GET | `/attempts/<int:attempt_id>/` |
-| `attempt.get_all_attempts` | GET | `/attempts/admin/all/` |
-| `attempt.get_user_attempts` | GET | `/attempts/` |
-| `attempt.remove_an_attempt` | DELETE | `/attempts/admin/remove/<int:attempt_id>/` |
-| `auth.register_user` | POST | `/register` |
-| `auth.user_delete_profile` | GET | `/delete-my-profile/` |
-| `auth.user_login` | POST | `/login` |
-| `auth.user_logout` | GET | `/logout` |
-| `climb.get_climbs` | GET | `/climbs/` |
-| `climb.new_climb` | POST | `/climbs/add-climb/` |
-| `climb.new_climbs` | POST | `/climbs/add-climbs/` |
-| `climb.remove_a_climb` | DELETE | `/climbs/remove-climb/<int:climb_id>/` |
-| `climb.update_a_climb_record` | PATCH, PUT | `/climbs/update/<int:climb_id>/` |
-| `company.add_a_company` | POST | `/companies/admin/add/` |
-| `company.get_a_company` | GET | `/companies/<int:company_id>` |
-| `company.get_companies` | GET | `/companies/` |
-| `company.remove_a_company` | DELETE | `/companies/admin/remove/<int:company_id>` |
-| `company.update_a_company_record` | PATCH, PUT | `/companies/admin/update/<int:company_id>/` |
-| `gym.add_a_gym` | POST | `/gyms/admin/add/` |
-| `gym.get_a_gym` | GET | `/gyms/<int:gym_id>/` |
-| `gym.get_gym_climbs` | GET | `/gyms/climbs/` |
-| `gym.get_gyms` | GET | `/gyms/` |
-| `gym.remove_a_gym` | DELETE | `/gyms/admin/remove/<int:gym_id>` |
-| `gym.update_a_gym_record` | PATCH, PUT | `/gyms/admin/update/<int:gym_id>/` |
-| `gym_rating.add_rating` | POST | `/gym-ratings/add-rating/` |
-| `gym_rating.get_a_gym_rating` | GET | `/gym-ratings/<int:rating_id>/` |
-| `gym_rating.get_a_gyms_reviews` | GET | `/gym-ratings/by-gym/<int:gym_id>/` |
-| `gym_rating.get_a_users_reviews` | GET | `/gym-ratings/by-user/<int:user_id>/` |
-| `gym_rating.get_gym_info` | GET | `/gym-ratings/` |
-| `gym_rating.get_gym_ratings` | GET | `/gym-ratings/all/` |
-| `gym_rating.remove_a_gym_rating` | DELETE | `/gym-ratings/remove-rating/<int:gym_rating_id>/` |
-| `gym_rating.remove_any_rating` | DELETE | `/gym-ratings/admin/remove/<int:gym_rating_id>/` |
-| `gym_rating.update_a_gym_rating_record` | PATCH, PUT | `/gym-ratings/update/<int:gym_rating_id>/` |
-| `info.add_skill` | POST | `/learn/admin/add-skill/` |
-| `info.add_style` | POST | `/learn/admin/add-style/` |
-| `info.api_info` | GET | `/learn/about-api/` |
-| `info.get_skill_levels` | GET | `/learn/skill-levels/` |
-| `info.get_styles` | GET | `/learn/styles/` |
-| `info.remove_skill` | DELETE | `/learn/admin/remove-skill/<int:skill_level_id>` |
-| `info.remove_style` | DELETE | `/learn/admin/remove-style/<int:style_id>` |
-| `info.update_skill` | PATCH, PUT | `/learn/admin/update-skill/<int:skill_level_id>` |
-| `info.update_style` | PATCH, PUT | `/learn/admin/update-style/<int:style_id>` |
-| `static` | GET | `/static/<path:filename>` |
-| `user.add_new_user` | POST | `/users/admin/add/` |
-| `user.delete_user` | DELETE | `/users/admin/remove/<int:user_id>` |
-| `user.get_user_profile` | GET | `/users/profile/` |
-| `user.get_users` | GET | `/users/` |
-| `user.make_user_admin` | PATCH | `/users/admin/grant-admin/<int:user_id>` |
-| `user.revoke_user_admin` | PATCH | `/users/admin/revoke-admin/<int:user_id>` |
-| `user.update_user_profile` | PATCH, PUT | `/users/update-profile/` |
+| Endpoint                               | Methods     | Rule                                     |
+|----------------------------------------|-------------|------------------------------------------|
+| `attempt.add_an_attempt`               | POST        | `/attempts/`                             |
+| `attempt.get_a_single_attempt`         | GET         | `/attempts/<int:attempt_id>/`             |
+| `attempt.get_all_attempts`             | GET         | `/attempts/all/`                         |
+| `attempt.get_user_attempts`            | GET         | `/attempts/`                             |
+| `attempt.remove_an_attempt`            | DELETE      | `/attempts/admin/remove/<int:attempt_id>/`|
+| `auth.register_user`                   | POST        | `/register`                              |
+| `auth.user_delete_profile`             | DELETE      | `/delete`                                |
+| `auth.user_login`                      | POST        | `/login`                                 |
+| `auth.user_logout`                     | GET         | `/logout`                                |
+| `climb.get_climbs`                     | GET         | `/climbs/`                               |
+| `climb.new_climb`                      | POST        | `/climbs/`                               |
+| `climb.new_climbs`                     | POST        | `/climbs/batch/`                         |
+| `climb.remove_a_climb`                 | DELETE      | `/climbs/<int:climb_id>/`                |
+| `climb.update_a_climb_record`          | PATCH, PUT  | `/climbs/<int:climb_id>/`                |
+| `company.add_a_company`                | POST        | `/companies/`                            |
+| `company.get_a_company`                | GET         | `/companies/<int:company_id>/`            |
+| `company.get_companies`                | GET         | `/companies/`                            |
+| `company.remove_a_company`             | DELETE      | `/companies/<int:company_id>/`            |
+| `company.update_a_company_record`      | PATCH, PUT  | `/companies/<int:company_id>/`           |
+| `gym.add_a_gym`                        | POST        | `/gyms/`                                 |
+| `gym.get_a_gym`                        | GET         | `/gyms/<int:gym_id>/`                    |
+| `gym.get_gyms`                         | GET         | `/gyms/`                                 |
+| `gym.remove_a_gym`                     | DELETE      | `/gyms/<int:gym_id>/`                    |
+| `gym.update_a_gym_record`              | PATCH, PUT  | `/gyms/<int:gym_id>/`                    |
+| `gym_rating.add_rating`                | POST        | `/gym-ratings/`                          |
+| `gym_rating.get_a_gym_rating`          | GET         | `/gym-ratings/<int:rating_id>/`          |
+| `gym_rating.get_a_gyms_reviews`        | GET         | `/gym-ratings/by-gym/<int:gym_id>/`      |
+| `gym_rating.get_a_users_reviews`       | GET         | `/gym-ratings/by-user/<int:user_id>/`    |
+| `gym_rating.get_gym_info`              | GET         | `/gym-ratings/`                          |
+| `gym_rating.get_gym_ratings`           | GET         | `/gym-ratings/all/`                      |
+| `gym_rating.remove_a_gym_rating`       | DELETE      | `/gym-ratings/<int:gym_rating_id>/`      |
+| `gym_rating.remove_any_rating`         | DELETE      | `/gym-ratings/admin/<int:gym_rating_id>/`|
+| `gym_rating.update_a_gym_rating_record`| PATCH, PUT  | `/gym-ratings/<int:gym_rating_id>/`      |
+| `info.add_skill`                       | POST        | `/learn/skills/`                         |
+| `info.add_style`                       | POST        | `/learn/styles/`                         |
+| `info.api_info`                        | GET         | `/learn/about-api/`                      |
+| `info.get_skill_levels`                | GET         | `/learn/skills/`                         |
+| `info.get_styles`                      | GET         | `/learn/styles/`                         |
+| `info.remove_skill`                    | DELETE      | `/learn/skills/<int:skill_level_id>/`    |
+| `info.remove_style`                    | DELETE      | `/learn/styles/<int:style_id>/`          |
+| `info.update_skill`                    | PATCH, PUT  | `/learn/skills/<int:skill_level_id>/`    |
+| `info.update_style`                    | PATCH, PUT  | `/learn/styles/<int:style_id>/`          |
+| `routes.available_routes`              | GET         | `/`                                      |
+| `static`                               | GET         | `/static/<path:filename>/`                |
+| `user.add_new_user`                    | POST        | `/users/`                                |
+| `user.delete_user`                     | DELETE      | `/users/<int:user_id>/`                  |
+| `user.get_user_profile`                | GET         | `/users/profile/`                        |
+| `user.get_users`                       | GET         | `/users/`                                |
+| `user.make_user_admin`                 | PATCH       | `/users/admin/<int:user_id>/grant/`      |
+| `user.revoke_user_admin`               | PATCH       | `/users/admin/<int:user_id>/revoke/`     |
+| `user.update_user_profile`             | PATCH, PUT  | `/users/update-profile/`                 |
 
 ---
 
@@ -110,8 +110,7 @@ Detailed description of all routes below!
 
 ### Request
 
-```json
-{
+```json{
     "username": "testuser",
     "password": "SecurePassword123!"
 }
@@ -121,24 +120,21 @@ Detailed description of all routes below!
 
 **200 OK**  
 
-```json
-{
+```json{
     "token": "<jwt_token_here>"
 }
 ```
 
 **400 Bad Request**  
 
-```json
-{
+```json{
     "message": "Username and password are required"
 }
 ```
 
 **401 Unauthorized**  
 
-```json
-{
+```json{
     "message": "Invalid username or password"
 }
 ```
@@ -151,8 +147,7 @@ Detailed description of all routes below!
 
 ### Request Body
 
-```json
-{
+```json{
     "username": "testuser",
     "email": "test@example.com",
     "password": "SecurePassword123!",
@@ -166,8 +161,7 @@ Detailed description of all routes below!
 
 **201 Created**  
 
-```json
-{
+```json{
     "message": "User created successfully.",
     "access_token": "<jwt_token_here>",
     "user": {
@@ -187,16 +181,14 @@ Detailed description of all routes below!
 
 **409 Conflict** (email already exists)
 
-```json
-{
+```json{
     "message": "An account with this email already exists, please login or enter a different email."
 }
 ```
 
 **409 Conflict** (username already exists)
 
-```json
-{
+```json{
     "message": "An account with the username testuser already exists. Please choose a different username."
 }
 ```
@@ -205,35 +197,33 @@ Detailed description of all routes below!
 
 **Logs out a user (JWT token will expire shortly).**
 
-- Requires: `Authorization: Bearer <token>`
+- Requires: `Authorization: Bearer <token>/`
 
 ### Responses
 
 **200 OK**  
 
-```json
-{
+```json{
     "message": "Successfully logged out, access token will expire shortly."
 }
 ```
 
-### `DELETE /delete-my-profile/`
+### `DELETE /delete`
 
 **Deletes the current authenticated user's profile.**
 
-- Requires: `Authorization: Bearer <token>`
+- Requires: `Authorization: Bearer <token>/`
 
 ### Responses
 
 **200 OK**  
 
-```json
-{
+```json{
     "message": "Your user account and all associated data has been deleted. Please join us again sometime."
 }
 ```
 
-[Back to Top](#api-documentation)
+↑ [Back to Top](#api-documentation)
 
 ---
 
@@ -242,13 +232,14 @@ Detailed description of all routes below!
 Information Routes (Lookup Tables)
 
 ### `GET /learn/styles/`
+
 Retrieves all climbing style records. Publicly accessible.
 
 ### Responses
 
-**200 OK**
-```json
+**200 OK**  
 
+```json
 [
   {
     "id": 1,
@@ -266,13 +257,12 @@ Retrieves all climbing style records. Publicly accessible.
 **404 Not Found**  
 
 ```json
-
 {
   "message": "No styles found"
 }
 ```
 
-### `GET /learn/skill-levels/`
+### `GET /learn/skills/`
 
 Retrieves all skill level records. Publicly accessible.
 
@@ -281,7 +271,6 @@ Retrieves all skill level records. Publicly accessible.
 **200 OK**  
 
 ```json
-
 [
   {
     "id": 1,
@@ -299,13 +288,13 @@ Retrieves all skill level records. Publicly accessible.
 **404 Not Found**  
 
 ```json
-
 {
   "message": "No skills found"
 }
 ```
 
-### `POST /learn/admin/add-style/`
+### `POST /learn/styles/`
+
 Creates a new climbing style. Admin only.
 
 - Authentication: Required (JWT)
@@ -315,7 +304,6 @@ Creates a new climbing style. Admin only.
 ### Request Body
 
 ```json
-
 {
   "name": "Compression",
   "description": "A style requiring opposing pressure on holds or features."
@@ -327,7 +315,6 @@ Creates a new climbing style. Admin only.
 **201 Created**  
 
 ```json
-
 {
   "message": "Style Compression added successfully"
 }
@@ -336,7 +323,6 @@ Creates a new climbing style. Admin only.
 **400 Bad Request**  
 
 ```json
-
 {
   "error": {
     "name": ["Name cannot exceed 32 characters"],
@@ -348,13 +334,13 @@ Creates a new climbing style. Admin only.
 **403 Forbidden**  
 
 ```json
-
 {
   "message": "Administrator access required"
 }
 ```
 
-### `POST /learn/admin/add-skill/`
+### `POST /learn/skills/`
+
 Creates a new skill level. Admin only.
 
 - Authentication: Required (JWT)
@@ -364,7 +350,6 @@ Creates a new skill level. Admin only.
 ### Request Body
 
 ```json
-
 {
   "level": "Elite",
   "description": "Competing at a national or international level, climbing the hardest grades."
@@ -376,7 +361,6 @@ Creates a new skill level. Admin only.
 **201 Created**  
 
 ```json
-
 {
   "message": "Style Elite added successfully"
 }
@@ -385,7 +369,6 @@ Creates a new skill level. Admin only.
 **400 Bad Request**
 
 ```json
-
 {
   "error": {
     "level": ["Level cannot exceed 32 characters"],
@@ -397,13 +380,13 @@ Creates a new skill level. Admin only.
 **403 Forbidden**  
 
 ```json
-
 {
   "message": "Administrator access required"
 }
 ```
 
-### `DELETE /learn/admin/remove-style/<style_id>`
+### `DELETE /learn/styles/<style_id>/`
+
 Deletes a specific style. Admin only.
 
 - Authentication: Required (JWT)
@@ -416,7 +399,6 @@ Deletes a specific style. Admin only.
 **200 OK**  
 
 ```json
-
 {
   "message": "Style with id 3 deleted successfully"
 }
@@ -425,7 +407,6 @@ Deletes a specific style. Admin only.
 **404 Not Found**  
 
 ```json
-
 {
   "message": "Style with id 999 does not exist"
 }
@@ -434,13 +415,13 @@ Deletes a specific style. Admin only.
 **403 Forbidden**
 
 ```json
-
 {
   "message": "Administrator access required"
 }
 ```
 
-### `DELETE /learn/admin/remove-skill/<skill_level_id>`
+### `DELETE /learn/skills/<skill_level_id>/`
+
 Deletes a specific skill level. Admin only.
 
 - Authentication: Required (JWT)
@@ -453,7 +434,6 @@ Deletes a specific skill level. Admin only.
 **200 OK**  
 
 ```json
-
 {
   "message": "Skill level with id 3 deleted successfully"
 }
@@ -462,7 +442,6 @@ Deletes a specific skill level. Admin only.
 **404 Not Found**  
 
 ```json
-
 {
   "message": "Skill level with id 999 does not exist"
 }
@@ -471,13 +450,13 @@ Deletes a specific skill level. Admin only.
 **403 Forbidden**  
 
 ```json
-
 {
   "message": "Administrator access required"
 }
 ```
 
-### `PUT/PATCH /learn/admin/update-style/<style_id>`
+### `PUT/PATCH /learn/styles/<style_id>/`
+
 Updates a specific style. Admin only.
 
 - Authentication: Required (JWT)
@@ -489,7 +468,6 @@ Updates a specific style. Admin only.
 ### Request Body (Partial accepted)
 
 ```json
-
 {
   "description": "Updated description focusing on precise footwork and body tension."
 }
@@ -500,7 +478,6 @@ Updates a specific style. Admin only.
 **200 OK**  
 
 ```json
-
 {
   "message": "Style with id 1 updated successfully",
   "details": {
@@ -514,7 +491,6 @@ Updates a specific style. Admin only.
 **404 Not Found**  
 
 ```json
-
 {
   "message": "Style with id 999 does not exist"
 }
@@ -523,7 +499,6 @@ Updates a specific style. Admin only.
 **400 Bad Request**  
 
 ```json
-
 {
   "error": {
     "description": ["Description cannot exceed 255 characters"]
@@ -534,13 +509,12 @@ Updates a specific style. Admin only.
 **403 Forbidden**  
 
 ```json
-
 {
   "message": "Administrator access required"
 }
 ```
 
-### `PUT/PATCH /learn/admin/update-skill/<skill_level_id>`
+### `PUT/PATCH /learn/skills/<skill_level_id>/`
 
 Updates a specific skill level. Admin only.
 
@@ -553,7 +527,6 @@ Updates a specific skill level. Admin only.
 ### Request Body (Partial accepted)
 
 ```json
-
 {
   "description": "Updated description for beginner climbers starting their journey."
 }
@@ -564,7 +537,6 @@ Updates a specific skill level. Admin only.
 **200 OK**  
 
 ```json
-
 {
   "message": "Skill level with id 1 updated successfully",
   "details": {
@@ -578,7 +550,6 @@ Updates a specific skill level. Admin only.
 **404 Not Found**
 
 ```json
-
 {
   "message": "Skill level with id 999 does not exist"
 }
@@ -587,7 +558,6 @@ Updates a specific skill level. Admin only.
 **400 Bad Request**
 
 ```json
-
 {
   "error": {
     "description": ["Description cannot exceed 255 characters"]
@@ -598,7 +568,6 @@ Updates a specific skill level. Admin only.
 **403 Forbidden**
 
 ```json
-
 {
   "message": "Administrator access required"
 }
@@ -613,7 +582,6 @@ Returns basic information about the API. Publicly accessible.
 **200 OK**  
 
 ```json
-
 {
   "message": "Climbing Tracker API",
   "version": "1.0",
@@ -622,7 +590,7 @@ Returns basic information about the API. Publicly accessible.
 }
 ```
 
-[Back to Top](#api-documentation)
+↑ [Back to Top](#api-documentation)
 
 ---
 
@@ -640,7 +608,6 @@ Retrieves all user records. Admin only.
 **200 OK**  
 
 ```json
-
 [
   {
     "id": 1,
@@ -672,7 +639,6 @@ Retrieves all user records. Admin only.
 **404 Not Found**  
 
 ```json
-
 {
   "message": "No user records found."
 }
@@ -681,7 +647,6 @@ Retrieves all user records. Admin only.
 **403 Forbidden**  
 
 ```json
-
 {
   "message": "Administrator access required"
 }
@@ -698,7 +663,6 @@ Retrieves the profile of the currently authenticated user.
 **200 OK**  
 
 ```json
-
 {
   "id": 1,
   "username": "adminuser",
@@ -713,7 +677,7 @@ Retrieves the profile of the currently authenticated user.
 }
 ```
 
-### `PUT/PATCH /users/update-profile/`
+### `PUT/PATCH /users/`
 
 Updates the profile of the currently authenticated user.
 
@@ -723,7 +687,6 @@ Updates the profile of the currently authenticated user.
 ### Request Body (Partial accepted)
 
 ```json
-
 {
   "first_name": "Updated",
   "last_name": "Name",
@@ -736,7 +699,6 @@ Updates the profile of the currently authenticated user.
 **200 OK**  
 
 ```json
-
 {
   "message": "User updated successfully.",
   "details": {
@@ -757,7 +719,6 @@ Updates the profile of the currently authenticated user.
 **400 Bad Request**  
 
 ```json
-
 {
   "error": {
     "first_name": ["First name cannot exceed 100 characters"],
@@ -766,7 +727,7 @@ Updates the profile of the currently authenticated user.
 }
 ```
 
-### `POST /users/admin/add/`
+### `POST /users/`
 
 Creates a new user. Admin only.
 
@@ -777,7 +738,6 @@ Creates a new user. Admin only.
 ### Request Body
 
 ```json
-
 {
   "username": "newuser",
   "email": "newuser@example.com",
@@ -793,7 +753,6 @@ Creates a new user. Admin only.
 **201 Created**  
 
 ```json
-
 {
   "id": 7,
   "username": "newuser",
@@ -811,7 +770,6 @@ Creates a new user. Admin only.
 **409 Conflict**  
 
 ```json
-
 {
   "message": "An account with this email already exists, please login or enter a different email."
 }
@@ -820,7 +778,6 @@ Creates a new user. Admin only.
 **409 Conflict**  
 
 ```json
-
 {
   "message": "An account with the username newuser already exists. Please choose a different username."
 }
@@ -829,7 +786,6 @@ Creates a new user. Admin only.
 **400 Bad Request**  
 
 ```json
-
 {
   "error": {
     "password": ["Password must be at least 12 characters long and include uppercase, lowercase, numbers, and special characters"]
@@ -840,13 +796,12 @@ Creates a new user. Admin only.
 **403 Forbidden**  
 
 ```json
-
 {
   "message": "Administrator access required"
 }
 ```
 
-### `DELETE /users/admin/remove/<user_id>`
+### `DELETE /users/<user_id>/`
 
 Deletes a specific user. Admin only.
 
@@ -860,7 +815,6 @@ Deletes a specific user. Admin only.
 **200 OK**  
 
 ```json
-
 {
   "message": "User with id 3 deleted successfully."
 }
@@ -869,7 +823,6 @@ Deletes a specific user. Admin only.
 **404 Not Found**  
 
 ```json
-
 {
   "message": "User with id 999 does not exist."
 }
@@ -878,13 +831,12 @@ Deletes a specific user. Admin only.
 **403 Forbidden**  
 
 ```json
-
 {
   "message": "Administrator access required"
 }
 ```
 
-### `PATCH /users/admin/grant-admin/<user_id>`
+### `PATCH /users/admin/<user_id>/grant/`
 
 Grants admin privileges to a user. Admin only.
 
@@ -898,7 +850,6 @@ Grants admin privileges to a user. Admin only.
 **200 OK**  
 
 ```json
-
 {
   "message": "User username2 has been granted admin privileges.",
   "details": {
@@ -919,7 +870,6 @@ Grants admin privileges to a user. Admin only.
 **404 Not Found**  
 
 ```json
-
 {
   "message": "User with id 999 does not exist."
 }
@@ -928,13 +878,12 @@ Grants admin privileges to a user. Admin only.
 **403 Forbidden**  
 
 ```json
-
 {
   "message": "Administrator access required"
 }
 ```
 
-### `PATCH /users/admin/revoke-admin/<user_id>`
+### `PATCH /users/admin/<user_id>/revoke/`
 
 Revokes admin privileges from a user. Admin only.
 
@@ -948,7 +897,6 @@ Revokes admin privileges from a user. Admin only.
 **200 OK**  
 
 ```json
-
 {
   "message": "User adminuser's admin privileges have been revoked.",
   "details": {
@@ -969,7 +917,6 @@ Revokes admin privileges from a user. Admin only.
 **404 Not Found**  
 
 ```json
-
 {
   "message": "User with id 999 does not exist."
 }
@@ -978,13 +925,12 @@ Revokes admin privileges from a user. Admin only.
 **403 Forbidden**  
 
 ```json
-
 {
   "message": "Administrator access required"
 }
 ```
 
-[Back to Top](#api-documentation)
+↑ [Back to Top](#api-documentation)
 
 ---
 
@@ -1001,8 +947,7 @@ Retrieves all attempt records for the currently authenticated user.
 
 **200 OK**  
 
-```json
-{
+```json{
   "username": "adminuser",
   "attempts": [
     {
@@ -1023,8 +968,7 @@ Retrieves all attempt records for the currently authenticated user.
 
 **404 Not Found**  
 
-```json
-{
+```json{
   "message": "No attempt records found."
 }
 ```
@@ -1041,8 +985,7 @@ Retrieves a single attempt record by its ID. The user must own the attempt.
 
 **200 OK**  
 
-```json
-{
+```json{
   "climb_id": 5,
   "fun_rating": 5,
   "comments": "I usually don't like dynamic climbs but this was heaps of fun!",
@@ -1052,13 +995,12 @@ Retrieves a single attempt record by its ID. The user must own the attempt.
 
 **404 Not Found**  
 
-```json
-{
+```json{
   "message": "No attempt record found."
 }
 ```
 
-### `POST /attempts/add-attempt/`
+### `POST /attempts/`
 
 Creates a new attempt record for the currently authenticated user.
 
@@ -1067,8 +1009,7 @@ Creates a new attempt record for the currently authenticated user.
 
 **Request Body**  
 
-```json
-{
+```json{
   "climb_id": 5,
   "fun_rating": 5,
   "comments": "I usually don't like dynamic climbs but this was heaps of fun!",
@@ -1080,8 +1021,7 @@ Creates a new attempt record for the currently authenticated user.
 
 **200 OK**  
 
-```json
-{
+```json{
   "id": 6,
   "climb": {
     "id": 5,
@@ -1097,8 +1037,7 @@ Creates a new attempt record for the currently authenticated user.
 
 **400 Bad Request**  
 
-```json
-{
+```json{
   "error": {
     "fun_rating": ["Ratings must be between 1-5"],
     "comments": ["Comments cannot exceed 500 characters"]
@@ -1106,7 +1045,7 @@ Creates a new attempt record for the currently authenticated user.
 }
 ```
 
-### `GET /attempts/admin/all/`
+### `GET /attempts/all/`
 
 Retrieves all attempt records from all users. Admin only.
 
@@ -1117,8 +1056,7 @@ Retrieves all attempt records from all users. Admin only.
 
 **200 OK**  
 
-```json
-[
+```json[
   {
     "id": 1,
     "climb": {
@@ -1139,21 +1077,19 @@ Retrieves all attempt records from all users. Admin only.
 
 **404 Not Found**  
 
-```json
-{ 
+```json{ 
     "message": "No attempt records were found." 
 }
 ```
 
 **403 Forbidden**  
 
-```json
-{ 
+```json{ 
     "message": "Administrator access required"
 }
 ```
 
-### `DELETE /attempts/admin/remove/<attempt_id>/`
+### `DELETE /attempts/<attempt_id>/`
 
 Deletes a specific attempt record. Admin only.
 
@@ -1166,29 +1102,26 @@ Deletes a specific attempt record. Admin only.
 
 **200 OK**  
 
-```json
-{ 
+```json{ 
     "message": "Attempt with id 3 deleted successfully." 
 }
 ```
 
 **404 Not Found**  
 
-```json
-{ 
+```json{ 
     "message": "Attempt with id 999 does not exist." 
 }
 ```
 
 **403 Forbidden**  
 
-```json
-{ 
+```json{ 
     "message": "Administrator access required" 
 }
 ```
 
-[Back to Top](#api-documentation)
+↑ [Back to Top](#api-documentation)
 
 ---
 
@@ -1203,7 +1136,6 @@ Retrieves all climb records. Publicly accessible.
 **200 OK**  
 
 ```json
-
 [
   {
     "id": 1,
@@ -1227,13 +1159,12 @@ Retrieves all climb records. Publicly accessible.
 **404 Not Found**  
 
 ```json
-
 {
   "message": "No climb records found."
 }
 ```
 
-### `POST /climbs/add-climb/`
+### `POST /climbs/`
 
 Creates a new climb record for the currently authenticated user.
 
@@ -1243,7 +1174,6 @@ Creates a new climb record for the currently authenticated user.
 ### Request Body
 
 ```json
-
 {
   "gym_id": 1,
   "style_id": 3,
@@ -1257,7 +1187,6 @@ Creates a new climb record for the currently authenticated user.
 **201 Created**  
 
 ```json
-
 {
   "id": 7,
   "gym_name": "The Gym",
@@ -1271,7 +1200,6 @@ Creates a new climb record for the currently authenticated user.
 **400 Bad Request**  
 
 ```json
-
 {
   "error": {
     "difficulty_grade": ["Difficulty grade cannot exceed 32 characters"],
@@ -1280,7 +1208,7 @@ Creates a new climb record for the currently authenticated user.
 }
 ```
 
-### `POST /climbs/add-climbs/`
+### `POST /climbs/batch/`
 
 Creates multiple new climb records for the currently authenticated user in a single request.
 
@@ -1290,7 +1218,6 @@ Creates multiple new climb records for the currently authenticated user in a sin
 ### Request Body
 
 ```json
-
 [
   {
     "gym_id": 2,
@@ -1312,7 +1239,6 @@ Creates multiple new climb records for the currently authenticated user in a sin
 **201 Created**  
 
 ```json
-
 [
   {
     "id": 8,
@@ -1336,7 +1262,6 @@ Creates multiple new climb records for the currently authenticated user in a sin
 **400 Bad Request**  
 
 ```json
-
 {
   "error": {
     "0": {
@@ -1346,7 +1271,7 @@ Creates multiple new climb records for the currently authenticated user in a sin
 }
 ```
 
-### `DELETE /climbs/remove-climb/<climb_id>/`
+### `DELETE /climbs/<climb_id>/`
 
 Deletes a specific climb record. User must own the climb.
 
@@ -1359,7 +1284,6 @@ Deletes a specific climb record. User must own the climb.
 **200 OK**  
 
 ```json
-
 {
   "message": "Climb with id 3 has been removed successfully."
 }
@@ -1368,7 +1292,6 @@ Deletes a specific climb record. User must own the climb.
 **404 Not Found**  
 
 ```json
-
 {
   "message": "No climb was found with id 999."
 }
@@ -1377,13 +1300,12 @@ Deletes a specific climb record. User must own the climb.
 **403 Forbidden**  
 
 ```json
-
 {
   "message": "adminuser, you are not authorised to delete this climb."
 }
 ```
 
-### `PUT/PATCH /climbs/update/<climb_id>/`
+### `PUT/PATCH /climbs/<climb_id>/`
 
 Updates a specific climb record. User must own the climb.
 
@@ -1395,7 +1317,6 @@ Updates a specific climb record. User must own the climb.
 ### Request Body (Partial accepted)
 
 ```json
-
 {
   "difficulty_grade": "v5",
   "set_date": "2025-01-22"
@@ -1407,7 +1328,6 @@ Updates a specific climb record. User must own the climb.
 **200 OK**  
 
 ```json
-
 {
   "message": "Climb updated successfully",
   "details": {
@@ -1424,7 +1344,6 @@ Updates a specific climb record. User must own the climb.
 **404 Not Found**  
 
 ```json
-
 {
   "message": "Climb with id 999 does not exist."
 }
@@ -1433,7 +1352,6 @@ Updates a specific climb record. User must own the climb.
 **403 Forbidden**  
 
 ```json
-
 {
   "message": "username2, you are not authorised to update this climb."
 }
@@ -1442,7 +1360,6 @@ Updates a specific climb record. User must own the climb.
 **400 Bad Request**  
 
 ```json
-
 {
   "error": {
     "difficulty_grade": ["Difficulty grade cannot exceed 32 characters"]
@@ -1450,7 +1367,7 @@ Updates a specific climb record. User must own the climb.
 }
 ```
 
-[Back to Top](#api-documentation)
+↑ [Back to Top](#api-documentation)
 
 ---
 
@@ -1465,7 +1382,6 @@ Retrieves all company records. Publicly accessible.
 **200 OK** 
 
 ```json
-
 [
   {
     "id": 1,
@@ -1503,13 +1419,12 @@ Retrieves all company records. Publicly accessible.
 **404 Not Found**  
 
 ```json
-
 {
   "message": "No company records found."
 }
 ```
 
-### `GET /companies/<company_id>`
+### `GET /companies/<company_id>/`
 
 Retrieves a single company record by its ID. Publicly accessible.
 
@@ -1521,7 +1436,6 @@ Retrieves a single company record by its ID. Publicly accessible.
 **200 OK**  
 
 ```json
-
 {
   "id": 1,
   "name": "Company 1",
@@ -1542,13 +1456,12 @@ Retrieves a single company record by its ID. Publicly accessible.
 **404 Not Found**  
 
 ```json
-
 {
   "message": "Company with id 999 not found."
 }
 ```
 
-### `POST /companies/admin/add/`
+### `POST /companies/`
 
 Creates a new company record. Admin only.
 
@@ -1559,7 +1472,6 @@ Creates a new company record. Admin only.
 ### Request Body
 
 ```json
-
 {
   "name": "Climb Co",
   "website": "https://climbco.com"
@@ -1571,7 +1483,6 @@ Creates a new company record. Admin only.
 **200 OK**  
 
 ```json
-
 {
   "id": 3,
   "name": "Climb Co",
@@ -1583,7 +1494,6 @@ Creates a new company record. Admin only.
 **400 Bad Request**  
 
 ```json
-
 {
   "error": {
     "name": ["Company name must be under 100 characters"],
@@ -1595,13 +1505,12 @@ Creates a new company record. Admin only.
 **403 Forbidden**  
 
 ```json
-
 {
   "message": "Administrator access required"
 }
 ```
 
-### `DELETE /companies/admin/remove/<company_id>`
+### `DELETE /companies/<company_id>/`
 
 Deletes a specific company record. Admin only.
 
@@ -1615,7 +1524,6 @@ Deletes a specific company record. Admin only.
 **200 OK**  
 
 ```json
-
 {
   "message": "Company with id 3 deleted successfully."
 }
@@ -1624,7 +1532,6 @@ Deletes a specific company record. Admin only.
 **404 Not Found**  
 
 ```json
-
 {
   "message": "Company with id 999 does not exist."
 }
@@ -1633,13 +1540,12 @@ Deletes a specific company record. Admin only.
 **403 Forbidden**  
 
 ```json
-
 {
   "message": "Administrator access required"
 }
 ```
 
-### `PUT/PATCH /companies/admin/update/<company_id>/`
+### `PUT/PATCH /companies/<company_id>/`
 
 Updates a specific company record. Admin only.
 
@@ -1652,7 +1558,6 @@ Updates a specific company record. Admin only.
 ### Request Body (Partial accepted)
 
 ```json
-
 {
   "website": "https://new-website.example.com"
 }
@@ -1663,7 +1568,6 @@ Updates a specific company record. Admin only.
 **200 OK**  
 
 ```json
-
 {
   "message": "Company updated successfully.",
   "details": {
@@ -1687,7 +1591,6 @@ Updates a specific company record. Admin only.
 **404 Not Found**  
 
 ```json
-
 {
   "message": "Company with id 999 does not exist."
 }
@@ -1696,7 +1599,6 @@ Updates a specific company record. Admin only.
 **400 Bad Request**  
 
 ```json
-
 {
   "error": {
     "website": ["Please provide a valid URL"]
@@ -1707,13 +1609,12 @@ Updates a specific company record. Admin only.
 **403 Forbidden**  
 
 ```json
-
 {
   "message": "Administrator access required"
 }
 ```
 
-[Back to Top](#api-documentation)
+↑ [Back to Top](#api-documentation)
 
 ---
 
@@ -1727,8 +1628,7 @@ Retrieves all gym records. Publicly accessible.
 
 **200 OK**  
 
-```json
-[
+```json[
   {
     "id": 1,
     "company_id": 1,
@@ -1763,7 +1663,6 @@ Retrieves all gym records. Publicly accessible.
 **404 Not Found**  
 
 ```json
-
 {
   "message": "No gym records found."
 }
@@ -1781,7 +1680,6 @@ Retrieves a single gym record by its ID. Publicly accessible.
 **200 OK**  
 
 ```json
-
 {
   "id": 1,
   "company_id": 1,
@@ -1794,102 +1692,12 @@ Retrieves a single gym record by its ID. Publicly accessible.
 **404 Not Found**  
 
 ```json
-
 {
   "message": "No gym with id 999 exists."
 }
 ```
 
-### GET /gyms/climbs/
-
-Retrieves all climbs organized by gym. Publicly accessible.
-
-### Responses
-
-**200 OK**  
-
-```json
-
-[
-  {
-    "gym_id": 1,
-    "name": "The Gym",
-    "city": "Melbourne",
-    "climbs": [
-      {
-        "id": 1,
-        "gym_name": "The Gym",
-        "username": "adminuser",
-        "style_name": "Slab",
-        "difficulty_grade": "Purple",
-        "set_date": "2025-01-01"
-      },
-      {
-        "id": 2,
-        "gym_name": "The Gym",
-        "username": "adminuser",
-        "style_name": "Dyno",
-        "difficulty_grade": "Blue",
-        "set_date": "2025-01-01"
-      }
-    ]
-  },
-  {
-    "gym_id": 2,
-    "name": "The Gym 2",
-    "city": "Melbourne",
-    "climbs": [
-      {
-        "id": 3,
-        "gym_name": "The Gym 2",
-        "username": "username2",
-        "style_name": "Slab",
-        "difficulty_grade": "4",
-        "set_date": "2025-03-01"
-      },
-      {
-        "id": 4,
-        "gym_name": "The Gym 2",
-        "username": "username2",
-        "style_name": "Overhang",
-        "difficulty_grade": "6",
-        "set_date": "2025-03-01"
-      }
-    ]
-  },
-  {
-    "gym_id": 3,
-    "name": "The Other Gym",
-    "city": "Sydney",
-    "climbs": [
-      {
-        "id": 5,
-        "gym_name": "The Other Gym",
-        "username": "adminuser",
-        "style_name": "Dyno",
-        "difficulty_grade": "v1",
-        "set_date": "2025-03-01"
-      },
-      {
-        "id": 6,
-        "gym_name": "The Other Gym",
-        "username": "username2",
-        "style_name": "Slab",
-        "difficulty_grade": "v2",
-        "set_date": "2025-03-01"
-      }
-    ]
-  },
-  {
-    "gym_id": 4,
-    "name": "The Other Gym But In Melbourne",
-    "city": "Melbourne",
-    "climbs": []
-  }
-]
-```
-
-### `POST /gyms/admin/add/`
+### `POST /gyms/`
 
 Creates a new gym record. Admin only.
 
@@ -1900,7 +1708,6 @@ Creates a new gym record. Admin only.
 ### Request Body
 
 ```json
-
 {
   "company_id": 1,
   "city": "Brisbane",
@@ -1914,7 +1721,6 @@ Creates a new gym record. Admin only.
 **201 Created**  
 
 ```json
-
 {
   "id": 5,
   "company_id": 1,
@@ -1927,7 +1733,6 @@ Creates a new gym record. Admin only.
 **400 Bad Request**  
 
 ```json
-
 {
   "error": {
     "city": ["City cannot exceed 100 characters"],
@@ -1939,13 +1744,12 @@ Creates a new gym record. Admin only.
 **403 Forbidden**  
 
 ```json
-
 {
   "message": "Administrator access required"
 }
 ```
 
-### `DELETE /gyms/admin/remove/<gym_id>`
+### `DELETE /gyms/<gym_id>/`
 
 Deletes a specific gym record. Admin only.
 
@@ -1959,7 +1763,6 @@ Deletes a specific gym record. Admin only.
 **200 OK**  
 
 ```json
-
 {
   "message": "Gym with id 3 deleted successfully."
 }
@@ -1968,7 +1771,6 @@ Deletes a specific gym record. Admin only.
 **404 Not Found**  
 
 ```json
-
 {
   "message": "Gym with id 999 does not exist."
 }
@@ -1977,13 +1779,12 @@ Deletes a specific gym record. Admin only.
 **403 Forbidden**  
 
 ```json
-
 {
   "message": "Administrator access required"
 }
 ```
 
-### `PUT/PATCH /gyms/admin/update/<gym_id>/`
+### `PUT/PATCH /gyms/<gym_id>/`
 
 Updates a specific gym record. Admin only.
 
@@ -1996,7 +1797,6 @@ Updates a specific gym record. Admin only.
 ### Request Body (Partial accepted)
 
 ```json
-
 {
   "city": "Sydney",
   "name": "The Sydney Location"
@@ -2008,7 +1808,6 @@ Updates a specific gym record. Admin only.
 **200 OK**  
 
 ```json
-
 {
   "message": "Gym updated successfully.",
   "details": {
@@ -2024,7 +1823,6 @@ Updates a specific gym record. Admin only.
 **404 Not Found**  
 
 ```json
-
 {
   "message": "Gym with id 999 does not exist."
 }
@@ -2033,7 +1831,6 @@ Updates a specific gym record. Admin only.
 **400 Bad Request**  
 
 ```json
-
 {
   "error": {
     "name": ["Name cannot exceed 100 characters"]
@@ -2044,13 +1841,12 @@ Updates a specific gym record. Admin only.
 **403 Forbidden**  
 
 ```json
-
 {
   "message": "Administrator access required"
 }
 ```
 
-[Back to Top](#api-documentation)
+↑ [Back to Top](#api-documentation)
 
 ---
 
@@ -2065,7 +1861,6 @@ Retrieves aggregated gym rating information including average difficulty, review
 **200 OK**  
 
 ```json
-
 [
   {
     "gym": {
@@ -2097,7 +1892,6 @@ Retrieves aggregated gym rating information including average difficulty, review
 **404 Not Found**  
 
 ```json
-
 {
   "message": "No gyms have been reviewed yet!"
 }
@@ -2112,7 +1906,6 @@ Retrieves all individual gym rating records. Publicly accessible.
 **200 OK**  
 
 ```json
-
 [
   {
     "gym": {
@@ -2335,8 +2128,7 @@ Retrieves all individual gym rating records. Publicly accessible.
 
 **404 Not Found**
 
-```json
-{
+```json{
   "message": "No gym_rating records found."
 }
 ```
@@ -2353,7 +2145,6 @@ Retrieves all reviews for a specific gym. Publicly accessible.
 **200 OK**  
 
 ```json
-
 [
   {
     "gym": {
@@ -2433,7 +2224,6 @@ Retrieves all reviews for a specific gym. Publicly accessible.
 **404 Not Found**  
 
 ```json
-
 {
   "message": "Record not found"
 }
@@ -2451,7 +2241,6 @@ Retrieves all reviews posted by a specific user. Publicly accessible.
 **200 OK**  
 
 ```json
-
 [
   {
     "gym": {
@@ -2513,7 +2302,6 @@ Retrieves all reviews posted by a specific user. Publicly accessible.
 **404 Not Found**  
 
 ```json
-
 {
   "message": "Records not found"
 }
@@ -2531,7 +2319,6 @@ Retrieves a specific gym rating record by its ID. Publicly accessible.
 **200 OK**  
 
 ```json
-
 {
   "gym": {
     "id": 1,
@@ -2555,13 +2342,12 @@ Retrieves a specific gym rating record by its ID. Publicly accessible.
 **404 Not Found**  
 
 ```json
-
 {
   "message": "The record you are searching for does not exist."
 }
 ```
 
-### `POST /gym-ratings/add-rating/`
+### `POST /gym-ratings/`
 
 Creates a new gym rating. Each user can only rate a gym once.
 
@@ -2571,7 +2357,6 @@ Creates a new gym rating. Each user can only rate a gym once.
 ### Request Body
 
 ```json
-
 {
   "gym_id": 3,
   "difficulty_rating": 8,
@@ -2585,7 +2370,6 @@ Creates a new gym rating. Each user can only rate a gym once.
 **201 Created**  
 
 ```json
-
 {
   "gym": {
     "id": 3,
@@ -2609,7 +2393,6 @@ Creates a new gym rating. Each user can only rate a gym once.
 **409 Conflict**  
 
 ```json
-
 {
   "message": "adminuser, you've already reviewed this gym. Each user can only review a gym once."
 }
@@ -2618,7 +2401,6 @@ Creates a new gym rating. Each user can only rate a gym once.
 **400 Bad Request**  
 
 ```json
-
 {
   "error": {
     "difficulty_rating": ["Ratings must be between 1-10"],
@@ -2627,7 +2409,7 @@ Creates a new gym rating. Each user can only rate a gym once.
 }
 ```
 
-### `DELETE /gym-ratings/remove-rating/<gym_rating_id>/`
+### `DELETE /gym-ratings/<gym_rating_id>/`
 
 Deletes a specific gym rating. User must own the rating.
 
@@ -2640,7 +2422,6 @@ Deletes a specific gym rating. User must own the rating.
 **200 OK**  
 
 ```json
-
 {
   "message": "Climb with id 5 has been removed successfully."
 }
@@ -2649,7 +2430,6 @@ Deletes a specific gym rating. User must own the rating.
 **404 Not Found**  
 
 ```json
-
 {
   "message": "No rating was found with id 999."
 }
@@ -2658,13 +2438,12 @@ Deletes a specific gym rating. User must own the rating.
 **403 Forbidden**  
 
 ```json
-
 {
   "message": "adminuser, you are not authorised to delete this rating."
 }
 ```
 
-### `DELETE /gym-ratings/admin/remove/<gym_rating_id>/`
+### `DELETE /gym-ratings/admin/<gym_rating_id>/`
 
 Deletes any gym rating. Admin only.
 
@@ -2678,7 +2457,6 @@ Deletes any gym rating. Admin only.
 **200 OK**  
 
 ```json
-
 {
   "message": "Climb with id 5 has been removed successfully."
 }
@@ -2687,7 +2465,6 @@ Deletes any gym rating. Admin only.
 **404 Not Found**  
 
 ```json
-
 {
   "message": "No rating was found with id 999."
 }
@@ -2696,13 +2473,12 @@ Deletes any gym rating. Admin only.
 **403 Forbidden**  
 
 ```json
-
 {
   "message": "Administrator access required"
 }
 ```
 
-### `PUT/PATCH /gym-ratings/update/<gym_rating_id>/`
+### `PUT/PATCH /gym-ratings/<gym_rating_id>/`
 
 Updates a specific gym rating. User must own the rating.
 
@@ -2714,7 +2490,6 @@ Updates a specific gym rating. User must own the rating.
 ### Request Body (Partial accepted)
 
 ```json
-
 {
   "difficulty_rating": 9,
   "review": "Updated review - even better than I thought!"
@@ -2726,7 +2501,6 @@ Updates a specific gym rating. User must own the rating.
 **200 OK**  
 
 ```json
-
 {
   "message": "Rating updated successfully.",
   "details": {
@@ -2753,7 +2527,6 @@ Updates a specific gym rating. User must own the rating.
 **404 Not Found**  
 
 ```json
-
 {
   "message": "Rating with id 999 does not exist."
 }
@@ -2762,7 +2535,6 @@ Updates a specific gym rating. User must own the rating.
 **403 Forbidden**  
 
 ```json
-
 {
   "message": "adminuser, you are not authorised to update this rating."
 }
@@ -2771,7 +2543,6 @@ Updates a specific gym rating. User must own the rating.
 **400 Bad Request**  
 
 ```json
-
 {
   "error": {
     "difficulty_rating": ["Ratings must be between 1-10"]
@@ -2779,4 +2550,4 @@ Updates a specific gym rating. User must own the rating.
 }
 ```
 
-[Back to Top](#api-documentation)
+↑ [Back to Top](#api-documentation)

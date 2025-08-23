@@ -26,7 +26,7 @@ def get_styles():
     
     return jsonify(styles_schema.dump(styles))
 
-@info_bp.route('/skill-levels/')
+@info_bp.route('/skills/')
 def get_skill_levels():
     """Retreives all skill level records from the skill_levels table and displays to visitor"""
     # Get statement: SELECT * FROM skill_levels;
@@ -39,7 +39,7 @@ def get_skill_levels():
     
     return jsonify(skill_levels_schema.dump(skills))
 
-@info_bp.route('/admin/add-style/', methods = ["POST"])
+@info_bp.route('/styles/', methods = ["POST"])
 @jwt_required()
 @admin_required
 def add_style():
@@ -56,7 +56,7 @@ def add_style():
     return {"message": f"Style {new_style.name} added successfully"}, 201
 
 
-@info_bp.route('/admin/add-skill/', methods = ["POST"])
+@info_bp.route('/skills/', methods = ["POST"])
 @jwt_required()
 @admin_required
 def add_skill():
@@ -72,7 +72,7 @@ def add_skill():
 
     return {"message": f"Style {new_skill.level} added successfully"}, 201
 
-@info_bp.route('/admin/remove-style/<int:style_id>', methods=["DELETE"])
+@info_bp.route('/styles/<int:style_id>/', methods=["DELETE"])
 @jwt_required()
 @admin_required
 def remove_style(style_id):
@@ -90,7 +90,7 @@ def remove_style(style_id):
 
     return {"message": f"Style with id {style_id} deleted successfully"}, 200
 
-@info_bp.route('/admin/remove-skill/<int:skill_level_id>', methods=["DELETE"])
+@info_bp.route('/skills/<int:skill_level_id>/', methods=["DELETE"])
 @jwt_required()
 @admin_required
 def remove_skill(skill_level_id):
@@ -108,7 +108,7 @@ def remove_skill(skill_level_id):
 
     return {"message": f"Skill level with id {skill_level_id} deleted successfully"}, 200
 
-@info_bp.route('/admin/update-style/<int:style_id>', methods=["PUT", "PATCH"])
+@info_bp.route('/styles/<int:style_id>/', methods=["PUT", "PATCH"])
 @jwt_required()
 @admin_required
 def update_style(style_id):
@@ -140,7 +140,7 @@ def update_style(style_id):
         "details": jsonify(style_schema.dump(updated_style))
         }, 200
 
-@info_bp.route('/admin/update-skill/<int:skill_level_id>', methods=["PUT", "PATCH"])
+@info_bp.route('/skills/<int:skill_level_id>/', methods=["PUT", "PATCH"])
 @jwt_required()
 @admin_required
 def update_skill(skill_level_id):
