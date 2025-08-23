@@ -1,4 +1,4 @@
-# Climbing Tracker of Truth and Josstice!
+# Climbing Tracker of Truth and Josstice
 
 ![An example image of a bouldering wall](./assets/images/Bouldering.jpg)
 
@@ -20,19 +20,27 @@ This project is a relational database app which tracks user progression of bould
     - [System Requirements](#system-requirements)
     - [Quick Start](#quick-start)
     - [Set Up Guide](#setup)
-3. [Features and Functionality](#functionality)
+3. [Deployment](#deployment)
+    - [Architecture](#architecture)
+    - [Steps to Deployment](#steps-to-deployment)
+    - [Production Considerations](#production-considerations)
+    - [Live Deployment](#live-deployment)
+    - [Continuous Deployment](#continuous-deployment)
+    - [The Deployment Journey in Pictures](#the-deployment-journey-in-pictures)
+4. [Features and Functionality](#functionality)
     - [CRUD OPERATIONS](#crud-operations)
       - [Create](#create)
       - [Read](#read)
       - [Update](#update)
       - [Delete](#delete)
-4. [Usage Instructions](#usage-instructions)
+5. [Usage Instructions](#usage-instructions)
     - [CLI Commands](#cli-commands)
     - [API Endpoints](#api-endpoints)
-5. [Dependencies](#dependencies)
-6. [Ethical Considerations](#ethical-considerations)
-7. [Privacy Policy](#privacy-policy)
-8. [Future Development](#future-development-goals)
+6. [Dependencies](#dependencies)
+7. [Ethical Considerations](#ethical-considerations)
+8. [Privacy Policy](#privacy-policy)
+9. [Future Development](#future-development-goals)
+10. [Contributions](#contributions)
 
 ---
 
@@ -92,6 +100,8 @@ Example PostgreSQL output:
   2 |      2 |       2 |                10 | Intermediate            | This gym has some tough climbs, even the easiest are intermediate level
 ```
 
+↑ [Back to Top](#climbing-tracker-of-truth-and-josstice)
+
 ---
 
 ## Diagrams
@@ -119,6 +129,8 @@ After receiving [Feedback from Nhi](./contributions/feedback/Feedback%20Log.md) 
 After finalising the database relationship structure and processing all feedback the final ERD looks like this:
 
 ![The finalised ERD table with all relationships and constraints depicted](./assets/images/Climbing-Tracker-ERD-Finalised.png)
+
+↑ [Back to Top](#climbing-tracker-of-truth-and-josstice)
 
 ---
 
@@ -177,6 +189,8 @@ Querying data based on the relationships described in my ERD would involve much 
 NoSQL Databases do not enforce foreign key cascading natively, meaning upon deletion of records, querying a non-existant record can lead to errors.
 
 In future a hybrid format including Non-Relational Database systems for Climbs and Attempts could be cool, especially if I wanted to include the ability to post a photo of a climb, or other types of but for the beginning of this app I will focus purely on Relational Databases.
+
+↑ [Back to Top](#climbing-tracker-of-truth-and-josstice)
 
 ---
 
@@ -237,6 +251,8 @@ I will compare the strengths and weaknesses of PostgreSQL and MySQL below in the
   - For my application user authentication will be required
 - No concurrent data writing will cause failures if multiple users edit data at once
   - Multiple users transacting at the same time is a key feature of my application, therefore this means my app would not be able to function if created using SQLite
+
+↑ [Back to Top](#climbing-tracker-of-truth-and-josstice)
 
 ---
 
@@ -307,6 +323,8 @@ All routes which require a user require an authorization token in the header.
 **Visitors**:  
 Anyone who accesses the site access areas not requirign a token.
 
+↑ [Back to Top](#climbing-tracker-of-truth-and-josstice)
+
 ---
 
 ## Installation Guide
@@ -324,7 +342,7 @@ Anyone who accesses the site access areas not requirign a token.
 - PostgreSQL shell 16.9+ (16.9 recommended)
 - Active internet connection for cloning dependencies
 
-## Installation Instructions
+---
 
 > **IMPORTANT: Make sure to follow the steps for your specific system to avoid command errors or path issues.**
 > ***IF* you receive errors on bash systems when entering commands, please try 'python' instead of 'python3'.**
@@ -343,6 +361,8 @@ For experienced users:
 6. Set up `.env` file as per `.env.example` file
 7. `flask db drop && flask db create && flask db seed`
 8. `flask run`
+
+---
 
 ### Setup
 
@@ -402,7 +422,7 @@ For experienced users:
      DATABASE_URI with string connected to your PostgreSQL database
      ```
 
-   - Set up a SECRET_KEY variable by running the below code:
+   - Set up a SECRET_KEY variable by running the below code, or following another safe encryption protocol:
 
      ```python
      python3 -c 'import os; print(os.urandom(16))'
@@ -455,6 +475,87 @@ For experienced users:
 
     - Close the PostgreSQL shell using `\q`
 
+↑ [Back to Top](#climbing-tracker-of-truth-and-josstice)
+
+---
+
+## Deployment
+
+This project has been successfully deployed using the following services:
+
+### Architecture
+
+- Backend: Python Flask application served with Gunicorn
+- Database: Neon PostgreSQL
+- Platform: Render
+- Environment Variables: Managed through Render's secure environment config
+
+### Steps to Deployment
+
+1. Database setup on [Neon](https://neon.com)
+    - Create a new project in Neon
+    - Obtain your connection string from the Neon dashboard
+    - Format: postgresql://<your_db_user>:<password>@ep-cool-water-123456.us-east-2.aws.neon.tech/<your_dbname> 
+      - Note: default values and variables are illustrated here, your connection string may vary
+2. Database migration to Neon:
+    - DATABASE_URI in .env file must be set to Neon database string
+    - Database commands can be completed using `flask db create`, `flask db seed` and `flask db drop`
+      - If any errors occur during flask commands, ensure your database user and password match those of your user in PostgreSQL database for the project
+3. Render configuration:
+    - Connect to Render using your GitHub repository
+    - Set start command to `gunicorn main:create_app()`
+    - Add required variables to Render web service:
+      - DATABASE_URI: Connection string from Neon
+      - JWT_SECRET_KEY: Strong random secret key (see [setup guide](#setup) step 5 for example)
+
+### Production Considerations
+
+**Security:**
+
+- Sensitive data is stored securely in environment variables through Render's web service hosting
+
+**Monitoring:**
+
+- Application logs available through Render's dashboard
+- Database can be monitored using Neon's dashboard
+
+### Live Deployment
+
+The application is currently live at: [https://climbing-tracker-of-truth-and-josstice.onrender.com/]
+
+[Deployment Logs](./logs/DEPLOYMENT_LOG.md) can be found in the linked file!
+
+### Continuous Deployment
+
+- The setup for my deployment supports automatic deployments from GitHub: pushes to main branch will trigger new build
+- It does not currently support database schema changes to the deployed environment, creation of `flask db migrate` and `flask db update` would be necessary for this to occur to ensure database integrity
+- Any new database operations should be tested in a local development environment first to ensure deployed database integrity
+
+### The Deployment Journey in Pictures
+
+The successful hosting of my PostgreSQL database on Neon:
+![Neon database overview depicted via screenshot](./assets/images/neon-dashboard.png)
+
+The successful deployment of my API on Render:
+![Render web service overiew depicted via screenshot](./assets/images/render-dashboard.png)
+
+Checking out the /gyms/ route on Render:
+![Render hosted API in action /gyms/ route](./assets/images/render-get-gyms-route.png)
+
+Checking out the /climbs/ route on Render:
+![Render hosted API in action /climbs/ route](./assets/images/render-get-climbs-route.png)
+
+Checking out the /gym_ratings/ route on Render:
+![Render hosted API in action /gym_ratings/ route](./assets/images/render-get-gym-ratings-route.png)
+
+### Deployment Conclusion
+
+I was really worried about how this would work, as it seemed like linking so many separate services together would be difficult or complicated. It was actually a real breeze! I just followed the steps from our lesson deployment and it just...worked! After so many random errors through the build of the app I thought I might have no luck when it came to deployment but boy howdy was I wrong!  
+
+I think the main challenge with this API in future will be adding any new tables to the database, though I can already see the correct way to do that, it's just practice practice practice!
+
+↑ [Back to Top](#climbing-tracker-of-truth-and-josstice)
+
 ---
 
 ## Usage Instructions
@@ -499,6 +600,8 @@ This application obligates users to provide sensitive user information such as e
 - The current project does not use any real user data, only using seed data as a proof of concept, carrying no privacy risk
 - The current project implements password hashing using bcrypt to ensure even in this state passwords are not stored stored in the database in plain text format
 - Future developments would include implementation of data encryption to ensure anonymity in the event of accidental or malicious database access or disclosure (see [future developments](#future-development-goals) for further detail)
+
+↑ [Back to Top](#climbing-tracker-of-truth-and-josstice)
 
 ---
 
@@ -584,6 +687,8 @@ Production deployments will incorporate:
 
 For further production goals please see below.
 
+↑ [Back to Top](#climbing-tracker-of-truth-and-josstice)
+
 ---
 
 ## Future Development Goals
@@ -609,3 +714,10 @@ Rollout of role based privileges for the app:
   - Create managable framework for data purging: research industry standards for data purging and deletion of private sensitive data, implement on database server side
 
 ---
+
+## Contributions
+
+Feedback from peers for this project's planning phase and how it has been implemeneted into the project can be found here:  
+[Feedback Log](./contributions/feedback/Feedback%20Log.md)
+
+↑ [Back to Top](#climbing-tracker-of-truth-and-josstice)
