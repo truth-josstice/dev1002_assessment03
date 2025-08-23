@@ -1,4 +1,4 @@
-# Climbing Progression Tracker
+# Climbing Tracker of Truth and Josstice!
 
 ![An example image of a bouldering wall](./assets/images/Bouldering.jpg)
 
