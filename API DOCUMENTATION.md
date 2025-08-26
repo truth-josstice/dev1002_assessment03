@@ -109,7 +109,8 @@ Detailed description of all routes below!
 
 ### Request
 
-```json{
+```json
+{
     "username": "testuser",
     "password": "SecurePassword123!"
 }
@@ -119,21 +120,24 @@ Detailed description of all routes below!
 
 **200 OK**  
 
-```json{
+```json
+{
     "token": "<jwt_token_here>"
 }
 ```
 
 **400 Bad Request**  
 
-```json{
+```json
+{
     "message": "Username and password are required"
 }
 ```
 
 **401 Unauthorized**  
 
-```json{
+```json
+{
     "message": "Invalid username or password"
 }
 ```
@@ -146,7 +150,8 @@ Detailed description of all routes below!
 
 ### Request Body
 
-```json{
+```json
+{
     "username": "testuser",
     "email": "test@example.com",
     "password": "SecurePassword123!",
@@ -160,7 +165,8 @@ Detailed description of all routes below!
 
 **201 Created**  
 
-```json{
+```json
+{
     "message": "User created successfully.",
     "access_token": "<jwt_token_here>",
     "user": {
@@ -180,14 +186,16 @@ Detailed description of all routes below!
 
 **409 Conflict** (email already exists)
 
-```json{
+```json
+{
     "message": "An account with this email already exists, please login or enter a different email."
 }
 ```
 
 **409 Conflict** (username already exists)
 
-```json{
+```json
+{
     "message": "An account with the username testuser already exists. Please choose a different username."
 }
 ```
@@ -202,7 +210,8 @@ Detailed description of all routes below!
 
 **200 OK**  
 
-```json{
+```json
+{
     "message": "Successfully logged out, access token will expire shortly."
 }
 ```
@@ -217,7 +226,8 @@ Detailed description of all routes below!
 
 **200 OK**  
 
-```json{
+```json
+{
     "message": "Your user account and all associated data has been deleted. Please join us again sometime."
 }
 ```
@@ -946,7 +956,8 @@ Retrieves all attempt records for the currently authenticated user.
 
 **200 OK**  
 
-```json{
+```json
+{
   "username": "adminuser",
   "attempts": [
     {
@@ -967,7 +978,8 @@ Retrieves all attempt records for the currently authenticated user.
 
 **404 Not Found**  
 
-```json{
+```json
+{
   "message": "No attempt records found."
 }
 ```
@@ -984,7 +996,8 @@ Retrieves a single attempt record by its ID. The user must own the attempt.
 
 **200 OK**  
 
-```json{
+```json
+{
   "climb_id": 5,
   "fun_rating": 5,
   "comments": "I usually don't like dynamic climbs but this was heaps of fun!",
@@ -994,7 +1007,8 @@ Retrieves a single attempt record by its ID. The user must own the attempt.
 
 **404 Not Found**  
 
-```json{
+```json
+{
   "message": "No attempt record found."
 }
 ```
@@ -1008,7 +1022,8 @@ Creates a new attempt record for the currently authenticated user.
 
 **Request Body**  
 
-```json{
+```json
+{
   "climb_id": 5,
   "fun_rating": 5,
   "comments": "I usually don't like dynamic climbs but this was heaps of fun!",
@@ -1020,7 +1035,8 @@ Creates a new attempt record for the currently authenticated user.
 
 **200 OK**  
 
-```json{
+```json
+{
   "id": 6,
   "climb": {
     "id": 5,
@@ -1036,7 +1052,8 @@ Creates a new attempt record for the currently authenticated user.
 
 **400 Bad Request**  
 
-```json{
+```json
+{
   "error": {
     "fun_rating": ["Ratings must be between 1-5"],
     "comments": ["Comments cannot exceed 500 characters"]
@@ -1076,14 +1093,16 @@ Retrieves all attempt records from all users. Admin only.
 
 **404 Not Found**  
 
-```json{ 
+```json
+{ 
     "message": "No attempt records were found." 
 }
 ```
 
 **403 Forbidden**  
 
-```json{ 
+```json
+{ 
     "message": "Administrator access required"
 }
 ```
@@ -1101,21 +1120,24 @@ Deletes a specific attempt record. Admin only.
 
 **200 OK**  
 
-```json{ 
+```json
+{ 
     "message": "Attempt with id 3 deleted successfully." 
 }
 ```
 
 **404 Not Found**  
 
-```json{ 
+```json
+{ 
     "message": "Attempt with id 999 does not exist." 
 }
 ```
 
 **403 Forbidden**  
 
-```json{ 
+```json
+{ 
     "message": "Administrator access required" 
 }
 ```
@@ -1627,7 +1649,8 @@ Retrieves all gym records. Publicly accessible.
 
 **200 OK**  
 
-```json[
+```json
+[
   {
     "id": 1,
     "company_id": 1,
@@ -2127,7 +2150,8 @@ Retrieves all individual gym rating records. Publicly accessible.
 
 **404 Not Found**
 
-```json{
+```json
+{
   "message": "No gym_rating records found."
 }
 ```

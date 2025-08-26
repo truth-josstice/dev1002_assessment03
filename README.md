@@ -565,7 +565,7 @@ This project has been successfully deployed using the following services:
 1. Database setup on [Neon](https://neon.com)
     - Create a new project in Neon
     - Obtain your connection string from the Neon dashboard
-    - Format: postgresql://<your_db_user>:<password>@ep-cool-water-123456.us-east-2.aws.neon.tech/<your_dbname> 
+    - Format: postgresql://<your_db_user>:<your_password>@ep-cool-water-123456.us-east-2.aws.neon.tech/<your_dbname>
       - Note: default values and variables are illustrated here, your connection string may vary
 2. Database migration to Neon:
     - DATABASE_URI in .env file must be set to Neon database string
@@ -789,7 +789,16 @@ Rollout of role based privileges for the app:
 
 ## Contributions
 
-Feedback from peers for this project's planning phase and how it has been implemeneted into the project can be found here:  
-[Feedback Log](./contributions/feedback/Feedback%20Log.md)
+### [lulu-codes](https://github.com/lulu-codes)
+
+- Provided feedback on ERD and Plan for API
+
+### [jordanleal12](https://github.com/jordanleal12)
+
+- Provided feedback on ERD and Plan for API
+
+Feedback from peers for this project's planning phase and how it has been implemeneted into the project can be found in the [Feedback Log](./contributions/feedback/Feedback%20Log.md) file.
+
+---
 
 ↑ [Back to Top](#climbing-tracker-of-truth-and-josstice)
