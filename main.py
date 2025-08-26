@@ -46,8 +46,7 @@ def create_app(test_config=None) -> Flask:
         gym_rating_bp,
         user_bp,
         auth_bp,
-        info_bp,
-        routes_bp
+        info_bp
         ]
     
     for bp in blueprints:
