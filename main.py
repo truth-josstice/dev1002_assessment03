@@ -14,8 +14,7 @@ from controllers import (
     attempt_bp,
     gym_rating_bp,
     user_bp,
-    info_bp,
-    routes_bp
+    info_bp
 )
 
 load_dotenv()
