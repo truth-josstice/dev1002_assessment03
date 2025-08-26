@@ -1,5 +1,5 @@
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
-from marshmallow import fields, validate
+from marshmallow import fields, validate, RAISE
 
 from models import Gym
 
@@ -12,6 +12,7 @@ class GymSchema(SQLAlchemyAutoSchema):
         include_relationships = True
         fields=("id", "company_id", "name", "city", "street_address")
         ordered = True
+        unknown = RAISE
 
     # Validation for fields:
     company_id = fields.Integer(required=True)

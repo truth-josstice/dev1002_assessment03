@@ -130,7 +130,8 @@ Detailed description of all routes below!
 
 ```json
 {
-    "message": "Username and password are required"
+    "message": "Username and password are required",
+    "unknown_field": ["Unknown field."]
 }
 ```
 
@@ -197,6 +198,14 @@ Detailed description of all routes below!
 ```json
 {
     "message": "An account with the username testuser already exists. Please choose a different username."
+}
+```
+
+**400 Bad Request**  
+
+```json
+{
+    "unknown_field": ["Unknown field."]
 }
 ```
 
@@ -335,7 +344,8 @@ Creates a new climbing style. Admin only.
 {
   "error": {
     "name": ["Name cannot exceed 32 characters"],
-    "description": ["Description cannot exceed 255 characters"]
+    "description": ["Description cannot exceed 255 characters"],
+    "unknown_field": ["Unknown field."]
   }
 }
 ```
@@ -381,7 +391,8 @@ Creates a new skill level. Admin only.
 {
   "error": {
     "level": ["Level cannot exceed 32 characters"],
-    "description": ["Description cannot exceed 255 characters"]
+    "description": ["Description cannot exceed 255 characters"],
+    "unknown_field": ["Unknown field."]
   }
 }
 ```
@@ -797,7 +808,8 @@ Creates a new user. Admin only.
 ```json
 {
   "error": {
-    "password": ["Password must be at least 12 characters long and include uppercase, lowercase, numbers, and special characters"]
+    "password": ["Password must be at least 12 characters long and include uppercase, lowercase, numbers, and special characters"],
+    "unknown_field": ["Unknown field."]
   }
 }
 ```
@@ -1056,7 +1068,8 @@ Creates a new attempt record for the currently authenticated user.
 {
   "error": {
     "fun_rating": ["Ratings must be between 1-5"],
-    "comments": ["Comments cannot exceed 500 characters"]
+    "comments": ["Comments cannot exceed 500 characters"],
+    "unknown_field": ["Unknown field."]
   }
 }
 ```
@@ -1224,7 +1237,8 @@ Creates a new climb record for the currently authenticated user.
 {
   "error": {
     "difficulty_grade": ["Difficulty grade cannot exceed 32 characters"],
-    "gym_id": ["Missing data for required field."]
+    "gym_id": ["Missing data for required field."],
+    "unknown_field": ["Unknown field."]
   }
 }
 ```
@@ -1286,7 +1300,8 @@ Creates multiple new climb records for the currently authenticated user in a sin
 {
   "error": {
     "0": {
-      "difficulty_grade": ["Difficulty grade cannot exceed 32 characters"]
+      "difficulty_grade": ["Difficulty grade cannot exceed 32 characters"],
+      "unknown_field": ["Unknown field."]
     }
   }
 }
@@ -1518,7 +1533,8 @@ Creates a new company record. Admin only.
 {
   "error": {
     "name": ["Company name must be under 100 characters"],
-    "website": ["Please provide a valid URL"]
+    "website": ["Please provide a valid URL"],
+    "unknown_field": ["Unknown field."]
   }
 }
 ```
@@ -1758,7 +1774,8 @@ Creates a new gym record. Admin only.
 {
   "error": {
     "city": ["City cannot exceed 100 characters"],
-    "street_address": ["Street address cannot exceed 255 characters"]
+    "street_address": ["Street address cannot exceed 255 characters"],
+    "unknown_field": ["Unknown field."]
   }
 }
 ```
@@ -2427,10 +2444,13 @@ Creates a new gym rating. Each user can only rate a gym once.
 {
   "error": {
     "difficulty_rating": ["Ratings must be between 1-10"],
-    "review": ["Reviews cannot exceed 500 characters"]
+    "review": ["Reviews cannot exceed 500 characters"],
+    "unknown_field": ["Unknown field."]
   }
 }
 ```
+
+
 
 ### `DELETE /gym-ratings/<gym_rating_id>/`
 

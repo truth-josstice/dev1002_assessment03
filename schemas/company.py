@@ -1,6 +1,6 @@
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
-from marshmallow_sqlalchemy.fields import RelatedList, Nested, Related
-from marshmallow import fields, validate
+from marshmallow_sqlalchemy.fields import RelatedList, Nested
+from marshmallow import fields, validate, RAISE
 
 from models import Company
 # from schemas.gym_schema import GymSchema
@@ -12,6 +12,7 @@ class CompanySchema(SQLAlchemyAutoSchema):
         load_instance = True
         ordered=True
         fields=("id", "name", "website", "gym")
+        unknown = RAISE
     
     # Gym relationship
     gym=RelatedList(Nested("GymSchema", only=("name", "street_address")))

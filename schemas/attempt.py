@@ -1,6 +1,6 @@
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 from marshmallow_sqlalchemy.fields import Nested
-from marshmallow import fields, validate
+from marshmallow import fields, validate, RAISE
 from datetime import datetime
 
 from models import Attempt
@@ -41,6 +41,7 @@ class AttemptInputSchema(SQLAlchemyAutoSchema):
         model = Attempt
         load_instance = True
         include_fk = True
+        unknown = RAISE
 
     # Validation for fields:
     user_id = fields.Integer(required=True)

@@ -1,6 +1,6 @@
-from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, auto_field
-from marshmallow_sqlalchemy.fields import Nested, RelatedList
-from marshmallow import fields, validate
+from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
+from marshmallow_sqlalchemy.fields import Nested
+from marshmallow import fields, validate, RAISE
 
 from models import User
 from utils import validate_password_complexity
@@ -31,6 +31,7 @@ class UserInputSchema(SQLAlchemyAutoSchema):
         load_instance = True
         include_fk = True
         fields = ("id", "username", "email", "password", "first_name", "last_name", "skill_level_id")
+        unknown = RAISE
 
     # Validation for fields:
     username = fields.String(

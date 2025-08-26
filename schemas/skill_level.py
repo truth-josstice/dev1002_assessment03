@@ -1,5 +1,5 @@
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
-from marshmallow import fields, validate
+from marshmallow import fields, validate, RAISE
 
 from models import SkillLevel
 
@@ -8,6 +8,7 @@ class SkillLevelSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = SkillLevel
         load_instance = True
+        unknown = RAISE
 
     # Validation for fields:
     level = fields.String(

@@ -1,6 +1,5 @@
 from flask import Blueprint, jsonify, request
-from flask_jwt_extended import create_access_token, jwt_required, current_user
-from datetime import timedelta
+from flask_jwt_extended import jwt_required, current_user
 
 from init import db
 from models import User

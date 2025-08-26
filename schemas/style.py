@@ -1,5 +1,5 @@
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
-from marshmallow import fields, validate
+from marshmallow import fields, validate, RAISE
 
 from models import Style
 
@@ -8,6 +8,7 @@ class StyleSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = Style
         load_instance = True
+        unknown = RAISE
 
     # Validation for fields:
     name = fields.String(

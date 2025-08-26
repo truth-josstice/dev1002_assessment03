@@ -1,5 +1,5 @@
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
-from marshmallow import fields, validate
+from marshmallow import fields, validate, RAISE
 
 from models import Climb
 
@@ -9,6 +9,7 @@ class ClimbInputSchema(SQLAlchemyAutoSchema):
         model = Climb
         load_instance = True
         include_fk = True
+        unknown = RAISE
 
     # Validation for fields:
     gym_id = fields.Integer(required=True)

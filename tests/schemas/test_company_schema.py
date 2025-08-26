@@ -23,6 +23,32 @@ def test_company_schema_serialization(app):
         assert result["name"] == "serial_test"
         assert "http" in result["website"]
 
+def test_companies_schema_serialization(app):
+    """Test companies schema serialization to JSON format"""
+    # Create the companies
+    with app.app_context():
+        companies = [
+            Company(
+                name="serial_test",
+                website="http://www.company.com",
+            ),
+            Company(
+                name="serial_test1",
+                website="http://www.test.com"
+            )
+            ]
+        db.session.add_all(companies)
+        db.session.commit()
+
+        # Create JSON serialized output
+        result = companies_schema.dump(companies)
+        
+        # Check for the correct output fields and data
+        assert result[0]["name"] == "serial_test"
+        assert result[1]["name"] == "serial_test1"
+        assert result[0]["website"] == "http://www.company.com"
+        assert result[1]["website"] == "http://www.test.com"
+
 def test_company_schema_deserialization(app):
     """Test schema loading with valid Company object data"""
     
