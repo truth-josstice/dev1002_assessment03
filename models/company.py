@@ -8,5 +8,7 @@ class Company(db.Model):
     name: str = db.Column(db.String(100), nullable=False, unique=True)
     website: str = db.Column(db.String(1000), nullable=False, unique=True)
     
-    # one to many with gyms
+    # Set relationship:
+    # One to many with gyms
+    # Define back population and delete cascade rules
     gym = db.relationship("Gym", back_populates="company", cascade="all, delete-orphan")

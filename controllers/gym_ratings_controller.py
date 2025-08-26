@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request
 from sqlalchemy import func, select
 from flask_jwt_extended import jwt_required, current_user
 
-from collections import Counter
+from collections import Counter, defaultdict
 
 from init import db
 
@@ -22,9 +22,10 @@ gym_rating_bp = Blueprint("gym_rating", __name__, url_prefix="/gym-ratings")
 @gym_rating_bp.route('/')
 def get_gym_info():
     """
-    Complex query function to get information from gym_ratings by gym and display the aggregate results.
+    Complex query function to return aggregated gym ratings with:
+    Average difficulty rating, review counts and msot common recommended skill level for each gym
     """
-    # Select: id, avg difficulty rating, review count (each row is unique reviews)
+    # Query to get average rations and review counts
     stmt = (
         select(
             GymRating.gym_id,
@@ -34,10 +35,9 @@ def get_gym_info():
         .group_by(GymRating.gym_id)
         .order_by(GymRating.gym_id)
     )
+    results = db.session.execute(stmt).all() 
 
-    results = db.session.execute(stmt).all() # Executes the SQL Query
-
-    # Check that reviews exist
+    # Check to see gyms have been reviewed
     if not results:
         return {"message": "No gyms have been reviewed yet!"},404
     
@@ -50,6 +50,7 @@ def get_gym_info():
         )
     ).unique().all()
     
+    # Create a custom dictionary of gyms for quick lookup by gym_id
     gym_dict = {gym.id: gym for gym in gyms}
 
      # Get all ratings with skill level relationships loaded
@@ -57,37 +58,45 @@ def get_gym_info():
         select(GymRating).options(db.joinedload(GymRating.recommended_skill_level))
     ).all()
 
-    # Group by gym and find most common skill level
-    gym_skill_levels = {}
+    # Group by gym and find collect recommended skill level
+    gym_skill_levels = defaultdict(list)
     for rating in all_ratings:
         gym_id = rating.gym_id
-        if gym_id not in gym_skill_levels:
-            gym_skill_levels[gym_id] = []
         
+        # Add recommended skill level to dictionary
         serialized_skill = skill_level_schema.dump(rating.recommended_skill_level)
         gym_skill_levels[gym_id].append(serialized_skill)
-
-    # Build customised response data
+    
+    # Build customised response data with all aggregate information
     response_data = []
     for result in results:
         gym_id = result.gym_id
         gym = gym_dict.get(gym_id)
         
+        # IF gym is not found skip and continue to next entry (unlikely edge case)
         if not gym:
-            continue  # Skip if gym not found (shouldn't happen)
+            continue 
         
+        # Search gym skill levels list for most frequent skill level recommended
         skill_levels = gym_skill_levels.get(gym_id, [])
         
-        # Find most common skill level
+        # Find most frequent recommended skill level for this gym
         if skill_levels:
+            # Count occurences of each skill level id to fomr the most common
             level_counts = Counter(sl['id'] for sl in skill_levels)
+            # Get the ID with the highest count using most_common function
             most_common_id = level_counts.most_common(1)[0][0]
+
+            # Find the full skill level object mathching the most common ID
             recommended_skill = next(sl for sl in skill_levels if sl['id'] == most_common_id)
-        else:
-            recommended_skill = None
         
+        else:
+            # If no skill level recommendations exist for the gym (unlikely edge case)
+            recommended_skill = None 
+        
+        # Pass the full gym object - schema will handle serialization
         response_data.append({
-            "gym": gym,  # Pass the full gym object - schema will handle serialization
+            "gym": gym,  
             "average_difficulty_rating": float(result.average_rating),
             "total_reviews": result.review_count,
             "recommended_skill_level": recommended_skill
@@ -103,9 +112,11 @@ def get_gym_ratings():
     stmt = db.select(GymRating)
     gym_ratings = db.session.scalars(stmt).all()
 
+    # Check gym ratings exist
     if not gym_ratings:
-        return {"message": "No gym_rating records found."}, 404
+        return {"message": "No gyms have been rated yet!"}, 404
     
+    # Return all gym ratings in JSON format
     return jsonify(gym_ratings_output_schema.dump(gym_ratings))
 
 @gym_rating_bp.route('/by-gym/<int:gym_id>/')
@@ -117,12 +128,13 @@ def get_a_gyms_reviews(gym_id):
     stmt = db.select(GymRating).where(GymRating.gym_id == gym_id)
     ratings = db.session.scalars(stmt)
 
-    if ratings:
-        data = gym_ratings_output_schema.dump(ratings)
-        return jsonify(data)
+    # Check ratings exist
+    if not ratings:
+        return {"message": "This gym has no ratings yet!"}, 404
     
-    else:
-        return {"message": "Record not found"}, 404
+    # Return all ratings for the gym in JSON format
+    return jsonify(gym_ratings_output_schema.dump(ratings))
+    
 
 @gym_rating_bp.route('/by-user/<int:user_id>/')
 def get_a_users_reviews(user_id):
@@ -133,13 +145,12 @@ def get_a_users_reviews(user_id):
     stmt = db.select(GymRating).where(GymRating.user_id == user_id)
     ratings = db.session.scalars(stmt)
 
-    if ratings:
-        data = gym_ratings_output_schema.dump(ratings)
-        return jsonify(data)
-    
-    else:
-        return {"message": "Records not found"}, 404
+    # Check ratings exist
+    if not ratings:
+        return {"message": "This user has not rated any gyms yet!"}, 404
 
+    # Return all ratings by the user in JSON format
+    return jsonify(gym_ratings_output_schema.dump(ratings))
 
 @gym_rating_bp.route('/<int:rating_id>/')
 def get_a_gym_rating(rating_id):
@@ -152,9 +163,11 @@ def get_a_gym_rating(rating_id):
     # Execute the query
     rating = db.session.scalar(stmt)
 
+    # Check the rating exists
     if not rating:
         return {"message": "The record you are searching for does not exist."},404
     
+    # Return the rating in JSON format
     return jsonify(gym_rating_output_schema.dump(rating))
         
 @gym_rating_bp.route('/', methods=["POST"])
@@ -182,9 +195,11 @@ def add_rating():
     # Assign current user to new_rating
     new_rating.user = current_user
 
+    # Add new rating and commit to the database
     db.session.add(new_rating)
     db.session.commit()
 
+    # Return the data of the new gym in JSON format, 201 Created status code
     return jsonify(gym_rating_output_schema.dump(new_rating)), 201
 
 @gym_rating_bp.route('/<int:gym_rating_id>/', methods=["DELETE"])
@@ -209,6 +224,8 @@ def remove_a_gym_rating(gym_rating_id):
     # If both checks pass delete the rating
     db.session.delete(rating)
     db.session.commit()
+
+    # Custom confirmation message
     return {"message": f"Climb with id {gym_rating_id} has been removed successfully."}, 200
 
 
@@ -228,6 +245,8 @@ def remove_any_rating(gym_rating_id):
     # If check passes delete the rating
     db.session.delete(rating)
     db.session.commit()
+
+    # Custom confirmation message
     return {"message": f"Climb with id {gym_rating_id} has been removed successfully."}, 200
 
 
@@ -246,13 +265,14 @@ def update_a_gym_rating_record(gym_rating_id):
     if not gym_rating:
         return {"message": f"Rating with id {gym_rating_id} does not exist."}, 404
     
+    # Check the current user owns the rating
     if current_user.id != gym_rating.id:
         return {"message": f"{current_user.username}, you are not authorised to update this rating."}, 403
     
     # GET JSON body data
     body_data = request.get_json()
 
-    # Load data into gym_rating through gym_rating_schema
+    # Load data into gym_rating through gym_rating_input_schema
     updated_gym_rating = gym_rating_input_schema.load(
         body_data,
         instance = gym_rating,
@@ -260,9 +280,11 @@ def update_a_gym_rating_record(gym_rating_id):
         partial = True
     )
 
+    # Add updated gym rating and commit changes to the database
     db.session.add(updated_gym_rating)
     db.session.commit()
 
+    # Custom confirmation message with updated gym data in JSON format
     return {
         "message": "Rating updated successfully.",
         "details": jsonify(gym_rating_output_schema.dump(updated_gym_rating))

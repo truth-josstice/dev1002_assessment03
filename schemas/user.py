@@ -3,7 +3,7 @@ from marshmallow_sqlalchemy.fields import Nested, RelatedList
 from marshmallow import fields, validate
 
 from models import User
-from utils import validate_password_for_schema
+from utils import validate_password_complexity
 
 class UserOutputSchema(SQLAlchemyAutoSchema):
     """
@@ -17,6 +17,7 @@ class UserOutputSchema(SQLAlchemyAutoSchema):
         ordered = True
         fields = ("id", "username", "email", "first_name", "last_name", "user_skill_level")
     
+    # SkillLevel relationship
     user_skill_level = Nested("SkillLevelSchema")
 
 class UserInputSchema(SQLAlchemyAutoSchema):
@@ -45,7 +46,7 @@ class UserInputSchema(SQLAlchemyAutoSchema):
     password = fields.String(
         load_only=True, 
         required=True, 
-        validate=validate_password_for_schema # Custom validator function
+        validate=validate_password_complexity # Custom validator function
     )
     first_name = fields.String(
         required=True,

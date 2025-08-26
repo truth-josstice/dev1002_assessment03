@@ -1,4 +1,5 @@
 from sqlalchemy import inspect
+
 from init import db
 
 def test_create_tables(app, runner):

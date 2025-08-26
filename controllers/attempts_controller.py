@@ -25,7 +25,7 @@ def get_user_attempts():
     if not attempts:
         return {"message": "No attempt records found."}, 404
     
-    # Stylised JSON data returned
+    # Custom output with custom field and attempts data in JSON format
     return jsonify({
         "username": current_user.username, 
         "attempts": attempts_output_schema.dump(attempts)
@@ -46,6 +46,7 @@ def get_a_single_attempt(attempt_id):
     if not attempt:
         return {"message": "No attempt record found."}
     
+    # Return the attempt data in JSON format
     return jsonify(attempt_output_schema.dump(attempt))
 
 @attempt_bp.route('/', methods=["POST"])
@@ -61,9 +62,11 @@ def add_an_attempt():
     # Assign the current_user.id to attmempt.user_id
     new_attempt.user = current_user
 
+    # Add new attempt and commit to the database
     db.session.add(new_attempt)
     db.session.commit()
 
+    # Return new climb data in JSON format
     return jsonify(attempt_output_schema.dump(new_attempt))
 
 @attempt_bp.route('/all/')
@@ -80,6 +83,7 @@ def get_all_attempts():
     if not attempts:
         return {"message": "No attempt records were found."}, 404
     
+    # Return all attmepts in JSON format
     return jsonify(admin_attempts_schema.dump(attempts))
 
 @attempt_bp.route('/admin/remove/<int:attempt_id>/', methods=["DELETE"])
@@ -91,10 +95,13 @@ def remove_an_attempt(attempt_id):
     stmt = db.select(Attempt).where(Attempt.id==attempt_id)
     attempt = db.session.scalar(stmt)
 
+    # Check the attempt exists
     if not attempt:
         return {"message": f"Attempt with id {attempt_id} does not exist."}, 404
     
+    # Delete and commit
     db.session.delete(attempt)
     db.session.commit()
 
+    # Custom confirmation message
     return {"message": f"Attempt with id {attempt_id} deleted successfully."}, 200

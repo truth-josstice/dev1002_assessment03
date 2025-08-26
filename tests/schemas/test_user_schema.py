@@ -1,8 +1,11 @@
 import pytest
+from flask_jwt_extended import create_access_token
 from marshmallow import ValidationError
+
 from init import db
 from models import User, SkillLevel
-from schemas import user_input_schema, user_output_schema, users_output_schema
+from schemas import user_input_schema, user_output_schema
+from tests.conftest import get_auth_header
 
 def test_user_schema_serialization(app):
     """Test user schema serialization to JSON format"""
@@ -85,3 +88,81 @@ def test_user_schema_validation(app):
             user_input_schema.load(invalid_data, session=db.session)
         
         assert "username" in str(err.value)  # Should complain about missing username
+
+def test_authentication_token_creation(app):
+    """Test that we can create a valid JWT token"""
+    with app.app_context():
+        # Create SkillLevel and user
+        skill = SkillLevel(id=1, level="Beginner", description="test")
+        db.session.add(skill)
+        db.session.commit()
+        
+        user_data = {
+            "username": "testuser",
+            "email": "test@example.com",
+            "password": "TestSecurePassword1!",
+            "first_name": "Test",
+            "skill_level_id": 1
+        }
+        user = user_input_schema.load(user_data, session=db.session)
+        db.session.add(user)
+        db.session.commit()
+        
+        # Test token creation
+        auth_header = get_auth_header(app, user)
+        
+        # Verify the token is properly formatted
+        assert "Authorization" in auth_header
+        assert auth_header["Authorization"].startswith("Bearer ")
+        assert len(auth_header["Authorization"].split(".")) == 3  # JWT has 3 parts
+        
+        print(f"Created token: {auth_header['Authorization']}")
+
+def test_unauthenticated_access_rejected(client):
+    """Test that unauthenticated access to protected endpoints is rejected"""
+    # Try to access a protected endpoint without any headers
+    response = client.get('/users/profile/') 
+    print(f"Unauthenticated response: {response.status_code} - {response.get_json()}")
+    
+    # Assert unathorized response code
+    assert response.status_code == 401 
+
+def test_authenticated_user_access(app, client):
+    """Test that authenticated users can access protected endpoints"""
+    with app.app_context():
+        # Create SkillLevel and user
+        skill = SkillLevel(id=1, level="Beginner", description="test")
+        db.session.add(skill)
+        db.session.commit()
+        
+        user_data = {
+            "username": "testuser",
+            "email": "test@example.com",
+            "password": "TestSecurePassword1!",
+            "first_name": "Test",
+            "skill_level_id": 1
+        }
+        user = user_input_schema.load(user_data, session=db.session)
+        db.session.add(user)
+        db.session.commit()
+        
+        # Create token and test it
+        token = create_access_token(identity=str(user.id), expires_delta=None)
+        auth_header = {"Authorization": f"Bearer {token}"}
+        
+        print(f"User ID: {user.id}")
+        print(f"Token: {token}")
+        print(f"Auth header: {auth_header}")
+    
+    # Attempt to access a the secure users/profile endpoint
+    response = client.get('/users/profile/', headers=auth_header)
+    print(f"Endpoint /users/profile/: {response.status_code}")
+    
+    # Verify successful response
+    assert response.status_code == 200
+    print(f"Success! Response: {response.get_json()}")
+    
+    # Verify the response contains expected user data
+    response_data = response.get_json()
+    assert response_data["username"] == "testuser"
+    assert response_data["email"] == "test@example.com"

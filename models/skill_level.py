@@ -8,5 +8,6 @@ class SkillLevel(db.Model):
     level: str = db.Column(db.String(32), unique=True, nullable=False)
     description: str = db.Column(db.String(255), unique=True, nullable=False)
 
+    # Set relationships and back population
     user = db.relationship("User", back_populates="user_skill_level")
     gym_rating = db.relationship("GymRating", back_populates="recommended_skill_level")

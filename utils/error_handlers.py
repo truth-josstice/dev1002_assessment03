@@ -26,7 +26,7 @@ def register_error_handlers(app):
     
     @app.errorhandler(ValidationError)
     def handle_validation_error(err):
-
+        # Checks for manual entry of is_admin in json data for creation of new users
         if "is_admin" in err.messages:
             return {
                 "error": "Validation failed",

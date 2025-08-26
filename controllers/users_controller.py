@@ -23,15 +23,18 @@ def get_users():
     stmt = db.select(User)
     users = db.session.scalars(stmt).all()
 
+    # Check the user exists
     if not users:
         return {"message": "No user records found."}, 404
     
+    # Return all user data in JSON format
     return jsonify(users_output_schema.dump(users))
     
 @user_bp.route('/profile/')
 @jwt_required()
 def get_user_profile():
     """Function to GET user profile using authorisation token"""
+    # JWT checks for user identity, JSON format of user data returned
     return jsonify(user_output_schema.dump(current_user))
 
 @user_bp.route('/update-profile/', methods=["PUT", "PATCH"])
@@ -54,9 +57,11 @@ def update_user_profile():
         partial = True
         )
     
+    # Add and commit to database
     db.session.add(updated_user)
     db.session.commit()
 
+    # Custom display of updated user profile
     return {
         "message": "User updated successfully.",
         "details": jsonify(user_output_schema.dump(updated_user))
@@ -83,9 +88,11 @@ def add_new_user():
     if db.session.scalar(stmt):
         return {"message": f"An account with the username {new_user.username} already exists. Please choose a different username."}, 409
     
+    # Add and commit new user to the database
     db.session.add(new_user)
     db.session.commit()
 
+    # Return the new user data in JSON format
     return jsonify(user_output_schema.dump(new_user)), 201
 
 @user_bp.route('/<int:user_id>/', methods=["DELETE"])
@@ -101,9 +108,11 @@ def delete_user(user_id):
     if not user:
         return {"message": f"User with id {user_id} does not exist."}, 404
     
+    # Delete and commit 
     db.session.delete(user)
     db.session.commit()
 
+    # Return confirmation message
     return {"message": f"User with id {user_id} deleted successfully."}, 200
 
 @user_bp.route('/admin/<int:user_id>/grant/', methods=["PATCH"])
@@ -119,9 +128,11 @@ def make_user_admin(user_id):
     if not user:
         return {"message": f"User with id {user_id} does not exist."}, 404
     
+    # Manually define is_admin boolean to True and commit
     user.is_admin = True
     db.session.commit()
 
+    # Custom confirmation message and user information returned
     return {
         "message": f"User {user.username} has been granted admin privileges.",
         "details": jsonify(user_output_schema.dump(user))
@@ -140,9 +151,11 @@ def revoke_user_admin(user_id):
     if not user:
         return {"message": f"User with id {user_id} does not exist."}, 404
     
+    # Manually define is_admin boolean to False and commit
     user.is_admin = False
     db.session.commit()
 
+    # Custom confirmation mesasge and user information returned
     return {
         "message": f"User {user.username}'s admin privileges have been revoked.",
         "details": jsonify(user_output_schema.dump(user))

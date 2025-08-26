@@ -20,16 +20,19 @@ db_commands = Blueprint("db", __name__)
 
 @db_commands .cli.command("create")
 def create_tables():
+    """Creates all tabels from models."""
     db.create_all()
     print("Tables created...")
 
 @db_commands .cli.command("drop")
 def drop_tables():
+    """Drops all tables from the database."""
     db.drop_all()
     print("Tables dropped...")
 
 @db_commands .cli.command("seed")
 def seed_tables():
+    """Create seed data for all database tables"""
     skill_levels = [
         SkillLevel(
             level = "Beginner",
@@ -356,7 +359,4 @@ def seed_tables():
     
     db.session.add_all(gym_ratings)
     db.session.commit()
-
-
-
     print("Tables seeded...")

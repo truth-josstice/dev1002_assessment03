@@ -24,6 +24,7 @@ def get_styles():
     if not styles:
         return {"message": "No styles found"}, 404
     
+    # Returns style table data in JSON format
     return jsonify(styles_schema.dump(styles))
 
 @info_bp.route('/skills/')
@@ -37,6 +38,7 @@ def get_skill_levels():
     if not skills:
         return {"message": "No skills found"}, 404
     
+    # Returns skill table data in JSON format
     return jsonify(skill_levels_schema.dump(skills))
 
 @info_bp.route('/styles/', methods = ["POST"])
@@ -50,9 +52,11 @@ def add_style():
     # Create style record using style_schema
     new_style = style_schema.load(body_data, session=db.session)
 
+    # Add and commit new style to database
     db.session.add(new_style)
     db.session.commit()
 
+    # Custom confirmation message
     return {"message": f"Style {new_style.name} added successfully"}, 201
 
 
@@ -67,9 +71,11 @@ def add_skill():
     # Create style record using style_schema
     new_skill = skill_level_schema.load(body_data, session=db.session)
 
+    # Add and commit new skill to database
     db.session.add(new_skill)
     db.session.commit()
 
+    # Custom confirmation message
     return {"message": f"Style {new_skill.level} added successfully"}, 201
 
 @info_bp.route('/styles/<int:style_id>/', methods=["DELETE"])
@@ -85,9 +91,11 @@ def remove_style(style_id):
     if not style:
         return {"message": f"Style with id {style_id} does not exist"}, 404
     
+    # Delete and commit
     db.session.delete(style)
     db.session.commit()
 
+    # Custom confirmation message
     return {"message": f"Style with id {style_id} deleted successfully"}, 200
 
 @info_bp.route('/skills/<int:skill_level_id>/', methods=["DELETE"])
@@ -103,9 +111,11 @@ def remove_skill(skill_level_id):
     if not skill:
         return {"message": f"Skill level with id {skill_level_id} does not exist"}, 404
     
+    # Delete and commit
     db.session.delete(skill)
     db.session.commit()
 
+    # Custom confirmation message
     return {"message": f"Skill level with id {skill_level_id} deleted successfully"}, 200
 
 @info_bp.route('/styles/<int:style_id>/', methods=["PUT", "PATCH"])
@@ -164,9 +174,11 @@ def update_skill(skill_level_id):
         partial=True
     )
 
+    # Add updated skill and commit changes to database
     db.session.add(updated_skill)
     db.session.commit()
 
+    # Custom confirmation message
     return {
         "message": f"Skill level with id {skill_level_id} updated successfully",
         "details": jsonify(skill_level_schema.dump(updated_skill))
@@ -174,6 +186,7 @@ def update_skill(skill_level_id):
 
 @info_bp.route('/about-api/')
 def api_info():
+    """Returns API4 information"""
     return {
         "message": "Climbing Tracker API",
         "version": "1.0",

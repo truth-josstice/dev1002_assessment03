@@ -16,6 +16,7 @@ class AttemptOutputSchema(SQLAlchemyAutoSchema):
                 "comments", "completed", "attempted_at")
         ordered = True
         
+    # Climb relationship    
     climb = Nested("ClimbOutputSchema", only=("id", "gym_name", "style_name"))
 
 
@@ -30,6 +31,7 @@ class AdminAttemptSchema(SQLAlchemyAutoSchema):
                 "comments", "completed", "attempted_at")
         ordered = True
 
+    # Climb relationship
     climb = Nested("ClimbOutputSchema")
 
 

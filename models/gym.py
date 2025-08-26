@@ -10,6 +10,7 @@ class Gym(db.Model):
     street_address: str = db.Column(db.String(255), unique=True)
     name: str = db.Column(db.String(100), nullable=False)
 
+    # Set relationships, back population and cascade rules
     company = db.relationship("Company", back_populates="gym")
     climbs = db.relationship("Climb", back_populates="gym", cascade="all, delete-orphan")
     gym_rating = db.relationship("GymRating", back_populates="gym", cascade="all, delete-orphan")

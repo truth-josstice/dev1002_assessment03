@@ -18,5 +18,6 @@ class Attempt(db.Model):
     # Add CHECK constraint for fun_rating
     __table_args__ = (CheckConstraint('fun_rating >= 1 AND fun_rating <= 5', name="check_fun_rating_range"),)
 
+    # Set relationships and back population
     climb = db.relationship("Climb", back_populates="attempt")
     user = db.relationship("User", back_populates="attempt")

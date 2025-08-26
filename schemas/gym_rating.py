@@ -14,6 +14,7 @@ class GymRatingOutputSchema(SQLAlchemyAutoSchema):
         fields = ("gym", "user", "recommended_skill_level", "difficulty_rating", "review")
         ordered = True
     
+    # Relationships customised for output
     recommended_skill_level = Nested("SkillLevelSchema", only=("level",))
     gym = Nested("GymSchema", only=("id", "name"))
     user = Nested("UserOutputSchema", only=("id", "username", "user_skill_level.level"))

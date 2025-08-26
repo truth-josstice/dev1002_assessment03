@@ -17,6 +17,7 @@ class GymRating(db.Model):
         db.UniqueConstraint('user_id', 'gym_id', name='_user_gym_uc'),
         CheckConstraint('difficulty_rating >= 1 AND difficulty_rating <= 10', name='check_rating_range'))
 
+    # Set relationships and back population
     gym = db.relationship("Gym", back_populates="gym_rating")
     user = db.relationship("User", back_populates="gym_rating")
     recommended_skill_level = db.relationship("SkillLevel", back_populates="gym_rating")

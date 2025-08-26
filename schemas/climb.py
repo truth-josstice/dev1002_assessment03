@@ -30,6 +30,7 @@ class ClimbOutputSchema(SQLAlchemyAutoSchema):
         fields = ("id", "gym_name", "username", "style_name", "difficulty_grade", "set_date")
         ordered = True
     
+    # Custom output fields using all relationships
     gym_name = fields.String(attribute="gym.name")
     username = fields.String(attribute="user.username")
     style_name = fields.String(attribute="styles.name")

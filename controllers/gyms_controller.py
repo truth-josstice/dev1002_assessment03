@@ -20,10 +20,12 @@ def get_gyms():
     stmt = db.select(Gym)
     gyms = db.session.scalars(stmt).all()
 
+    # Check that gyms exist
     if not gyms:
         return {"message": "No gym records found."}, 404
     
-    return jsonify(gyms_schema.dump(gyms)), 200
+    # Returns gym data in JSON format
+    return jsonify(gyms_schema.dump(gyms))
 
 @gym_bp.route('/<int:gym_id>/')
 def get_a_gym(gym_id):
@@ -32,9 +34,11 @@ def get_a_gym(gym_id):
     stmt = db.select(Gym).where(Gym.id==gym_id)
     gym = db.session.scalar(stmt)
 
+    # Check gym exists
     if not gym:
         return {"message": f"No gym with id {gym_id} exists."},404
     
+    # Return gym data in JSON format
     return jsonify(gym_schema.dump(gym))
 
 @gym_bp.route('/', methods=["POST"])
@@ -59,9 +63,11 @@ def add_a_gym():
     # Create gym from body_data using gym_schema
     new_gym = gym_schema.load(body_data, session=db.session)
 
+    # Add and commit new gym to the database
     db.session.add(new_gym)
     db.session.commit()
 
+    # Return new gym data in JSON format and 201 Created status
     return jsonify(gym_schema.dump(new_gym)), 201
 
 @gym_bp.route('/<int:gym_id>/', methods=["DELETE"])
@@ -72,12 +78,15 @@ def remove_a_gym(gym_id):
     stmt = db.select(Gym).where(Gym.id==gym_id)
     gym = db.session.scalar(stmt)
 
+    # Check gym exists
     if not gym:
         return {"message": f"Gym with id {gym_id} does not exist."}, 404
     
+    # Delete and commit
     db.session.delete(gym)
     db.session.commit()
 
+    # Custom confirmation message
     return {"message": f"Gym with id {gym_id} deleted successfully."}, 200
 
 @gym_bp.route('/<int:gym_id>/', methods=["PUT", "PATCH"])
@@ -104,9 +113,11 @@ def update_a_gym_record(gym_id):
         partial = True
     )
 
+    # Add updated gym and commit changes to the database
     db.session.add(updated_gym)
     db.session.commit()
 
+    # Custom confirmation message
     return {
         "message": "Gym updated successfully.",
         "details": jsonify(gym_schema.dump(updated_gym))

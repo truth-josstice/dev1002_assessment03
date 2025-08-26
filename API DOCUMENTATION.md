@@ -83,7 +83,6 @@
 | `info.update_skill`                    | PATCH, PUT  | `/learn/skills/<int:skill_level_id>/`    |
 | `info.update_style`                    | PATCH, PUT  | `/learn/styles/<int:style_id>/`          |
 | `routes.available_routes`              | GET         | `/`                                      |
-| `static`                               | GET         | `/static/<path:filename>/`                |
 | `user.add_new_user`                    | POST        | `/users/`                                |
 | `user.delete_user`                     | DELETE      | `/users/<int:user_id>/`                  |
 | `user.get_user_profile`                | GET         | `/users/profile/`                        |

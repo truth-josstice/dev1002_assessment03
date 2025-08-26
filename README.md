@@ -20,27 +20,30 @@ This project is a relational database app which tracks user progression of bould
     - [System Requirements](#system-requirements)
     - [Quick Start](#quick-start)
     - [Set Up Guide](#setup)
-3. [Deployment](#deployment)
+3. [Testing](#testing)
+    - [Unit Tests](#unit-testing)
+    - [API Tests](#api-testing)
+4. [Deployment](#deployment)
     - [Architecture](#architecture)
     - [Steps to Deployment](#steps-to-deployment)
     - [Production Considerations](#production-considerations)
     - [Live Deployment](#live-deployment)
     - [Continuous Deployment](#continuous-deployment)
     - [The Deployment Journey in Pictures](#the-deployment-journey-in-pictures)
-4. [Features and Functionality](#functionality)
+5. [Features and Functionality](#functionality)
     - [CRUD OPERATIONS](#crud-operations)
       - [Create](#create)
       - [Read](#read)
       - [Update](#update)
       - [Delete](#delete)
-5. [Usage Instructions](#usage-instructions)
+6. [Usage Instructions](#usage-instructions)
     - [CLI Commands](#cli-commands)
     - [API Endpoints](#api-endpoints)
-6. [Dependencies](#dependencies)
-7. [Ethical Considerations](#ethical-considerations)
-8. [Privacy Policy](#privacy-policy)
-9. [Future Development](#future-development-goals)
-10. [Contributions](#contributions)
+7. [Dependencies](#dependencies)
+8. [Ethical Considerations](#ethical-considerations)
+9. [Privacy Policy](#privacy-policy)
+10. [Future Development](#future-development-goals)
+11. [Contributions](#contributions)
 
 ---
 
@@ -474,6 +477,73 @@ For experienced users:
        ```
 
     - Close the PostgreSQL shell using `\q`
+
+↑ [Back to Top](#climbing-tracker-of-truth-and-josstice)
+
+---
+
+## Testing
+
+### Unit Testing
+
+Unit testing of selected models, schemas and cli commands was completed using `pytest`.
+
+The tests are performed on an `SQLite` in-memory database to ensure fast execution, reduced server load, isolation between tests, integrity and sanitastion of project database, and automatic rollback after testing.
+
+**Test Structure:**  
+
+- Model Tests: Verify model data integrity and relationships
+  - User Creation and validation
+  - Company creation and validation
+  - Company-Gym relationship testing
+  - Cascade deletion functionality
+- Schema Tests: Ensure JSON serialization & deserialization is successful or raises errors where needed
+  - User schema serialization with password exclusion
+  - Company schema validation
+  - JSONification of data
+  - Custom formatting of data
+  - Input validation error handling
+- CLI command tests: Verify database commands
+  - Table dropping and creation
+  - Table seed data functions
+  - Command output verification
+- Auth token testing: Checks creation and application of auth tokens
+  - Creation of bearer token
+  - Access to secure routes
+  - Correct unauthorized response with no auth token
+
+**Running Tests:**  
+
+```bash
+# Run all tests
+pytest
+
+# Run specific files
+pytest tests/<test_file_name>.py
+
+# Run with verbose output
+pytest -v
+```
+
+**Key Test Features:**  
+
+- Password security: Tests passwords are never exposed in output schemas
+- Relationship integrity: Validates models with relationships work correctly
+- Validation errors: Tests error handling for invalid data
+- Cascade operations: Tests delete operations and data integrity
+
+### API Testing
+
+Testing of routes and methods was completed using Insomnia.
+
+**Testing Focus:**  
+
+- CRUD Operations: Create, Read, Update, Delete functions
+  - Ensuring correct HTTP Verbs and methods for routes
+- Authentication: Bearer token-based auth validation
+- Error handling: Proper HTTP status codes and error messages
+- Data validation: Input sanitation and validation
+- Relationship endpoints: Nested and aggergate resources
 
 ↑ [Back to Top](#climbing-tracker-of-truth-and-josstice)
 

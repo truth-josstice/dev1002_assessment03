@@ -24,7 +24,7 @@ def user_login():
     # Get login credentials from JSON body data
     body_data = request.get_json()
 
-    # IF username and password are in the body data, or the body data does not exist, send a message
+    # Check that the body data exists and has both the required fields "username" and "password"
     if not body_data or "username" not in body_data or "password" not in body_data:
         return {"message": "Username and password are required"}, 400
     
@@ -42,9 +42,9 @@ def user_login():
         expires_delta=timedelta(minutes=15)
     )
     
-    # Return the token and redirect to the user's profile
+    # Return the token in JSON response
     return jsonify({
-        "token": token,
+        "Authentication Bearer token": token,
     })
 
 @auth_bp.route('/register', methods=["POST"])
@@ -65,11 +65,14 @@ def register_user():
     if db.session.scalar(stmt):
         return {"message": f"An account with the username {new_user.username} already exists. Please choose a different username."}, 409
     
+    # Add the new user and commit to the database
     db.session.add(new_user)
     db.session.commit()
 
+    # Automatically create access token for "logged in" status for new user
     access_token = create_access_token(identity=new_user.id)
 
+    # Custom confirmation message with access token and user data in JSON format
     return {
         "message": "User created successfully.",
         "access_token": access_token,
@@ -100,4 +103,5 @@ def user_delete_profile():
     db.session.delete(user)
     db.session.commit()
 
+    # Custom confirmation message
     return {"message": "Your user account and all associated data has been deleted. Please join us again sometime."},201

@@ -23,6 +23,7 @@ class User(db.Model):
     skill_level_id: int = db.Column(db.Integer,db.ForeignKey("skill_levels.id"),  nullable=False)
     is_admin: bool = db.Column(db.Boolean, default=False, nullable=False)
 
+    # Set relationships, back population and cascade rules
     climbs = db.relationship("Climb", back_populates="user", cascade="all, delete-orphan")
     gym_rating = db.relationship("GymRating", back_populates="user", cascade="all, delete-orphan")
     attempt = db.relationship("Attempt", back_populates="user", cascade="all, delete-orphan")

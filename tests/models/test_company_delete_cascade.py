@@ -2,14 +2,16 @@ from init import db
 
 def test_company_deletion_cascades_to_gyms(app):
     """Test that when a company is deleted, its gyms are also deleted"""
+    # Import models when the test runs
     from models import Company, Gym
         
     with app.app_context():
-        # Create test data
+        # Create the company, add and commit to test db
         company = Company(name="Cascade Test", website="www.cascade.com")
         db.session.add(company)
         db.session.commit()
         
+        # Create the gym, add and commit to test db
         gym = Gym(
             company_id=company.id,
             name="Cascade Gym",

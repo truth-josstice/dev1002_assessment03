@@ -8,4 +8,5 @@ class Style(db.Model):
     name: str = db.Column(db.String(32), nullable=False, unique=True)
     description: str = db.Column(db.String(255), nullable=False, unique=True)
 
+    # Set relationship and back population
     climbs = db.relationship("Climb", back_populates="styles")

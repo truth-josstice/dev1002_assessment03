@@ -13,6 +13,7 @@ class Climb(db.Model):
     difficulty_grade: str = db.Column(db.String(32), nullable=False)
     set_date: date = db.Column(db.Date)
 
+    # Set relationships and back population
     gym = db.relationship("Gym", back_populates="climbs") 
     user = db.relationship("User", back_populates="climbs") 
     attempt = db.relationship("Attempt", back_populates="climb")
