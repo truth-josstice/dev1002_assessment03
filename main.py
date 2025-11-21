@@ -2,6 +2,7 @@ import os
 
 from flask import Flask
 from dotenv import load_dotenv
+from flask_cors import CORS
 
 from init import db, bcrypt, jwt_manager
 from utils import register_error_handlers
@@ -35,6 +36,11 @@ def create_app(test_config=None) -> Flask:
     db.init_app(app)
     bcrypt.init_app(app)
     jwt_manager.init_app(app)
+
+    # Blank CORS settings, for development ease of access
+    CORS(app, supports_credentials=True)
+    # Customised and discrete CORS settings for prod
+    # CORS(app, resources={r"/*": {"origins": ["http://localhost:*", "exp://*", "https://climbing-tracker-of-truth-and-josstice.onrender.com"]}}, supports_credentials=True) 
 
     # Register blueprints from a list with a for loop instead of individually
     blueprints = [
