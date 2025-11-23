@@ -39,6 +39,7 @@ def user_login():
     # Create an access token for the user, sets it to logout automatically after 15 minutes
     token = create_access_token(
         identity=str(user.id),
+        additional_claims={"username": user.username},
         expires_delta=timedelta(minutes=15)
     )
     
