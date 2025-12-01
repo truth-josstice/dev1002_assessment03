@@ -40,7 +40,7 @@ def user_login():
     token = create_access_token(
         identity=str(user.id),
         additional_claims={"username": user.username},
-        expires_delta=timedelta(minutes=60)
+        expires_delta=timedelta(minutes=90)
     )
     
     # Return the token in JSON response

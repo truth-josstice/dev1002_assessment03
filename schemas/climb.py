@@ -15,7 +15,7 @@ class ClimbInputSchema(SQLAlchemyAutoSchema):
     gym_id = fields.Integer(required=True)
     user_id = fields.Integer(required=True)
     style_id = fields.Integer(required=True)
-    difficulty_grade = fields.Integer(
+    difficulty_grade = fields.String(
         required=True,
         validate=[validate.Length(max=32, error="Difficulty grade cannot exceed 32 characters")]
     )
