@@ -736,7 +736,7 @@ Each library is open-source and licensed to allow for educational and personal u
 
 ## Privacy Policy
 
-This project aspires to adhere to the Australian Privacy Principles (APP) for handling personal data. In its current form it does present vulnerabilities for sensitive information to be accessed via malitious or accidental data disclosure, however the data used as part of the project, and any data intended to be added via the server, is purely synthetic in nature and has been designed with the intention to not mimic any individual's sensitive information.
+This project aspires to adhere to the Australian Privacy Principles (APP) for handling personal data. In its current form it does present vulnerabilities for sensitive information to be accessed via malicious or accidental data disclosure, however the data used as part of the project, and any data intended to be added via the server, is purely synthetic in nature and has been designed with the intention to not mimic any individual's sensitive information.
 
 **Current Protections:**  
 
@@ -781,7 +781,7 @@ Rollout of role based privileges for the app:
 **Future Implementation**:  
   - Field-Level Encryption: encryption of 'email', 'first name', 'last name' columns before storage using PyNaCl (chosen due to being safer for beginners due to automation features and as the project is Python specific)
   - Regular security auditing: regularly scheduled audits of all sensitive data, including the logging of all sensitive data transactions
-  - Create managable framework for data purging: research industry standards for data purging and deletion of private sensitive data, implement on database server side
+  - Create manageable framework for data purging: research industry standards for data purging and deletion of private sensitive data, implement on database server side
 
 ---
 
@@ -795,7 +795,7 @@ Rollout of role based privileges for the app:
 
 - Provided feedback on ERD and Plan for API
 
-Feedback from peers for this project's planning phase and how it has been implemeneted into the project can be found in the [Feedback Log](./contributions/feedback/Feedback%20Log.md) file.
+Feedback from peers for this project's planning phase and how it has been implemented into the project can be found in the [Feedback Log](./contributions/feedback/Feedback%20Log.md) file.
 
 ---
 

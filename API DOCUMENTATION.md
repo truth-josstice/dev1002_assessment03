@@ -121,7 +121,8 @@ Detailed description of all routes below!
 
 ```json
 {
-    "token": "<jwt_token_here>"
+    "token": "<jwt_token_here>",
+    "username": "testuser"
 }
 ```
 
